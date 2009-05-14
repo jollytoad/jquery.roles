@@ -1,0 +1,71 @@
+<h2 id="treelabel">ARIA Tree Example 2</h2>
+
+<p>Sub groups are the next sibling of the parent treeitem</p>
+
+<ul role="tree" aria-labelledby="treelabel" aria-activedescendant="example-id-2" tabindex="0">
+  <li>
+    <span role="treeitem" aria-expanded="true">Animals</span>
+    <ul role="group">
+      <li><span role="treeitem">Birds</span></li>
+      <li>
+        <span role="treeitem" aria-expanded="false">Cats</span>
+        <ul role="group">
+          <li><span role="treeitem">Siamese</span></li>
+          <li><span role="treeitem">Tabby</span></li>
+        </ul>
+      </li>
+      <li>
+        <span role="treeitem" aria-expanded="true">Dogs</span>
+        <ul role="group">
+          <li>
+            <span role="treeitem" aria-expanded="true">Small Breeds</span>
+            <ul role="group">
+              <li><span role="treeitem">Chihuahua</span></li>
+              <li><span role="treeitem" id="example-id-2">Italian Greyhound</span></li>
+              <li><span role="treeitem">Japanese Chin</span></li>
+            </ul>
+          </li>
+          <li>
+            <span role="treeitem" aria-expanded="false">Medium Breeds</span>
+            <ul role="group">
+              <li><span role="treeitem">Beagle</span></li>
+              <li><span role="treeitem">Cocker Spaniel</span></li>
+              <li><span role="treeitem">Pit Bull</span></li>
+            </ul>
+          </li>
+          <li>
+            <span role="treeitem" aria-expanded="false">Large Breeds</span>
+            <ul role="group">
+              <li><span role="treeitem">Afghan</span></li>
+              <li><span role="treeitem">Great Dane</span></li>
+              <li><span role="treeitem">Mastiff</span></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <span role="treeitem" aria-expanded="true">Minerals</span>
+    <ul role="group">
+      <li><span role="treeitem">Zinc</span></li>
+      <li>
+        <span role="treeitem" aria-expanded="false">Gold</span>
+        <ul role="group">
+          <li><span role="treeitem">Yellow Gold</span></li>
+          <li><span role="treeitem">White Gold</span></li>
+        </ul>
+      </li>
+      <li><span role="treeitem">Silver</span></li>
+    </ul>
+  </li>
+  <li>
+    <span role="treeitem" aria-expanded="true">Vegetables</span>
+    <ul role="group">
+      <li><span role="treeitem">Carrot</span></li>
+      <li><span role="treeitem">Tomato</span></li>
+      <li><span role="treeitem">Lettuce</span></li>
+    </ul>
+  </li>
+</ul>
+

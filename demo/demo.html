@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>jQuery Roles Demo</title>
+
+	<link rel="stylesheet" href="../external/jquery-ui/themes/base/ui.all.css" type="text/css" />
+	<link rel="stylesheet" href="../dist/theme/roles.css" type="text/css" />
+	<link rel="stylesheet" href="demo.css" type="text/css" />
+	
+	<script type="text/javascript" src="../external/jquery.js"></script>
+	<script type="text/javascript" src="../external/jquery-ui/ui/ui.core.js"></script>
+	<script type="text/javascript" src="../external/jquery.mutations.js"></script>
+	<script type="text/javascript" src="../external/jquery.datatypes.js"></script>
+
+	<script type="text/javascript" src="../dist/jquery.roles.js"></script>
+
+<!--[if lt IE 7]>
+	<script type="text/javascript" src="../dist/roles.ie6-css.js"></script>
+	<link rel="stylesheet" href="../dist/theme/roles-ie6.css" type="text/css" />
+	<link rel="stylesheet" href="demo-ie6.css" type="text/css" />
+<![endif]-->
+
+	<script type="text/javascript" src="demo.js"></script>
+</head>
+<body>
+
+	<h1>jQuery Roles Demo</h1>
+	
+	<ul role="tablist" title="Blah blah">
+		<li role="tab" id="tab1">Tab 1</li>
+		<li role="tab" id="tab2" aria-controls="tabpanel2">Tree 1</li>
+		<li role="tab" id="tab3">Tree 2</li>
+	</ul>
+	
+	<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
+		<p>Tabpanel 1</p>
+	</div>
+	
+	<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
+	</div>
+	
+	<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
+	</div>
+	
+</body>
+</html>
+

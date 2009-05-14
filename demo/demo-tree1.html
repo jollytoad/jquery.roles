@@ -1,0 +1,62 @@
+<h2 id="treelabel">ARIA Tree Example 1</h2>
+
+<p>Sub groups are nested within the parent treeitem</p>
+
+<ul role="tree" aria-labelledby="treelabel" aria-activedescendant="example-id-1" tabindex="0">
+  <li role="treeitem" aria-expanded="true">Animals
+    <ul role="group">
+      <li role="treeitem">Birds</li>
+      <li role="treeitem" aria-expanded="false">Cats
+        <ul role="group">
+          <li role="treeitem">Siamese</li>
+          <li role="treeitem">Tabby</li>
+        </ul>
+      </li>
+      <li role="treeitem" aria-expanded="true">Dogs
+        <ul role="group">
+          <li role="treeitem" aria-expanded="true">Small Breeds
+            <ul role="group">
+              <li role="treeitem">Chihuahua</li>
+              <li role="treeitem" id="example-id-1">Italian Greyhound</li>
+              <li role="treeitem">Japanese Chin</li>
+            </ul>
+          </li>
+          <li role="treeitem" aria-expanded="false">Medium Breeds
+            <ul role="group">
+              <li role="treeitem">Beagle</li>
+              <li role="treeitem">Cocker Spaniel</li>
+              <li role="treeitem">Pit Bull</li>
+            </ul>
+          </li>
+          <li role="treeitem" aria-expanded="false">Large Breeds
+            <ul role="group">
+              <li role="treeitem">Afghan</li>
+              <li role="treeitem">Great Dane</li>
+              <li role="treeitem">Mastiff</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li role="treeitem" aria-expanded="true">Minerals
+    <ul role="group">
+      <li role="treeitem">Zinc</li>
+      <li role="treeitem" aria-expanded="false">Gold
+        <ul role="group">
+          <li role="treeitem">Yellow Gold</li>
+          <li role="treeitem">White Gold</li>
+        </ul>
+      </li>
+      <li role="treeitem">Silver</li>
+    </ul>
+  </li>
+  <li role="treeitem" aria-expanded="true">Vegetables
+    <ul role="group">
+      <li role="treeitem">Carrot</li>
+      <li role="treeitem">Tomato</li>
+      <li role="treeitem">Lettuce</li>
+    </ul>
+  </li>
+</ul>
+
