@@ -12,57 +12,52 @@
  */
 (jQuery.roles && (function($) {
 
-function setClass( elem, state, value ) {
-	switch (state) {
-	case 'aria-selected':
-		value = $.dt.bool(value);
-		$(elem)
-			.filter(':role(tab)')
-				.toggleClass('ui-state-default', !value)
-				.toggleClass('ui-state-active', value)
-			.end()
-			.filter(':role(treeitem)')
-				.toggleClass('ui-state-highlight', value)
-			.end()
-		break;
-	}
+function setClass( elem, roles, attr, value ) {
+	$.dt.tokens(roles).each(function() {
+		var fn = $.roles.uiCSS.rules[this+'.'+attr];
+		if ( fn ) {
+			fn.call(elem, value);
+		}
+	});
 }
 
-var isEnabled = false;
+$.roles.uiCSS = {
 
-$.extend($.roles, {
-
-// Enabled/disable the addition of class names
-uiCSS: function( enabled ) {
-
-	if ( enabled === false && isEnabled ) {
-
-		$(':role')
-			.die('attr.aria-ui-class')
-			.die('role.aria-ui-class');
-			
-		isEnabled = false;
-
-	} else if ( !isEnabled ) {
-
-		$(':role')
-			.live('attr.aria-ui-class', function(event) {
-				setClass(event.target, event.attrName, event.newValue);
+	setup: function() {
+		$(document)
+			.bind('attr.roles-ui-css', function(event) {
+				var roles = $.roles.get(event.target);
+				if ( roles ) {
+					setClass(event.target, roles, event.attrName, event.newValue);
+				}
 			})
-			.live('role.aria-ui-class', function(event) {
+			.bind('role.roles-ui-css', function(event) {
 				// Add classes to reflect initial attribute values
-				$.each(event.target.attributes, function(i, node) {
-					if (node && /^aria-./i.test(node.nodeName)) {
-						setClass(event.target, node.nodeName, node.nodeValue);
-					}
-				});
+				var roles = $.roles.get(event.target);
+				if ( roles ) {
+					$.each(event.target.attributes, function(i, node) {
+						setClass(event.target, roles, node.nodeName, node.nodeValue);
+					});
+				}
 			});
-		
-		isEnabled = true;
+	},
+	
+	teardown: function() {
+		$(document).unbind('.roles-ui-css');
+	},
+	
+	rules: {
+		'tab.tabindex': function( value ) {
+			value = !$.dt.integer(value);
+			$(this)
+				.toggleClass('ui-state-default', !value)
+				.toggleClass('ui-state-active', value);
+		},
+		'treeitem.tabindex': function( value ) {
+			$(this).toggleClass('ui-state-highlight', !$.dt.integer(value));
+		}
 	}
-}
-
-});
+};
 
 })(jQuery)
 );

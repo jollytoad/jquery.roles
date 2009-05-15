@@ -10,15 +10,15 @@ jQuery(function($) {
 //		}
 //	});
 
-	$.aria.uiClass();
+	$.roles.uiCSS.setup();
 
 	function setup( context ) {
 	
 		// Find elements that load content when expanded
 		$(':role[data-load]', context)
 			// Listen for an expanded event
-			.bind('attr.aria-expanded', function(event) {
-				if ( this === event.target && event.attrName === 'aria-expanded' && $.dt.bool(event.newValue) ) {
+			.bind('attr.@aria-expanded', function(event) {
+				if ( $.dt.bool(event.newValue) ) {
 					console.log('LOAD', event);
 					$(this)
 						.attr('aria-busy', true)

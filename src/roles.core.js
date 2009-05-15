@@ -57,7 +57,8 @@ attrToggle: function( attr, def ) {
 // Initialise the element as the given role or it's role attribute
 role: function( setrole ) {
 	return this.each(function() {
-		var self = $(this);
+		var self = $(this),
+			newroles = [];
 		
 		// Initialise new roles
 		$.dt.tokens( setrole || $.roles.get(this) ).each(function() {
@@ -72,10 +73,14 @@ role: function( setrole ) {
 				
 				self.data(roleData,
 					$.isFunction(construct) ? construct.call(self, this) || true : true);
-
-				self.trigger('role', [{ role: this }]);
+				
+				newroles.push(this);
 			}
 		});
+		
+		if ( newroles.length ) {
+			self.trigger( 'roles', [{ role: newroles.join(' ') }] );
+		}
 	});
 }
 

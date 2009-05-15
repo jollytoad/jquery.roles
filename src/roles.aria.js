@@ -33,9 +33,7 @@ $.extend($.roles, {
 
 	// Bind to 'click' or 'focus' of an owned item, pass the parent 'role' as data
 	setActivedescendant: function(event) {
-		if ( this === event.target ) {
-			$(this).owner(event.data).attr('aria-activedescendant', this.id);
-		}
+		$(this).owner(event.data).attr('aria-activedescendant', this.id);
 	},
 	
 	// Find the elements controlled by the given element
