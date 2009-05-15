@@ -28,19 +28,15 @@ tablist: function() {
 		// Ensure tabs are initialised before the tablist
 		.find(':role(tab)').role().end()
 		
+		// Respond to the active tab being changed
+		.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant)
+		
 		// Select the first tab if aria-activedescendant is not set
 		.filter(':not([aria-activedescendant])')
 			.each(function() {
 				$.attr(this, 'aria-activedescendant', $(':role(tab):first', this).attr('id'));
 			})
-		.end()
-		
-		// Respond to the active tab being changed
-		.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant)
-
-		// Select the initial tab
-		.initMutation('attr', 'aria-activedescendant');
-
+		.end();
 },
 
 // role: tab +-> sectionhead -> structure
@@ -52,7 +48,7 @@ tab: function() {
 		.attr('tabindex', '-1')
 
 		// Ensure that a click causes the tab to be focused
-		.bind('click.role-tab', function() { $(this).focus(); })
+//		.bind('click.role-tab', function() { $(this).focus(); })
 		
 		// Respond to keyboard events
 		.bind('keydown.role-tablist', function(event) {
@@ -70,10 +66,19 @@ tab: function() {
 		// Set this tab as the activedescendant of the tablist
 		.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
 
+		// Expand the associated 'tabpanel' when its tab is selected
 		.bind('attr.@aria-selected.role-tab', function(event) {
-			// Expand the associated 'tabpanel'
 			$.roles.targets(this).filter(':role(tabpanel)').attr('aria-expanded', $.dt.bool(event.newValue));
-		});
+		})
+		
+		// Initialise the 'tabpanel' associated with each tab
+		.each(function() {
+			$.roles.targets(this).filter(':role(tabpanel)').role();
+		})
+		
+		// Set the initial state of the tab and tabpanel
+		.initMutation('attr', 'aria-selected', 'false');
+		
 },
 
 // role: tabpanel -> region -> section -> structure
@@ -83,10 +88,10 @@ tabpanel: function() {
 		// Show or hide the tabpanel if the expanded state is changed
 		.bind('attr.@aria-expanded.role-tabpanel', function(event) {
 			$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
-		})
+		});
 		
 		// Set the initial hidden state
-		.initMutation('attr', 'aria-expanded');
+//		.initMutation('attr', 'aria-expanded', 'false');
 }
 
 }); // $.extend

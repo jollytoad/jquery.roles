@@ -48,10 +48,7 @@ $.roles.uiCSS = {
 	
 	rules: {
 		'tab.tabindex': function( value ) {
-			value = !$.dt.integer(value);
-			$(this)
-				.toggleClass('ui-state-default', !value)
-				.toggleClass('ui-state-active', value);
+			$(this).toggleClass('ui-state-active', !$.dt.integer(value));
 		},
 		'treeitem.tabindex': function( value ) {
 			$(this).toggleClass('ui-state-highlight', !$.dt.integer(value));

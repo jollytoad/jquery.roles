@@ -8,10 +8,10 @@
 	<link rel="stylesheet" href="../dist/theme/roles.css" type="text/css" />
 	<link rel="stylesheet" href="demo.css" type="text/css" />
 	
-	<script type="text/javascript" src="../external/jquery.js"></script>
+	<script type="text/javascript" src="../external/jquery/jquery.js"></script>
 	<script type="text/javascript" src="../external/ui/ui/ui.core.js"></script>
 	<script type="text/javascript" src="../external/mutations/jquery-mutations.js"></script>
-	<script type="text/javascript" src="../external/jquery.datatypes.js"></script>
+	<script type="text/javascript" src="../external/datatypes/jquery-datatypes.js"></script>
 
 	<script type="text/javascript" src="../dist/jquery-roles.js"></script>
 
@@ -34,14 +34,14 @@
 		<li role="tab" id="tab3">Tree 2</li>
 	</ul>
 	
-	<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
+	<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1" aria-hidden="true">
 		<p>Tabpanel 1</p>
 	</div>
 	
-	<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
+	<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html" aria-hidden="true">
 	</div>
 	
-	<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
+	<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html" aria-hidden="true">
 	</div>
 	
 </body>

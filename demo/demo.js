@@ -1,33 +1,24 @@
 jQuery(function($) {
 
-//	$(document).bind('role', function(event, data) {
-//		console.log('role: %s -> %o', data.role, event.target); 
-//	});
-
-//	$(document).bind('aria.activedescendant', function(event) {
-//		if (event.ariaName === 'activedescendant') {
-//			console.log('%s = %s <- %s %o', event.attrName, event.newValue, event.prevValue, event.target);
-//		}
-//	});
-
 	$.roles.uiCSS.setup();
 
-	function setup( context ) {
-	
-		// Find elements that load content when expanded
-		$(':role[data-load]', context)
-			// Listen for an expanded event
-			.bind('attr.@aria-expanded', function(event) {
-				if ( $.dt.bool(event.newValue) ) {
-					console.log('LOAD', event);
-					$(this)
-						.attr('aria-busy', true)
-						.load($.attr(this, 'data-load'), function() {
-							setup(event.target);
-							$.attr(event.target, 'aria-busy', false);
-						})
-						.unbind('attr.aria-expanded', arguments.callee);
-				}
+	$(document).bind('html', function( event ) {
+		var context = event.target;
+		
+		// Load dynamic content when element is un-hidden
+		$(':role[aria-hidden=true][data-load]', context)
+			.bind('pre-attr.@aria-hidden', function(event) {
+				var fn = arguments.callee;
+				
+				// Prevent the element from becoming visible until loaded
+				event.preventDefault();
+				
+				$(this).load($.attr(this, 'data-load'), function() {
+					$(event.target)
+						.unbind('pre-attr', fn)
+						.removeAttr('data-load')
+						.removeAttr('aria-hidden');
+				});
 			});
 			
 		// Add an expander widget to each treeitem
@@ -45,17 +36,12 @@ jQuery(function($) {
 		// Apply roles
 		$(':role', context).role();
 		
-		// Make items sortable
-//		$(':role(tree)', context)
-//			.sortable({
-//				items: 'li',
-//				delay: 100,
-//				distance: 5,
-//				placeholder: 'ui-state-highlight',
-//				forcePlaceholderSize: true
-//			});
-	}
-	
-	setup(document);
+		if ( context === document ) {
+			// Focus the first tab
+			$(':role(tab):first', context).focus();
+		}
+	})
+	.initMutation('html');
+
 });
 

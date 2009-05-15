@@ -12,7 +12,7 @@
 	position: relative;
 	width: 9px;
 	height: 9px;
-	background-image: url(expander.png);
+	background-image: url(../dist/theme/expander.png);
 	background-repeat: no-repeat;
 	background-position: 0 0;
 }
