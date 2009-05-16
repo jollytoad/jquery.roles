@@ -12,15 +12,6 @@
  */
 (jQuery.roles && (function($) {
 
-function setClass( elem, roles, attr, value ) {
-	$.dt.tokens(roles).each(function() {
-		var fn = $.roles.uiCSS.rules[this+'.'+attr];
-		if ( fn ) {
-			fn.call(elem, value);
-		}
-	});
-}
-
 $.roles.uiCSS = {
 
 	setup: function() {
@@ -28,15 +19,11 @@ $.roles.uiCSS = {
 			.bind('attr.roles-ui-css', function(event) {
 				var roles = $.roles.get(event.target);
 				if ( roles ) {
-					setClass(event.target, roles, event.attrName, event.newValue);
-				}
-			})
-			.bind('role.roles-ui-css', function(event) {
-				// Add classes to reflect initial attribute values
-				var roles = $.roles.get(event.target);
-				if ( roles ) {
-					$.each(event.target.attributes, function(i, node) {
-						setClass(event.target, roles, node.nodeName, node.nodeValue);
+					$.dt.tokens(roles).each(function(n, role) {
+						var fn = $.roles.uiCSS.rules[role+'.'+event.attrName];
+						if ( fn ) {
+							fn.call(event.target, event.newValue);
+						}
 					});
 				}
 			});

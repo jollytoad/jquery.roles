@@ -58,31 +58,23 @@ attrToggle: function( attr, def ) {
 // Initialise the element from it's role attribute
 role: function( actions ) {
 	var that = this;
-	$.each($.dt.tokens( actions || 'setup init'), function() {
-		var action = this;
+	$.dt.tokens( actions || 'setup init activate' ).each(function(n, action) {
 		that.each(function() {
-			var elem = this,
-				trigger = false;
-		
+			var elem = this;
+			
 			// Initialise new roles
-			$.dt.tokens( $.roles.get(elem) ).each(function() {
-				var role = this,
-					roleData = 'role-' + role,
+			$.dt.tokens( $.roles.get(elem) ).each(function(n, role) {
+				var roleData = 'role-' + role,
 					widget = $.data(elem, roleData) || $.extend({}, $.roles.widgets[role]),
 					fn = widget[action];
 				
 				if ( $.isFunction(fn) ) {
 					fn.call(elem, role);
 					widget[action] = undefined;
-					trigger = true;
 				}
 				
 				$.data(elem, roleData, widget);
 			});
-		
-			if ( trigger ) {
-				$(elem).trigger('role-' + action);
-			}
 		});
 	});
 	return this;

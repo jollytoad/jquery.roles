@@ -64,9 +64,6 @@ $.extend($.roles.widgets, {
 tree: {
 	setup: function() {
 		$(this)
-			// Initialise treeitems first
-//			.find(':role(treeitem)').role().end()
-
 			// Respond to the active item being changed
 			.bind('attr.@aria-activedescendant.role-tree', $.roles.selectActivedescendant)
 
@@ -158,7 +155,7 @@ treeitem: {
 			// Show/hide the related group if expanded state has changed
 			.bind('attr.@aria-expanded.role-treeitem', function(event) {
 				// Find the group belonging to this treeitem and show/hide it
-				group(this).attr('aria-hidden', !$.dt.bool(event.newValue));
+				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
 			});
 	},
 	

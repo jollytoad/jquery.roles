@@ -3,43 +3,46 @@ jQuery(function($) {
 	$.roles.uiCSS.setup();
 
 	$(document).bind('html', function( event ) {
-		var context = event.target;
-			
-		// Add an expander widget to each treeitem
-		$(':role(tree)', context)
-			.find(':role(treeitem)')
+	
+		// Find all role elements
+		$(':role', event.target)
+		
+			// Add an expander widget to each treeitem
+			.filter(':role(treeitem)')
 				.prepend('<div class="expander" role="presentation"></div>')
+				.bind('click.role-treeitem-expander', function(event) {
+					$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
+				})
 			.end()
-			.bind('click.role-treeitem-expander', function(event) {
-				$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
-			});
 		
-		// Apply UI theme to tabs
-		$(':role(tab)', context).addClass('ui-state-default ui-corner-tl ui-corner-tr');
+			// Apply UI theme to tabs
+			.filter(':role(tab)')
+				.addClass('ui-state-default ui-corner-tl ui-corner-tr')
+			.end()
 		
-		// Apply roles
-		$(':role', context).role();
+			// Setup event bindings and initial states for widgets
+			.role('setup init')
 		
-		// Load dynamic content when element is un-hidden
-		$(':role[aria-hidden=true][data-load]', context)
-			.bind('pre-attr.@aria-hidden', function(event) {
-				var fn = arguments.callee;
+			// Load dynamic content when element is un-hidden
+			.filter('[aria-hidden=true][data-load]')
+				.bind('pre-attr.@aria-hidden', function(event) {
+					var fn = arguments.callee,
+						target = $(event.target);
 				
-				// Prevent the element from becoming visible until loaded
-				event.preventDefault();
+					// Prevent the element from becoming visible until loaded
+					event.preventDefault();
 				
-				$(this).load($.attr(this, 'data-load'), function() {
-					$(event.target)
-						.unbind('pre-attr', fn)
-						.removeAttr('data-load')
-						.removeAttr('aria-hidden');
-				});
-			});
-		
-		if ( context === document ) {
-			// Focus the first tab
-			$(':role(tab):first', context).focus();
-		}
+					target.load(target.attr('data-load'), function() {
+						target
+							.unbind('pre-attr', fn)
+							.removeAttr('data-load')
+							.removeAttr('aria-hidden');
+					});
+				})
+			.end()
+			
+			// Activate active items
+			.role('active');
 	})
 	.initMutation('html');
 

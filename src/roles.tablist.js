@@ -14,6 +14,10 @@
  */
 (jQuery.roles && (function($) {
 
+function tabpanel( tab ) {
+	return $.roles.targets(tab).filter(':role(tabpanel)');
+}
+
 // Register widgets
 $.extend($.roles.widgets, {
 
@@ -29,17 +33,17 @@ tablist: {
 			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant);
 	},
 	
-	init: function() {
+	active: function() {
 		$(this)
-			// Ensure tabs are initialised 
-			.find(':role(tab)').role('init').end()
-			
 			// Select the first tab if aria-activedescendant is not set
 			.filter(':not([aria-activedescendant])')
 				.each(function() {
 					$.attr(this, 'aria-activedescendant', $(':role(tab):first', this).attr('id'));
 				})
-			.end();
+			.end()
+			
+			// Activate the activedescendant
+			.initMutation('attr', 'aria-activedescendant');
 	}
 },
 
@@ -73,20 +77,15 @@ tab: {
 
 			// Expand the associated 'tabpanel' when its tab is selected
 			.bind('attr.@aria-selected.role-tab', function(event) {
-				$.roles.targets(this).filter(':role(tabpanel)').attr('aria-expanded', $.dt.bool(event.newValue));
+				tabpanel(event.target).attr('aria-expanded', $.dt.bool(event.newValue));
 			});
 	},
 	
 	init: function() {
 		$(this)
-			// Initialise the 'tabpanel' associated with each tab
-			.each(function() {
-				$.roles.targets(this).filter(':role(tabpanel)').role('init');
-			})
-
 			// Set the initial state of the tab and tabpanel
 			.initMutation('attr', 'aria-selected', false);
-	}	
+	}
 },
 
 // role: tabpanel -> region -> section -> structure
@@ -98,12 +97,6 @@ tabpanel: {
 			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
 				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
 			});
-	},
-	
-	init: function() {
-		$(this)
-			// Set the initial hidden state
-			.initMutation('attr', 'aria-expanded', false);
 	}
 }
 
