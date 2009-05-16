@@ -22,76 +22,89 @@ $.extend($.roles.widgets, {
 // attrs:
 //  activedescendant (composite) - will select a tab
 //	expanded (structure) - not yet supported
-tablist: function() {
-
-	return this
-		// Ensure tabs are initialised before the tablist
-		.find(':role(tab)').role().end()
-		
-		// Respond to the active tab being changed
-		.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant)
-		
-		// Select the first tab if aria-activedescendant is not set
-		.filter(':not([aria-activedescendant])')
-			.each(function() {
-				$.attr(this, 'aria-activedescendant', $(':role(tab):first', this).attr('id'));
-			})
-		.end();
+tablist: {
+	setup: function() {
+		$(this)
+			// Respond to the active tab being changed
+			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant);
+	},
+	
+	init: function() {
+		$(this)
+			// Ensure tabs are initialised 
+			.find(':role(tab)').role('init').end()
+			
+			// Select the first tab if aria-activedescendant is not set
+			.filter(':not([aria-activedescendant])')
+				.each(function() {
+					$.attr(this, 'aria-activedescendant', $(':role(tab):first', this).attr('id'));
+				})
+			.end();
+	}
 },
 
 // role: tab +-> sectionhead -> structure
 //            \-> widget
 // attrs: selected
-tab: function() {
-	return this
-		// Add a tabindex=-1 to allow click focus
-		.attr('tabindex', '-1')
+tab: {
+	setup: function() {
+		$(this)
+			// Add a tabindex=-1 to allow click focus
+			.attr('tabindex', '-1')
 
-		// Ensure that a click causes the tab to be focused
-//		.bind('click.role-tab', function() { $(this).focus(); })
+			// Ensure that a click causes the tab to be focused
+//			.bind('click.role-tab', function() { $(this).focus(); })
 		
-		// Respond to keyboard events
-		.bind('keydown.role-tablist', function(event) {
-			var k = $.roles.keyCode;
-			switch (event.keyCode) {
-			case k.LEFT:
-			case k.UP:		$(this).prev(':role(tab)').focus(); return false;
-			case k.RIGHT:
-			case k.DOWN:	$(this).next(':role(tab)').focus(); return false;
-			case k.HOME:	$(this).siblings(':role(tab):first').focus(); return false;
-			case k.END:		$(this).siblings(':role(tab):last').focus(); return false;
-			}
-		})
+			// Respond to keyboard events
+			.bind('keydown.role-tablist', function(event) {
+				var k = $.roles.keyCode;
+				switch (event.keyCode) {
+				case k.LEFT:
+				case k.UP:		$(this).prev(':role(tab)').focus(); return false;
+				case k.RIGHT:
+				case k.DOWN:	$(this).next(':role(tab)').focus(); return false;
+				case k.HOME:	$(this).siblings(':role(tab):first').focus(); return false;
+				case k.END:		$(this).siblings(':role(tab):last').focus(); return false;
+				}
+			})
 
-		// Set this tab as the activedescendant of the tablist
-		.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
+			// Set this tab as the activedescendant of the tablist
+			.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
 
-		// Expand the associated 'tabpanel' when its tab is selected
-		.bind('attr.@aria-selected.role-tab', function(event) {
-			$.roles.targets(this).filter(':role(tabpanel)').attr('aria-expanded', $.dt.bool(event.newValue));
-		})
-		
-		// Initialise the 'tabpanel' associated with each tab
-		.each(function() {
-			$.roles.targets(this).filter(':role(tabpanel)').role();
-		})
-		
-		// Set the initial state of the tab and tabpanel
-		.initMutation('attr', 'aria-selected', 'false');
-		
+			// Expand the associated 'tabpanel' when its tab is selected
+			.bind('attr.@aria-selected.role-tab', function(event) {
+				$.roles.targets(this).filter(':role(tabpanel)').attr('aria-expanded', $.dt.bool(event.newValue));
+			});
+	},
+	
+	init: function() {
+		$(this)
+			// Initialise the 'tabpanel' associated with each tab
+			.each(function() {
+				$.roles.targets(this).filter(':role(tabpanel)').role('init');
+			})
+
+			// Set the initial state of the tab and tabpanel
+			.initMutation('attr', 'aria-selected', false);
+	}	
 },
 
 // role: tabpanel -> region -> section -> structure
 // attrs: expanded
-tabpanel: function() {
-	return this
-		// Show or hide the tabpanel if the expanded state is changed
-		.bind('attr.@aria-expanded.role-tabpanel', function(event) {
-			$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
-		});
-		
-		// Set the initial hidden state
-//		.initMutation('attr', 'aria-expanded', 'false');
+tabpanel: {
+	setup: function() {
+		$(this)
+			// Show or hide the tabpanel if the expanded state is changed
+			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
+				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
+			});
+	},
+	
+	init: function() {
+		$(this)
+			// Set the initial hidden state
+			.initMutation('attr', 'aria-expanded', false);
+	}
 }
 
 }); // $.extend

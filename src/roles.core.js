@@ -7,12 +7,13 @@
  *
  * Author: Mark Gibson (jollytoad at gmail dot com)
  */
-/* A widget activation framework based on role concept of HTML5/WAI-ARIA.
+/* A widget activation framework based on the role concept of HTML5/WAI-ARIA,
+ * and DOM Mutation Events.
  *
  * Depends:
  *	mutations.core.js
  *	mutations.attr.js
- *	jquery.datatypes.js
+ *	datatypes.core.js
  */
 (jQuery.roles || (function($) {
 
@@ -54,34 +55,37 @@ attrToggle: function( attr, def ) {
 	});
 },
 
-// Initialise the element as the given role or it's role attribute
-role: function( setrole ) {
-	return this.each(function() {
-		var self = $(this),
-			newroles = [];
+// Initialise the element from it's role attribute
+role: function( actions ) {
+	var that = this;
+	$.each($.dt.tokens( actions || 'setup init'), function() {
+		var action = this;
+		that.each(function() {
+			var elem = this,
+				trigger = false;
 		
-		// Initialise new roles
-		$.dt.tokens( setrole || $.roles.get(this) ).each(function() {
-			var roleData = 'role-' + this;
-			
-			if ( !self.data(roleData) ) {
-			
-//				console.log('role', role, self);
-
-				// Call the registered constructor function
-				var construct = $.roles.widgets[this];
+			// Initialise new roles
+			$.dt.tokens( $.roles.get(elem) ).each(function() {
+				var role = this,
+					roleData = 'role-' + role,
+					widget = $.data(elem, roleData) || $.extend({}, $.roles.widgets[role]),
+					fn = widget[action];
 				
-				self.data(roleData,
-					$.isFunction(construct) ? construct.call(self, this) || true : true);
+				if ( $.isFunction(fn) ) {
+					fn.call(elem, role);
+					widget[action] = undefined;
+					trigger = true;
+				}
 				
-				newroles.push(this);
+				$.data(elem, roleData, widget);
+			});
+		
+			if ( trigger ) {
+				$(elem).trigger('role-' + action);
 			}
 		});
-		
-		if ( newroles.length ) {
-			self.trigger( 'roles', [{ role: newroles.join(' ') }] );
-		}
 	});
+	return this;
 }
 
 }); // $.fn.extend
@@ -90,8 +94,8 @@ role: function( setrole ) {
 // :role() selector
 $.extend($.expr[':'], {
 	role: function( elem, i, match ) {
-		var role = $.roles.get(elem);
-		return role && (!match[3] || ((' '+role+' ').indexOf(' '+match[3]+' ') >= 0));
+		var roles = $.roles.get(elem);
+		return roles && (!match[3] || ((' '+roles+' ').indexOf(' '+match[3]+' ') >= 0));
 	}
 });
 

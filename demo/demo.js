@@ -4,6 +4,21 @@ jQuery(function($) {
 
 	$(document).bind('html', function( event ) {
 		var context = event.target;
+			
+		// Add an expander widget to each treeitem
+		$(':role(tree)', context)
+			.find(':role(treeitem)')
+				.prepend('<div class="expander" role="presentation"></div>')
+			.end()
+			.bind('click.role-treeitem-expander', function(event) {
+				$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
+			});
+		
+		// Apply UI theme to tabs
+		$(':role(tab)', context).addClass('ui-state-default ui-corner-tl ui-corner-tr');
+		
+		// Apply roles
+		$(':role', context).role();
 		
 		// Load dynamic content when element is un-hidden
 		$(':role[aria-hidden=true][data-load]', context)
@@ -20,21 +35,6 @@ jQuery(function($) {
 						.removeAttr('aria-hidden');
 				});
 			});
-			
-		// Add an expander widget to each treeitem
-		$(':role(tree)', context)
-			.find(':role(treeitem)', context)
-				.prepend('<div class="expander" role="presentation"></div>')
-			.end()
-			.bind('click.role-treeitem-expander', function(event) {
-				$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
-			});
-		
-		// Apply UI theme to tabs
-		$(':role(tab)', context).addClass('ui-state-default ui-corner-tl ui-corner-tr');
-		
-		// Apply roles
-		$(':role', context).role();
 		
 		if ( context === document ) {
 			// Focus the first tab
