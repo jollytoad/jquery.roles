@@ -60,7 +60,7 @@ tab: {
 //			.bind('click.role-tab', function() { $(this).focus(); })
 		
 			// Respond to keyboard events
-			.bind('keydown.role-tablist', function(event) {
+			.bind('keydown.role-tab', function(event) {
 				var k = $.roles.keyCode;
 				switch (event.keyCode) {
 				case k.LEFT:

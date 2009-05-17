@@ -69,6 +69,9 @@ role: function( actions ) {
 					fn = widget[action];
 				
 				if ( $.isFunction(fn) ) {
+/*DEBUG*
+					console.log(action, role, elem);
+*DEBUG*/
 					fn.call(elem, role);
 					widget[action] = undefined;
 				}
