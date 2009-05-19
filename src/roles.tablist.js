@@ -10,12 +10,24 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   keys.core.js
+ *   roles.keymap.js
  */
 (jQuery.roles && (function($) {
 
 function tabpanel( tab ) {
-	return $.roles.targets(tab).filter(':role(tabpanel)');
+	return $.roles.slaves(tab).filter(':role(tabpanel)');
+}
+
+function tab( tabpanel ) {
+	return $.roles.masters(tabpanel).filter(':role(tab)');
+}
+
+function tablist( tabpanel ) {
+	return tab(tabpanel).closest(':role(tablist)');
+}
+
+function activedescendant( tabpanel ) {
+	return $.dt.idrefs(tablist(tabpanel).attr('aria-activedescendant'));
 }
 
 // Register widgets
@@ -68,26 +80,36 @@ tab: {
 			});
 	},
 
-	keys: function() {
-		$(this)
-			.bind('keydown.role-tab.(left).(up)', function() {
-				$(this).prev(':role(tab)').focus(); return false;
-			})
-			.bind('keydown.role-tab.(right).(down)', function() {
-				$(this).next(':role(tab)').focus(); return false;
-			})
-			.bind('keydown.role-tab.(home)', function() {
-				$(this).siblings(':role(tab):first').focus(); return false;
-			})
-			.bind('keydown.role-tab.(end)', function() {
-				$(this).siblings(':role(tab):last').focus(); return false;
-			});
-	},
+	keys: $.roles.usekeymap,
 	
 	init: function() {
 		$(this)
 			// Set the initial state of the tab and tabpanel
 			.initMutation('attr', 'aria-selected', false);
+	},
+	
+	keymap: {
+		'left':  'prev',
+		'right': 'next',
+		'up':    'prev',
+		'down':  'next',
+		'home':  'first',
+		'end':   'last'
+	},
+	
+	actions: {
+		prev: function() {
+			$(this).prev(':role(tab)').focus();
+		},
+		next: function() {
+			$(this).next(':role(tab)').focus();
+		},
+		first: function() {
+			$(this).siblings(':role(tab):first').focus();
+		},
+		last: function() {
+			$(this).siblings(':role(tab):last').focus();
+		}
 	}
 },
 
@@ -100,6 +122,35 @@ tabpanel: {
 			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
 				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
 			});
+	},
+	
+	keys: $.roles.usekeymap,
+	
+	keymap: {
+		'ctrl-pageup':   'prevtab',
+		'ctrl-pagedown': 'nexttab',
+		'ctrl-up':       'currtab'
+	},
+	
+	actions: {
+		// Focus the next tab
+		nexttab: function() {
+			activedescendant(this).prev(':role(tab)').focus();
+		},
+		// Focus the previous tab
+		prevtab: function() {
+			activedescendant(this).next(':role(tab)').focus();
+		},
+		// Focus the tab of this tabpanel
+		currtab: function() {
+			tab(this).focus();
+		}
+	},
+	
+	desc: {
+		nexttab: "Activate the next tab",
+		prevtab: "Activate the previous tab",
+		currtab: "Focus the current tab"
 	}
 }
 

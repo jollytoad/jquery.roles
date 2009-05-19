@@ -11,6 +11,7 @@
  *
  * Depends:
  *   roles.core.js
+ *   datatypes.utils.js
  */
 (jQuery.roles && (function($) {
 
@@ -47,8 +48,13 @@ $.extend($.roles, {
 	},
 	
 	// Find elements controlled or labelled by the given element
-	targets: function( elem ) {
+	slaves: function( elem ) {
 		return $.dt.attr(elem, 'aria-controls', 'idrefs').add("[aria-labelledby~='"+elem.id+"']");
+	},
+	
+	// Opposite of slaves
+	masters: function( elem ) {
+		return $.dt.attr(elem, 'aria-labelledby', 'idrefs').add("[aria-controls+='"+elem.id+"']");
 	}
 
 });
