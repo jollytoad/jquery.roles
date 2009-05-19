@@ -58,7 +58,7 @@ attrToggle: function( attr, def ) {
 // Initialise the element from it's role attribute
 role: function( actions ) {
 	var that = this;
-	$.dt.tokens( actions || 'setup init activate' ).each(function(n, action) {
+	$.dt.tokens( actions || 'setup keys init activate' ).each(function(n, action) {
 		that.each(function() {
 			var elem = this;
 			
@@ -69,11 +69,11 @@ role: function( actions ) {
 					fn = widget[action];
 				
 				if ( $.isFunction(fn) ) {
-/*DEBUG*
+/*DEBUG*role*
 					console.log(action, role, elem);
-*DEBUG*/
+*DEBUG*role*/
 					fn.call(elem, role);
-					widget[action] = undefined;
+					delete widget[action];
 				}
 				
 				$.data(elem, roleData, widget);

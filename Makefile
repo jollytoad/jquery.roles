@@ -2,7 +2,6 @@ PACKAGE = jquery-roles
 
 MODULES = \
 	roles.core.js\
-	roles.keys.js\
 	roles.aria.js\
 	roles.ui-css.js\
 	roles.tablist.js\

@@ -10,7 +10,7 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   roles.keys.js
+ *   keys.core.js
  */
 (jQuery.roles && (function($) {
 
@@ -100,63 +100,60 @@ treeitem: {
 			.bind('attr.@aria-expanded.role-treeitem', function(event) {
 				// Find the group belonging to this treeitem and show/hide it
 				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
-			})
-			
-			// Keyboard navigation
-			.bind('keydown.role-tree', function(event) {
-				var k = $.roles.keyCode;
-
-				switch (event.keyCode) {
-				case k.DOWN:
-					// Move to next visible item
-					$(neighbours(this).next).focus();
-					return false;
-
-				case k.UP:
-					// Move to prev visible item
-					$(neighbours(this).prev).focus();
-					return false;
-
-				case k.LEFT:
-					// Is active item expanded?
-					if ( $.dt.bool( $.attr(this, 'aria-expanded') ) === true ) {
-						// Collapse the node
-						$.attr(this, 'aria-expanded', false);
-					} else {
-						// Move to parent item
-						parent(this).focus();
-					}
-					return false;
-
-				case k.RIGHT:
-					// Is active item expanded?
-					if ( $.dt.bool( $.attr(this, 'aria-expanded') ) === false ) {
-						// Expand the node
-						$.attr(this, 'aria-expanded', true);
-					} else {
-						// Move to first child item
-						group(this).find(':role(treeitem):first').focus();
-					}
-					return false;
-
-				case k.ENTER:
-					// Trigger a double-click event
-					$(this).trigger('dblclick');
-					return false;
-
-				case k.HOME:
-					// Move to first node in tree
-					$(this).closest(':role(tree)').find(':role(treeitem):first').focus();
-					return false;
-
-				case k.END:
-					// Move to last visible node in tree
-					$(this).closest(':role(tree)').find(':role(treeitem):visible:last').focus();
-					return false;
-				}
-				// TODO: If a character key is pressed look for the next item
-				// starting with that character.
 			});
+	},
+	
+	keys: function() {
+		$(this)
+			.bind('keydown.role-treeitem.(down)', function() {
+				// Next visible item in tree
+				$(neighbours(this).next).focus();
+				return false;
+			})
+			.bind('keydown.role-treeitem.(up)', function() {
+				// Previous visible item in tree
+				$(neighbours(this).prev).focus();
+				return false;
+			})
+			.bind('keydown.role-treeitem.(left)', function() {
+				// Is active item expanded?
+				if ( $.dt.bool( $.attr(this, 'aria-expanded') ) === true ) {
+					// Collapse the node
+					$.attr(this, 'aria-expanded', false);
+				} else {
+					// Move to parent item
+					parent(this).focus();
+				}
+				return false;			
+			})
+			.bind('keydown.role-treeitem.(right)', function() {
+				// Is active item expanded?
+				if ( $.dt.bool( $.attr(this, 'aria-expanded') ) === false ) {
+					// Expand the node
+					$.attr(this, 'aria-expanded', true);
+				} else {
+					// Move to first child item
+					group(this).find(':role(treeitem):first').focus();
+				}
+				return false;
+			})
+			.bind('keydown.role-treeitem.(enter)', function() {
+				// Trigger a double-click event
+				$(this).trigger('dblclick');
+				return false;
+			})
+			.bind('keydown.role-treeitem.(home)', function() {
+				// Move to first node in tree
+				$(this).closest(':role(tree)').find(':role(treeitem):first').focus();
+				return false;		
+			})
+			.bind('keydown.role-treeitem.(end)', function() {
+				// Move to last visible node in tree
+				$(this).closest(':role(tree)').find(':role(treeitem):visible:last').focus();
+				return false;
+			});
+			// TODO: If a character key is pressed look for the next item
+			// starting with that character.
 	},
 	
 	init: function() {

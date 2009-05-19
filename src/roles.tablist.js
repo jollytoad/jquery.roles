@@ -10,7 +10,7 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   roles.keys.js
+ *   keys.core.js
  */
 (jQuery.roles && (function($) {
 
@@ -58,19 +58,6 @@ tab: {
 
 			// Ensure that a click causes the tab to be focused
 //			.bind('click.role-tab', function() { $(this).focus(); })
-		
-			// Respond to keyboard events
-			.bind('keydown.role-tab', function(event) {
-				var k = $.roles.keyCode;
-				switch (event.keyCode) {
-				case k.LEFT:
-				case k.UP:		$(this).prev(':role(tab)').focus(); return false;
-				case k.RIGHT:
-				case k.DOWN:	$(this).next(':role(tab)').focus(); return false;
-				case k.HOME:	$(this).siblings(':role(tab):first').focus(); return false;
-				case k.END:		$(this).siblings(':role(tab):last').focus(); return false;
-				}
-			})
 
 			// Set this tab as the activedescendant of the tablist
 			.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
@@ -78,6 +65,22 @@ tab: {
 			// Expand the associated 'tabpanel' when its tab is selected
 			.bind('attr.@aria-selected.role-tab', function(event) {
 				tabpanel(event.target).attr('aria-expanded', $.dt.bool(event.newValue));
+			});
+	},
+
+	keys: function() {
+		$(this)
+			.bind('keydown.role-tab.(left).(up)', function() {
+				$(this).prev(':role(tab)').focus(); return false;
+			})
+			.bind('keydown.role-tab.(right).(down)', function() {
+				$(this).next(':role(tab)').focus(); return false;
+			})
+			.bind('keydown.role-tab.(home)', function() {
+				$(this).siblings(':role(tab):first').focus(); return false;
+			})
+			.bind('keydown.role-tab.(end)', function() {
+				$(this).siblings(':role(tab):last').focus(); return false;
 			});
 	},
 	

@@ -21,7 +21,7 @@ jQuery(function($) {
 			.end()
 		
 			// Setup event bindings and initial states for widgets
-			.role('setup init')
+			.role('setup keys init')
 		
 			// Load dynamic content when element is un-hidden
 			.filter('[aria-hidden=true][data-load]')
