@@ -37,6 +37,23 @@ $.extend($.roles, {
 		$(this).owner(event.data).attr('aria-activedescendant', this.id);
 	},
 	
+	// Create an 'activate' function that activates the activedescendant,
+	// or sets the activedescendant using the given selector if not already set.
+	activateActivedescendant: function( selector ) {
+		return function() {
+			$(this)
+				// Select the first item if aria-activedescendant is not set
+				.filter(':not([aria-activedescendant])')
+					.each(function() {
+						$.attr(this, 'aria-activedescendant', $(selector, this).attr('id'));
+					})
+				.end()
+			
+				// Activate the activedescendant
+				.initMutation('attr', 'aria-activedescendant');
+		};
+	},
+	
 	// Find the elements controlled by the given element
 	controls: function( elem ) {
 		return $.dt.attr(elem, 'aria-controls', 'idrefs');

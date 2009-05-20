@@ -64,7 +64,7 @@ $.extend($.roles.widgets, {
  *	 aria-activedescendant (composite) - select a treeitem
  */
 tree: {
-	setup: 'states actions mouse keys',
+	setup: 'states actions mouse keys style',
 	
 	// Bind state (attribute) changes
 	states: function() {
@@ -156,7 +156,9 @@ tree: {
 		'enter': 'action-toggle',
 		'home':  'action-first',
 		'end':   'action-last'
-	}
+	},
+	
+	activate: $.roles.activateActivedescendant(':role(treeitem):first')
 },
 
 /* role: treeitem +-> option -> input -> widget
@@ -166,7 +168,7 @@ tree: {
  *   aria-expanded - show/hide the related group
  */
 treeitem: {
-	setup: 'states focus',
+	setup: 'states focus style',
 	
 	states: function() {
 		$(this)

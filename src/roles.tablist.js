@@ -23,7 +23,7 @@ $.extend($.roles.widgets, {
 //  activedescendant (composite) - will select a tab
 //	expanded (structure) - not yet supported
 tablist: {
-	setup: 'states actions keys',
+	setup: 'states actions keys style',
 	
 	states: function() {
 		$(this)
@@ -62,25 +62,14 @@ tablist: {
 		'end':   'action-last'
 	},
 
-	activate: function() {
-		$(this)
-			// Select the first tab if aria-activedescendant is not set
-			.filter(':not([aria-activedescendant])')
-				.each(function() {
-					$.attr(this, 'aria-activedescendant', $(':role(tab):first', this).attr('id'));
-				})
-			.end()
-			
-			// Activate the activedescendant
-			.initMutation('attr', 'aria-activedescendant');
-	}
+	activate: $.roles.activateActivedescendant(':role(tab):first')
 },
 
 // role: tab +-> sectionhead -> structure
 //            \-> widget
 // attrs: selected
 tab: {
-	setup: 'states',
+	setup: 'states style',
 	
 	states: function() {
 		function tabpanel( tab ) {
@@ -110,7 +99,7 @@ tab: {
 // role: tabpanel -> region -> section -> structure
 // attrs: expanded
 tabpanel: {
-	setup: 'states actions keys',
+	setup: 'states actions keys style',
 	
 	states: function() {
 		$(this)

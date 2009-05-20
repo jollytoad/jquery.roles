@@ -1,7 +1,5 @@
 jQuery(function($) {
 
-	$.roles.uiCSS.setup();
-
 	$(document).bind('html', function( event ) {
 	
 		// Find all role elements
@@ -13,11 +11,6 @@ jQuery(function($) {
 				.bind('click.role-treeitem-expander', function(event) {
 					$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
 				})
-			.end()
-		
-			// Apply UI theme to tabs
-			.filter(':role(tab)')
-				.addClass('ui-state-default ui-corner-tl ui-corner-tr')
 			.end()
 		
 			// Setup event bindings and initial states for widgets
