@@ -34,11 +34,8 @@ $.roles = {
 		return idPrefix + (++id);
 	},
 	
-	action: function( elem, role, action, args ) {
-		var widget = $.data(elem, 'role-'+role),
-			fn = widget && widget.actions && widget.actions[action];
-	
-		return fn && fn.apply(elem, args);
+	activeElement: function() {
+		return $(document.activeElement).filter(':role');
 	}
 };
 
@@ -65,7 +62,7 @@ attrToggle: function( attr, def ) {
 // Initialise the element from it's role attribute
 role: function( actions ) {
 	var that = this;
-	$.dt.tokens( actions || 'setup keys init activate' ).each(function(n, action) {
+	$.dt.tokens( actions || 'setup init activate' ).each(function(n, action) {
 		that.each(function() {
 			var elem = this;
 			
@@ -75,10 +72,10 @@ role: function( actions ) {
 					widget = $.data(elem, roleData) || $.extend({}, $.roles.widgets[role]),
 					fn = widget[action];
 				
-				if ( $.isFunction(fn) ) {
-/*DEBUG*role*
-					console.log(action, role, elem);
-*DEBUG*role*/
+				if ( typeof fn === 'string' ) {
+					$(elem).role(fn);
+					delete widget[action];
+				} else if ( $.isFunction(fn) ) {
 					fn.call(elem, role);
 					delete widget[action];
 				}

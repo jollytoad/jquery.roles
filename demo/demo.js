@@ -21,7 +21,7 @@ jQuery(function($) {
 			.end()
 		
 			// Setup event bindings and initial states for widgets
-			.role('setup keys init')
+			.role('setup init')
 		
 			// Load dynamic content when element is un-hidden
 			.filter('[aria-hidden=true][data-load]')
@@ -42,7 +42,7 @@ jQuery(function($) {
 			.end()
 			
 			// Activate active items
-			.role('active');
+			.role('activate');
 	})
 	.initMutation('html');
 

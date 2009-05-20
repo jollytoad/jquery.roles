@@ -39,13 +39,42 @@ $.extend($.roles.widgets, {
 //  activedescendant (composite) - will select a tab
 //	expanded (structure) - not yet supported
 tablist: {
-	setup: function() {
+	setup: 'states actions keys',
+	
+	states: function() {
 		$(this)
 			// Respond to the active tab being changed
 			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant);
 	},
 	
-	active: function() {
+	actions: function() {
+		$(this)
+			.bind('action-prev.role-tablist', function(event) {
+				$(event.target).prev(':role(tab)').focus();
+			})
+			.bind('action-next.role-tablist', function(event) {
+				$(event.target).next(':role(tab)').focus();
+			})
+			.bind('action-first.role-tablist', function(event) {
+				$(event.target).siblings(':role(tab):first').focus();
+			})
+			.bind('action-last.role-tablist', function(event) {
+				$(event.target).siblings(':role(tab):last').focus();
+			});
+	},
+	
+	keys: $.roles.usekeymap,
+	
+	keymap: {
+		'left':  'action-prev',
+		'right': 'action-next',
+		'up':    'action-prev',
+		'down':  'action-next',
+		'home':  'action-first',
+		'end':   'action-last'
+	},
+
+	activate: function() {
 		$(this)
 			// Select the first tab if aria-activedescendant is not set
 			.filter(':not([aria-activedescendant])')
@@ -63,14 +92,13 @@ tablist: {
 //            \-> widget
 // attrs: selected
 tab: {
-	setup: function() {
+	setup: 'states',
+	
+	states: function() {
 		$(this)
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', '-1')
-
-			// Ensure that a click causes the tab to be focused
-//			.bind('click.role-tab', function() { $(this).focus(); })
-
+			
 			// Set this tab as the activedescendant of the tablist
 			.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
 
@@ -80,50 +108,19 @@ tab: {
 			});
 	},
 
-	keys: $.roles.usekeymap,
-	
 	init: function() {
 		$(this)
 			// Set the initial state of the tab and tabpanel
 			.initMutation('attr', 'aria-selected', false);
-	},
-	
-	keymap: {
-		'left':  'prev',
-		'right': 'next',
-		'up':    'prev',
-		'down':  'next',
-		'home':  'first',
-		'end':   'last'
-	},
-	
-	actions: {
-		prev: function() {
-			$(this).prev(':role(tab)').focus();
-		},
-		next: function() {
-			$(this).next(':role(tab)').focus();
-		},
-		first: function() {
-			$(this).siblings(':role(tab):first').focus();
-		},
-		last: function() {
-			$(this).siblings(':role(tab):last').focus();
-		}
-	},
-	
-	desc: {
-		prev:  "Activate previous tab",
-		next:  "Activate next tab",
-		first: "Activate first tab",
-		last:  "Activate last tab"
 	}
 },
 
 // role: tabpanel -> region -> section -> structure
 // attrs: expanded
 tabpanel: {
-	setup: function() {
+	setup: 'states actions keys',
+	
+	states: function() {
 		$(this)
 			// Show or hide the tabpanel if the expanded state is changed
 			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
@@ -131,33 +128,26 @@ tabpanel: {
 			});
 	},
 	
+	actions: function() {
+		// Focus the next tab
+		$(this)
+			.bind('action-next.role-tabpanel', function() {
+				activedescendant(this).prev(':role(tab)').focus();
+			})
+			.bind('action-prev.role-tabpanel', function() {
+				activedescendant(this).next(':role(tab)').focus();
+			})
+			.bind('action-focus.role-tabpanel', function() {
+				tab(this).focus();
+			});
+	},
+	
 	keys: $.roles.usekeymap,
 	
 	keymap: {
-		'ctrl-pageup':   'prevtab',
-		'ctrl-pagedown': 'nexttab',
-		'ctrl-up':       'currtab'
-	},
-	
-	actions: {
-		// Focus the next tab
-		nexttab: function() {
-			activedescendant(this).prev(':role(tab)').focus();
-		},
-		// Focus the previous tab
-		prevtab: function() {
-			activedescendant(this).next(':role(tab)').focus();
-		},
-		// Focus the tab of this tabpanel
-		currtab: function() {
-			tab(this).focus();
-		}
-	},
-	
-	desc: {
-		nexttab: "Activate the next tab",
-		prevtab: "Activate the previous tab",
-		currtab: "Focus the current tab"
+		'ctrl-pageup':   'action-prev',
+		'ctrl-pagedown': 'action-next',
+		'ctrl-up':       'action-focus'
 	}
 }
 

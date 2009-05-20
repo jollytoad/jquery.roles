@@ -14,26 +14,19 @@
 $.extend($.roles, {
 
 // This can be assigned as the $.roles.widgets[role].keys function.
-// It requires a 'keymap' and 'actions' object in the widget.
-// 'keymap' is a mapping of key combos to action functions in the 'actions' object.
+// It uses a 'keymap' to map key combos to trigger events.
 usekeymap: function( role ) {
 	var that = this;
 	
 	$.each( $.data(this, 'role-'+role).keymap || false, function(combo, action) {
-		var fn = $.isFunction(action) ?
-			action :
-				function(event) {
-					if ( !event.isDefaultPrevented() ) {
-						$.roles.action(this, role, action, arguments);
-					}
-					event.preventDefault();
-				};
-			
-			$.event.add(that, 'keydown.role-'+role + '.key:'+combo, fn);
-
-/*DEBUG*keymap*
-			console.log('keymap %s: %s -> %s', role, combo, action);
-*DEBUG*keymap*/
+		function handler(event) {
+			if ( !event.isDefaultPrevented() ) {
+				$.roles.activeElement().trigger(action);
+			}
+			event.preventDefault();
+		}
+		
+		$.event.add(that, 'keydown.role-'+role + '.key:'+combo, handler);
 	});
 }
 
