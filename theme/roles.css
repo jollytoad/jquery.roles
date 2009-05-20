@@ -40,9 +40,32 @@
 
 [role~=treeitem] {
 	cursor: pointer;
+	padding: 0 1ex 0 3px;
 }
 
 [role~=tree] [role~=group] {
 	padding-left: 1em;
+}
+
+[role~=tree] .expander {
+	display: inline-block;
+	padding: 0;
+	margin-right: 0.5ex;
+	vertical-align: middle;
+	visibility: hidden;
+	position: relative;
+	width: 9px;
+	height: 9px;
+	background-image: url(expander.png);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+
+[role~=treeitem][aria-expanded] > .expander {
+	visibility: visible;
+}
+
+[role~=treeitem][aria-expanded=false] > .expander {
+	background-position: 0 -9px;
 }
 

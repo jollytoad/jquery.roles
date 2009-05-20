@@ -4,15 +4,7 @@ jQuery(function($) {
 	
 		// Find all role elements
 		$(':role', event.target)
-		
-			// Add an expander widget to each treeitem
-			.filter(':role(treeitem)')
-				.prepend('<div class="expander" role="presentation"></div>')
-				.bind('click.role-treeitem-expander', function(event) {
-					$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
-				})
-			.end()
-		
+			
 			// Setup event bindings and initial states for widgets
 			.role('setup init')
 		

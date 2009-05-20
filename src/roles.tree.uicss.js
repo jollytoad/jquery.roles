@@ -20,5 +20,15 @@ $.roles.widgets.tree.style = function() {
 		});
 };
 
+$.roles.widgets.treeitem.style = function() {
+	$(this)
+		// Add an expander widget to each treeitem
+		.prepend('<div class="expander" role="presentation"></div>')
+		
+		.bind('click.role-treeitem-expander', function(event) {
+			$(event.target).closest('.expander').closest(':role(treeitem)').attrToggle('aria-expanded');
+		});
+};
+
 })(jQuery)
 );
