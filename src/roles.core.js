@@ -32,6 +32,13 @@ $.roles = {
 
 	uniqueId: function() {
 		return idPrefix + (++id);
+	},
+	
+	action: function( elem, role, action, args ) {
+		var widget = $.data(elem, 'role-'+role),
+			fn = widget && widget.actions && widget.actions[action];
+	
+		return fn && fn.apply(elem, args);
 	}
 };
 

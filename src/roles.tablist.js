@@ -110,6 +110,13 @@ tab: {
 		last: function() {
 			$(this).siblings(':role(tab):last').focus();
 		}
+	},
+	
+	desc: {
+		prev:  "Activate previous tab",
+		next:  "Activate next tab",
+		first: "Activate first tab",
+		last:  "Activate last tab"
 	}
 },
 
