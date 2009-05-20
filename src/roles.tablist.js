@@ -14,22 +14,6 @@
  */
 (jQuery.roles && (function($) {
 
-function tabpanel( tab ) {
-	return $.roles.slaves(tab).filter(':role(tabpanel)');
-}
-
-function tab( tabpanel ) {
-	return $.roles.masters(tabpanel).filter(':role(tab)');
-}
-
-function tablist( tabpanel ) {
-	return tab(tabpanel).closest(':role(tablist)');
-}
-
-function activedescendant( tabpanel ) {
-	return $.dt.idrefs(tablist(tabpanel).attr('aria-activedescendant'));
-}
-
 // Register widgets
 $.extend($.roles.widgets, {
 
@@ -49,15 +33,19 @@ tablist: {
 	
 	actions: function() {
 		$(this)
+			// Focus previous tab
 			.bind('action-prev.role-tablist', function(event) {
 				$(event.target).prev(':role(tab)').focus();
 			})
+			// Focus next tab
 			.bind('action-next.role-tablist', function(event) {
 				$(event.target).next(':role(tab)').focus();
 			})
+			// Focus first tab
 			.bind('action-first.role-tablist', function(event) {
 				$(event.target).siblings(':role(tab):first').focus();
 			})
+			// Focus last tab
 			.bind('action-last.role-tablist', function(event) {
 				$(event.target).siblings(':role(tab):last').focus();
 			});
@@ -95,6 +83,10 @@ tab: {
 	setup: 'states',
 	
 	states: function() {
+		function tabpanel( tab ) {
+			return $.roles.slaves(tab).filter(':role(tabpanel)');
+		}
+
 		$(this)
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', '-1')
@@ -129,25 +121,34 @@ tabpanel: {
 	},
 	
 	actions: function() {
-		// Focus the next tab
+		function tab( tabpanel ) {
+			return $.roles.masters(tabpanel).filter(':role(tab)');
+		}
+
 		$(this)
-			.bind('action-next.role-tabpanel', function() {
-				activedescendant(this).prev(':role(tab)').focus();
+			// Focus the tab after our tab (ie. the tab for this tabpanel)
+			.bind('action-next-tab.role-tabpanel', function() {
+				tab(this).next(':role(tab)').focus();
+				return false;
 			})
-			.bind('action-prev.role-tabpanel', function() {
-				activedescendant(this).next(':role(tab)').focus();
+			// Focus the tab preceding our tab
+			.bind('action-prev-tab.role-tabpanel', function() {
+				tab(this).prev(':role(tab)').focus();
+				return false;
 			})
-			.bind('action-focus.role-tabpanel', function() {
+			// Focus our tab
+			.bind('action-focus-tab.role-tabpanel', function() {
 				tab(this).focus();
+				return false;
 			});
 	},
 	
 	keys: $.roles.usekeymap,
 	
 	keymap: {
-		'ctrl-pageup':   'action-prev',
-		'ctrl-pagedown': 'action-next',
-		'ctrl-up':       'action-focus'
+		'ctrl-pageup':   'action-prev-tab',
+		'ctrl-pagedown': 'action-next-tab',
+		'ctrl-up':       'action-focus-tab'
 	}
 }
 

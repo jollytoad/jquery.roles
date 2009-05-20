@@ -10,7 +10,7 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   keys.core.js
+ *   roles.keymap.js
  */
 (jQuery.roles && (function($) {
 
