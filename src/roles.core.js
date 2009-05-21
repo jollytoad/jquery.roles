@@ -22,9 +22,6 @@ var idPrefix = 'id' + (+new Date()) + '-', id = 0;
 $.roles = {
 	version: '@VERSION',
 
-	// Installed widgets
-	widgets: {},
-
 	// Get the roles of an element
 	get: function( elem ) {
 		return elem.getAttribute('role');
@@ -36,15 +33,25 @@ $.roles = {
 	
 	activeElement: function() {
 		return $(document.activeElement).filter(':role');
-	}
+	},
+	
+	stages: [
+		'states',		// Setup bindings for states changes
+		'actions',		// Register widget actions
+		'interaction',	// Bind user interaction events (mouse, keyboard, focus, etc.)
+		'style',		// Setup presentation/styling and bindings for changing style
+		'init',			// Trigger state initialisations
+		'custom',		// Main point for additional
+		'activate'		// Activate initial selections etc.
+	]
 };
 
-// jQuery plugins
 
 $.fn.extend({
 
 // Toggle a boolean attribute state.
 // Only toggles if the state is already set, unless a default value is given.
+// (Maybe this should be moved into jquery.datatypes???)
 attrToggle: function( attr, def ) {
 	return this.each(function() {
 		var state = $.dt.bool( $.attr(this, attr) );
@@ -59,32 +66,54 @@ attrToggle: function( attr, def ) {
 	});
 },
 
-// Initialise the element from it's role attribute
-role: function( actions ) {
+// Apply the role
+roleSetup: function( stages ) {
 	var that = this;
-	$.dt.tokens( actions || 'setup init activate' ).each(function(n, action) {
-		that.each(function() {
-			var elem = this;
-			
-			// Initialise new roles
-			$.dt.tokens( $.roles.get(elem) ).each(function(n, role) {
-				var roleData = 'role-' + role,
-					widget = $.data(elem, roleData) || $.extend({}, $.roles.widgets[role]),
-					fn = widget[action];
-				
-				if ( typeof fn === 'string' ) {
-					$(elem).role(fn);
-					delete widget[action];
-				} else if ( $.isFunction(fn) ) {
-					fn.call(elem, role);
-					delete widget[action];
-				}
-				
-				$.data(elem, roleData, widget);
-			});
-		});
+	stages = stages || this.param('roleStages') || $.roles.stages;
+	
+	$.each(stages, function(i, stage) {
+/*DEBUG*roleSetup*
+		console.log('stage', stage);
+*DEBUG*roleSetup*/
+		that.trigger('role-'+stage);
 	});
+	
 	return this;
+},
+
+// Register a setup stage for the role
+roleStage: function( stage, fn ) {
+	return this.live('role-'+stage, function(event) {
+		if ( this === event.target ) {
+/*DEBUG*roleStage*
+			console.log($.roles.get(this), stage, this);
+*DEBUG*roleStage*/
+			return fn.apply(this, arguments);
+		}
+	});
+},
+
+// Register a role action
+roleAction: function( action ) {
+	var role = this.param('role') || 'unknown',
+		args = Array.prototype.slice.apply(arguments);
+	args[0] = action + '.role-' + role;
+	return $.fn.bind.apply(this, args);
+},
+
+// Register a key -> event mapping for the role
+roleKey: function( combo, action, keyEvent ) {
+	var role = this.param('role') || 'unknown',
+		type = keyEvent || this.param('keyEvent') || 'keydown';
+	
+	function handler(event) {
+		if ( !event.isDefaultPrevented() ) {
+			$.roles.activeElement().trigger(action);
+		}
+		event.preventDefault();
+	}
+	
+	return this.bind(type+'.role-'+role+'.key:'+combo, handler);
 }
 
 }); // $.fn.extend

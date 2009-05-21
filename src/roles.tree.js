@@ -55,41 +55,41 @@ function parent( treeitem ) {
 	return item;
 }
 
-$.extend($.roles.widgets, {
 
-/* role: tree -> select +-> composite -> widget
- *                       \-> input -> widget
- *                        \-> group -> section -> structure
- * attrs:
- *	 aria-activedescendant (composite) - select a treeitem
- */
-tree: {
-	setup: 'states actions mouse keys style',
+// role: tree -> select +-> composite -> widget
+//                       \-> input -> widget
+//                        \-> group -> section -> structure
+// attrs:
+//	 aria-activedescendant (composite) - select a treeitem
+
+$(':role(tree)')
 	
 	// Bind state (attribute) changes
-	states: function() {
+	.roleStage('states', function() {
 		$(this)
 			// Respond to the active item being changed
 			.bind('attr.@aria-activedescendant.role-tree', $.roles.selectActivedescendant);
-	},
+	})
 	
 	// Bind actions
-	actions: function() {
+	.roleStage('actions', function() {
 		$(this)
+			.param('role', 'tree')
+			
 			// Focus next treeitem
-			.bind('action-next.role-tree', function(event) {
+			.roleAction('action-next', function(event) {
 				$(neighbours(event.target).next).focus();
 				return false;
 			})
 			
 			// Focus previous treeitem
-			.bind('action-prev.role-tree', function(event) {
+			.roleAction('action-prev', function(event) {
 				$(neighbours(event.target).prev).focus();
 				return false;
 			})
 			
 			// Climb up the tree
-			.bind('action-climb.role-tree', function(event) {
+			.roleAction('action-climb', function(event) {
 				// Is active item expanded?
 				if ( $.dt.attr(event.target, 'aria-expanded', 'bool') === true ) {
 					// Collapse the node
@@ -102,7 +102,7 @@ tree: {
 			})
 			
 			// Drill-down through treeitems
-			.bind('action-drill.role-tree', function(event) {
+			.roleAction('action-drill', function(event) {
 				// Is active item expanded?
 				if ( $.dt.attr(event.target, 'aria-expanded', 'bool') === false ) {
 					// Expand the node
@@ -115,62 +115,61 @@ tree: {
 			})
 			
 			// Toggle expanded state
-			.bind('action-toggle.role-tree', function(event) {
+			.roleAction('action-toggle', function(event) {
 				$(event.target).attrToggle('aria-expanded');
 				return false;
 			})
 			
 			// Focus the first node in the tree
-			.bind('action-first.role-tree', function() {
+			.roleAction('action-first', function() {
 				$(this).find(':role(treeitem):first').focus();
 				return false;
 			})
 		
 			// Focus the last visible node in the tree
-			.bind('action-last.role-tree', function() {
+			.roleAction('action-last', function() {
 				$(this).find(':role(treeitem):visible:last').focus();
 				return false;
-			});
-	},
+			})
+			.end();
+	})
 	
-	// Bind mouse interactions
-	mouse: function() {
+	// Bind mouse/keyboard interactions
+	.roleStage('interaction', function() {
 		$(this)
+			.param('role', 'tree')
+			
 			// Expand/collapse on a double click
-			.bind('dblclick.role-treeitem', function(event) {
+			.bind('dblclick.role-tree', function(event) {
 				$(event.target).closest(':role(treeitem)').trigger('action-toggle');
 				return false;
-			});
-	},
+			})
+			
+			.roleKey('down', 'action-next')
+			.roleKey('up', 'action-prev')
+			.roleKey('left', 'action-climb')
+			.roleKey('right', 'action-drill')
+			.roleKey('enter', 'action-toggle')
+			.roleKey('home', 'action-first')
+			.roleKey('end', 'action-last')
+			.end();
+		
+		// TODO: If a character key is pressed look for the next item
+		// starting with that character.
+	})
 	
-	keys: $.roles.usekeymap,
-	
-	// TODO: If a character key is pressed look for the next item
-	// starting with that character.
-	
-	keymap: {
-		'down':  'action-next',
-		'up':    'action-prev',
-		'left':  'action-climb',
-		'right': 'action-drill',
-		'enter': 'action-toggle',
-		'home':  'action-first',
-		'end':   'action-last'
-	},
-	
-	activate: $.roles.activateActivedescendant(':role(treeitem):first')
-},
+	.roleStage('activate', $.roles.activateActivedescendant(':role(treeitem):first'));
 
-/* role: treeitem +-> option -> input -> widget
- *                 \-> listitem -> section -> structure
- * attrs:
- *   tabindex - indicates active item
- *   aria-expanded - show/hide the related group
- */
-treeitem: {
-	setup: 'states focus style',
-	
-	states: function() {
+
+// role: treeitem +-> option -> input -> widget
+//                 \-> listitem -> section -> structure
+// attrs:
+//   tabindex - indicates active item
+//   aria-expanded - show/hide the related group
+
+$(':role(treeitem)')
+
+	.roleStage('states', function() {
 		$(this)
 			// Add an id if not already present
 			.not('[id]')
@@ -185,22 +184,19 @@ treeitem: {
 				// Find the group belonging to this treeitem and show/hide it
 				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
 			});
-	},
+	})
 	
-	focus: function() {
+	.roleStage('interaction', function() {
 		$(this)
 			// Set this item as the activedescendant of the tree
 			.bind('focus.role-treeitem', 'tree', $.roles.setActivedescendant);
-	},
+	})
 	
-	init: function() {
+	.roleStage('init', function() {
 		$(this)
 			// Initialise the hidden state of the related group
 			.initMutation('attr', 'aria-expanded');
-	}
-}
-
-}); // $.extend
+	});
 
 })(jQuery)
 );

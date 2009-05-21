@@ -10,68 +10,71 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   roles.keymap.js
  */
 (jQuery.roles && (function($) {
-
-// Register widgets
-$.extend($.roles.widgets, {
 
 // role: tablist +-> composite -> widget
 //                \-> directory -> list -> region -> section -> structure
 // attrs:
 //  activedescendant (composite) - will select a tab
 //	expanded (structure) - not yet supported
-tablist: {
-	setup: 'states actions keys style',
-	
-	states: function() {
+
+$(':role(tablist)')
+
+	.roleStage('states', function() {
 		$(this)
 			// Respond to the active tab being changed
 			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant);
-	},
-	
-	actions: function() {
+	})
+
+	.roleStage('actions', function() {
 		$(this)
+			.param('role', 'tablist')
 			// Focus previous tab
-			.bind('action-prev.role-tablist', function(event) {
+			.roleAction('action-prev', function(event) {
 				$(event.target).prev(':role(tab)').focus();
+				return false;
 			})
 			// Focus next tab
-			.bind('action-next.role-tablist', function(event) {
+			.roleAction('action-next', function(event) {
 				$(event.target).next(':role(tab)').focus();
+				return false;
 			})
 			// Focus first tab
-			.bind('action-first.role-tablist', function(event) {
+			.roleAction('action-first', function(event) {
 				$(event.target).siblings(':role(tab):first').focus();
+				return false;
 			})
 			// Focus last tab
-			.bind('action-last.role-tablist', function(event) {
+			.roleAction('action-last', function(event) {
 				$(event.target).siblings(':role(tab):last').focus();
-			});
-	},
-	
-	keys: $.roles.usekeymap,
-	
-	keymap: {
-		'left':  'action-prev',
-		'right': 'action-next',
-		'up':    'action-prev',
-		'down':  'action-next',
-		'home':  'action-first',
-		'end':   'action-last'
-	},
+				return false;
+			})
+			.end();
+	})
 
-	activate: $.roles.activateActivedescendant(':role(tab):first')
-},
+	.roleStage('interaction', function() {
+		$(this)
+			.param('role', 'tablist')
+			.roleKey('left', 'action-prev')
+			.roleKey('right', 'action-next')
+			.roleKey('up', 'action-prev')
+			.roleKey('down', 'action-next')
+			.roleKey('home', 'action-first')
+			.roleKey('end', 'action-last')
+			.end();
+	})
+
+	.roleStage('activate', $.roles.activateActivedescendant(':role(tab):first'));
+
 
 // role: tab +-> sectionhead -> structure
 //            \-> widget
 // attrs: selected
-tab: {
-	setup: 'states style',
-	
-	states: function() {
+
+$(':role(tab)')
+
+	.roleStage('states', function() {
 		function tabpanel( tab ) {
 			return $.roles.slaves(tab).filter(':role(tabpanel)');
 		}
@@ -87,61 +90,62 @@ tab: {
 			.bind('attr.@aria-selected.role-tab', function(event) {
 				tabpanel(event.target).attr('aria-expanded', $.dt.bool(event.newValue));
 			});
-	},
+	})
 
-	init: function() {
+	.roleStage('init', function() {
 		$(this)
 			// Set the initial state of the tab and tabpanel
 			.initMutation('attr', 'aria-selected', false);
-	}
-},
+	});
+
 
 // role: tabpanel -> region -> section -> structure
 // attrs: expanded
-tabpanel: {
-	setup: 'states actions keys style',
-	
-	states: function() {
+
+$(':role(tabpanel)')
+
+	.roleStage('states', function() {
 		$(this)
 			// Show or hide the tabpanel if the expanded state is changed
 			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
 				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
 			});
-	},
-	
-	actions: function() {
+	})
+
+	.roleStage('actions', function() {
 		function tab( tabpanel ) {
 			return $.roles.masters(tabpanel).filter(':role(tab)');
 		}
 
 		$(this)
+			.param('role', 'tabpanel')
+			
 			// Focus the tab after our tab (ie. the tab for this tabpanel)
-			.bind('action-next-tab.role-tabpanel', function() {
+			.roleAction('action-next-tab', function() {
 				tab(this).next(':role(tab)').focus();
 				return false;
 			})
 			// Focus the tab preceding our tab
-			.bind('action-prev-tab.role-tabpanel', function() {
+			.roleAction('action-prev-tab', function() {
 				tab(this).prev(':role(tab)').focus();
 				return false;
 			})
 			// Focus our tab
-			.bind('action-focus-tab.role-tabpanel', function() {
+			.roleAction('action-focus-tab', function() {
 				tab(this).focus();
 				return false;
-			});
-	},
+			})
+			.end();
+	})
 	
-	keys: $.roles.usekeymap,
-	
-	keymap: {
-		'ctrl-pageup':   'action-prev-tab',
-		'ctrl-pagedown': 'action-next-tab',
-		'ctrl-up':       'action-focus-tab'
-	}
-}
-
-}); // $.extend
+	.roleStage('interaction', function() {
+		$(this)
+			.param('role', 'tabpanel')
+			.roleKey('ctrl-pageup', 'action-prev-tab')
+			.roleKey('ctrl-pagedown', 'action-next-tab')
+			.roleKey('ctrl-up', 'action-focus-tab')
+			.end();
+	});
 
 })(jQuery)
 );
