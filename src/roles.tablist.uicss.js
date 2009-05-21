@@ -8,9 +8,10 @@
 /* Apply jQuery UI CSS Framework
  *
  * Depends:
- *   roles.tablist.js
+ *   roles.core.js
+ *   datatypes.core.js
  */
-(jQuery.roles && (function($) {
+(function($) {
 
 $(':role(tablist)')
 	.roleStage('style', function() {
@@ -26,5 +27,5 @@ $(':role(tab)')
 		$(this).addClass('ui-state-default ui-corner-tl ui-corner-tr');
 	});
 
-})(jQuery)
-);
+})(jQuery);
+

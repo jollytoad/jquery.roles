@@ -10,9 +10,11 @@
 /* Automatically apply roles to existing and new content
  *
  * Depends:
- *	roles.core.js
+ *   roles.core.js
+ *   mutations.core.js
+ *   mutations.html.js
  */
-(jQuery.roles && (function($) {
+(function($) {
 
 $(document)
 	.bind('html', function( event ) {
@@ -33,6 +35,5 @@ $(document)
 		$(document).initMutation('html');
 	});
 
-})(jQuery)
-);
+})(jQuery);
 

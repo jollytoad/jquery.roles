@@ -11,7 +11,10 @@
  *
  * Depends:
  *   roles.core.js
+ *   datatypes.core.js
  *   datatypes.utils.js
+ *   mutations.core.js
+ *   mutations.attr.js
  */
 (jQuery.roles && (function($) {
 

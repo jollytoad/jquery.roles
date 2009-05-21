@@ -10,8 +10,12 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
+ *   mutations.core.js
+ *   mutations.attr.js
+ *   datatypes.core.js
+ *   jquery.param.js
  */
-(jQuery.roles && (function($) {
+(function($) {
 
 // role: tablist +-> composite -> widget
 //                \-> directory -> list -> region -> section -> structure
@@ -147,6 +151,5 @@ $(':role(tabpanel)')
 			.end();
 	});
 
-})(jQuery)
-);
+})(jQuery);
 

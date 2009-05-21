@@ -8,9 +8,11 @@
 /* Apply jQuery UI CSS Framework
  *
  * Depends:
- *   roles.tree.js
+ *   roles.core.js
+ *   datatypes.core.js
+ *   datatypes.attr.js
  */
-(jQuery.roles && (function($) {
+(function($) {
 
 $(':role(tree)')
 	.roleStage('style', function() {
@@ -32,5 +34,5 @@ $(':role(treeitem)')
 			});
 	});
 
-})(jQuery)
-);
+})(jQuery);
+

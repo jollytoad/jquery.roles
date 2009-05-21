@@ -10,9 +10,13 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
- *   roles.keymap.js
+ *   mutations.core.js
+ *   mutations.attr.js
+ *   datatypes.core.js
+ *   datatypes.attr.js
+ *   jquery.param.js
  */
-(jQuery.roles && (function($) {
+(function($) {
 
 function neighbours( treeitem ) {
 	var prev, curr, next;
@@ -198,6 +202,5 @@ $(':role(treeitem)')
 			.initMutation('attr', 'aria-expanded');
 	});
 
-})(jQuery)
-);
+})(jQuery);
 

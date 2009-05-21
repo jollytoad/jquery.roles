@@ -11,9 +11,8 @@
  * and DOM Mutation Events.
  *
  * Depends:
- *	mutations.core.js
- *	mutations.attr.js
- *	datatypes.core.js
+ *   jquery.param.js
+ *   keys.core.js - only if roleKey() is used.
  */
 (jQuery.roles || (function($) {
 
@@ -49,28 +48,10 @@ $.roles = {
 
 $.fn.extend({
 
-// Toggle a boolean attribute state.
-// Only toggles if the state is already set, unless a default value is given.
-// (Maybe this should be moved into jquery.datatypes???)
-attrToggle: function( attr, def ) {
-	return this.each(function() {
-		var state = $.dt.bool( $.attr(this, attr) );
-
-		// Use the given default as the current state if not set yet
-		if ( state === undefined ) { state = def; }
-
-		// Only toggle the state if it is already set
-		if ( state !== undefined ) {
-			$.attr(this, attr, ""+!state);
-		}
-	});
-},
-
 // Apply the role
 roleSetup: function( stages ) {
 	var that = this;
 	stages = stages || this.param('roleStages') || $.roles.stages;
-
 
 	$.each(stages, function(i, stage) {
 		$().triggerHandler('role-'+stage, [that]);
