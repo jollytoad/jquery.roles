@@ -84,9 +84,11 @@ roleStage: function( stage, fn ) {
 	var selector = this.selector;
 	$().bind('role-'+stage, function(event, elems) {
 		elems.filter(selector).each(function() {
-/*DEBUG*
+
+/*DEBUG*roleStage*
 			console.log(stage, this);
-*DEBUG*/
+*DEBUG*roleStage*/
+
 			fn.call(this, event);
 		});
 	});

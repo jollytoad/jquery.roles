@@ -41,7 +41,6 @@ $.extend($.roles, {
 	// or sets the activedescendant using the given selector if not already set.
 	activateActivedescendant: function( selector ) {
 		return function() {
-			console.log('activateActivedescendant');
 			$(this)
 				// Select the first item if aria-activedescendant is not set
 				.filter(':not([aria-activedescendant])')
