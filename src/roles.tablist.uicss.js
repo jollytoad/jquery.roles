@@ -16,6 +16,8 @@
 $(':role(tablist)')
 	.roleStage('style', function() {
 		$(this)
+			.addClass('ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-top')
+			
 			.bind('attr.@aria-activedescendant', function(event) {
 				$.dt.idrefs(event.prevValue).removeClass('ui-state-active');
 				$.dt.idrefs(event.newValue).addClass('ui-state-active');
@@ -24,7 +26,7 @@ $(':role(tablist)')
 
 $(':role(tab)')
 	.roleStage('style', function() {
-		$(this).addClass('ui-state-default ui-corner-tl ui-corner-tr');
+		$(this).addClass('ui-state-default ui-corner-top');
 	});
 
 })(jQuery);

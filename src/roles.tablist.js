@@ -60,6 +60,12 @@ $(':role(tablist)')
 	.roleStage('interaction', function() {
 		$(this)
 			.param('role', 'tablist')
+			
+			.bind('mousedown.role-tablist', function(event) {
+				// Ensure that the tab is focused
+				$(event.target).closest(':role(tab)').focus();
+			})
+			
 			.roleKey('left', 'action-prev')
 			.roleKey('right', 'action-next')
 			.roleKey('up', 'action-prev')
