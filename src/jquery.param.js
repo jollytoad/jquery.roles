@@ -9,6 +9,8 @@
 /* Add parameters to a jQuery object which can be used by jQuery functions
  * as default values. The prevObject chain will be a searched when fetching a parameter.
  */
+(function($) {
+
 var _end = $.fn.end;
 
 $.fn.extend({
@@ -48,4 +50,6 @@ end: function() {
 }
 
 });
+
+})(jQuery);
 
