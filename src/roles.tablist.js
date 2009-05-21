@@ -82,7 +82,7 @@ $(':role(tab)')
 		$(this)
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', '-1')
-			
+
 			// Set this tab as the activedescendant of the tablist
 			.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
 
@@ -119,7 +119,7 @@ $(':role(tabpanel)')
 
 		$(this)
 			.param('role', 'tabpanel')
-			
+
 			// Focus the tab after our tab (ie. the tab for this tabpanel)
 			.roleAction('action-next-tab', function() {
 				tab(this).next(':role(tab)').focus();
@@ -137,7 +137,7 @@ $(':role(tabpanel)')
 			})
 			.end();
 	})
-	
+
 	.roleStage('interaction', function() {
 		$(this)
 			.param('role', 'tabpanel')

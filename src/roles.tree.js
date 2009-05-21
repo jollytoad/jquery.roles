@@ -63,31 +63,31 @@ function parent( treeitem ) {
 //	 aria-activedescendant (composite) - select a treeitem
 
 $(':role(tree)')
-	
+
 	// Bind state (attribute) changes
 	.roleStage('states', function() {
 		$(this)
 			// Respond to the active item being changed
 			.bind('attr.@aria-activedescendant.role-tree', $.roles.selectActivedescendant);
 	})
-	
+
 	// Bind actions
 	.roleStage('actions', function() {
 		$(this)
 			.param('role', 'tree')
-			
+
 			// Focus next treeitem
 			.roleAction('action-next', function(event) {
 				$(neighbours(event.target).next).focus();
 				return false;
 			})
-			
+
 			// Focus previous treeitem
 			.roleAction('action-prev', function(event) {
 				$(neighbours(event.target).prev).focus();
 				return false;
 			})
-			
+
 			// Climb up the tree
 			.roleAction('action-climb', function(event) {
 				// Is active item expanded?
@@ -100,7 +100,7 @@ $(':role(tree)')
 				}
 				return false;
 			})
-			
+
 			// Drill-down through treeitems
 			.roleAction('action-drill', function(event) {
 				// Is active item expanded?
@@ -113,19 +113,19 @@ $(':role(tree)')
 				}
 				return false;
 			})
-			
+
 			// Toggle expanded state
 			.roleAction('action-toggle', function(event) {
 				$(event.target).attrToggle('aria-expanded');
 				return false;
 			})
-			
+
 			// Focus the first node in the tree
 			.roleAction('action-first', function() {
 				$(this).find(':role(treeitem):first').focus();
 				return false;
 			})
-		
+
 			// Focus the last visible node in the tree
 			.roleAction('action-last', function() {
 				$(this).find(':role(treeitem):visible:last').focus();
@@ -133,18 +133,18 @@ $(':role(tree)')
 			})
 			.end();
 	})
-	
+
 	// Bind mouse/keyboard interactions
 	.roleStage('interaction', function() {
 		$(this)
 			.param('role', 'tree')
-			
+
 			// Expand/collapse on a double click
 			.bind('dblclick.role-tree', function(event) {
 				$(event.target).closest(':role(treeitem)').trigger('action-toggle');
 				return false;
 			})
-			
+
 			.roleKey('down', 'action-next')
 			.roleKey('up', 'action-prev')
 			.roleKey('left', 'action-climb')
@@ -153,11 +153,11 @@ $(':role(tree)')
 			.roleKey('home', 'action-first')
 			.roleKey('end', 'action-last')
 			.end();
-		
+
 		// TODO: If a character key is pressed look for the next item
 		// starting with that character.
 	})
-	
+
 	.roleStage('activate', $.roles.activateActivedescendant(':role(treeitem):first'));
 
 
@@ -185,13 +185,13 @@ $(':role(treeitem)')
 				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
 			});
 	})
-	
+
 	.roleStage('interaction', function() {
 		$(this)
 			// Set this item as the activedescendant of the tree
 			.bind('focus.role-treeitem', 'tree', $.roles.setActivedescendant);
 	})
-	
+
 	.roleStage('init', function() {
 		$(this)
 			// Initialise the hidden state of the related group

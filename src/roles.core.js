@@ -30,11 +30,11 @@ $.roles = {
 	uniqueId: function() {
 		return idPrefix + (++id);
 	},
-	
+
 	activeElement: function() {
 		return $(document.activeElement).filter(':role');
 	},
-	
+
 	stages: [
 		'states',		// Setup bindings for states changes
 		'actions',		// Register widget actions
@@ -70,12 +70,12 @@ attrToggle: function( attr, def ) {
 roleSetup: function( stages ) {
 	var that = this;
 	stages = stages || this.param('roleStages') || $.roles.stages;
-	
-	
+
+
 	$.each(stages, function(i, stage) {
 		$().triggerHandler('role-'+stage, [that]);
 	});
-	
+
 	return this;
 },
 
@@ -92,7 +92,7 @@ roleStage: function( stage, fn ) {
 			fn.call(this, event);
 		});
 	});
-	
+
 	return this;
 },
 
@@ -108,14 +108,14 @@ roleAction: function( action ) {
 roleKey: function( combo, action, keyEvent ) {
 	var role = this.param('role') || 'unknown',
 		type = keyEvent || this.param('keyEvent') || 'keydown';
-	
+
 	function handler(event) {
 		if ( !event.isDefaultPrevented() ) {
 			$.roles.activeElement().trigger(action);
 		}
 		event.preventDefault();
 	}
-	
+
 	return this.bind(type+'.role-'+role+'.key:'+combo, handler);
 }
 

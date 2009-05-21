@@ -36,7 +36,7 @@ $.extend($.roles, {
 	setActivedescendant: function(event) {
 		$(this).owner(event.data).attr('aria-activedescendant', this.id);
 	},
-	
+
 	// Create an 'activate' function that activates the activedescendant,
 	// or sets the activedescendant using the given selector if not already set.
 	activateActivedescendant: function( selector ) {
@@ -48,27 +48,27 @@ $.extend($.roles, {
 						$.attr(this, 'aria-activedescendant', $(selector, this).attr('id'));
 					})
 				.end()
-			
+
 				// Activate the activedescendant
 				.initMutation('attr', 'aria-activedescendant');
 		};
 	},
-	
+
 	// Find the elements controlled by the given element
 	controls: function( elem ) {
 		return $.dt.attr(elem, 'aria-controls', 'idrefs');
 	},
-	
+
 	// Find the elements labelledby the given element
 	labelledby: function( elem ) {
 		return $("[aria-labelledby~='"+elem.id+"']");
 	},
-	
+
 	// Find elements controlled or labelled by the given element
 	slaves: function( elem ) {
 		return $.dt.attr(elem, 'aria-controls', 'idrefs').add("[aria-labelledby~='"+elem.id+"']");
 	},
-	
+
 	// Opposite of slaves
 	masters: function( elem ) {
 		return $.dt.attr(elem, 'aria-labelledby', 'idrefs').add("[aria-controls+='"+elem.id+"']");
