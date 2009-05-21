@@ -6,6 +6,7 @@ MODULES = \
 	roles.aria.js \
 	roles.tablist.js \
 	roles.tree.js \
+	roles.dialog.js \
 	roles.tablist.uicss.js \
 	roles.tree.uicss.js
 

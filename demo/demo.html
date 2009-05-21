@@ -8,6 +8,11 @@
 	<link rel="stylesheet" href="../dist/theme/roles.css" type="text/css" />
 	
 	<script type="text/javascript" src="../external/jquery/jquery.js"></script>
+	
+	<script type="text/javascript" src="../external/ui/ui/ui.core.js"></script>	
+	<script type="text/javascript" src="../external/ui/ui/ui.draggable.js"></script>
+	<script type="text/javascript" src="../external/ui/ui/ui.resizable.js"></script>
+	
 	<script type="text/javascript" src="../external/mutations/jquery-mutations.js"></script>
 	<script type="text/javascript" src="../external/datatypes/jquery-datatypes.js"></script>
 	<script type="text/javascript" src="../external/keys/jquery-keys.js"></script>
@@ -27,22 +32,28 @@
 
 	<h1>jQuery Roles Demo</h1>
 	
-	<ul role="tablist" title="Blah blah" aria-activedescendant="tab3">
-		<li role="tab" id="tab1">Tab 1</li>
-		<li role="tab" id="tab2" aria-controls="tabpanel2">Tree 1</li>
-		<li role="tab" id="tab3">Tree 2</li>
-	</ul>
+	<div class="ui-widget">
+		<ul role="tablist" title="Blah blah" -aria-activedescendant="tab3">
+			<li role="tab" id="tab1">Tab 1</li>
+			<li role="tab" id="tab2" aria-controls="tabpanel2">Tree 1</li>
+			<li role="tab" id="tab3">Tree 2</li>
+		</ul>
 	
-	<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
-		<p>Tabpanel 1</p>
+		<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
+			<p>Tabpanel 1</p>
+		
+			<button role="button" id="open-dialog" aria-controls="editor-dialog">Open Editor</button>
+		</div>
+	
+		<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
+		</div>
+	
+		<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
+		</div>
 	</div>
 	
-	<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
+	<div role="dialog" id="editor-dialog" data-load="dialog-content.html" aria-hidden="true">
 	</div>
-	
-	<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
-	</div>
-	
 </body>
 </html>
 

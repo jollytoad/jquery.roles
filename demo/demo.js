@@ -20,5 +20,15 @@ $(':role[aria-hidden=true][data-load]')
 			});
 	});
 
+$(':role(button)[aria-controls]')
+	
+	.roleStage('interaction', function() {
+		$(this)
+			.bind('click.role-button', function(event) {
+				console.log('CLICK');
+				$.dt.attr(this, 'aria-controls', 'idrefs').attr('aria-hidden', false);
+			});
+	});
+
 })(jQuery);
 
