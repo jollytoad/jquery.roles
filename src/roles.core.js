@@ -71,11 +71,9 @@ roleSetup: function( stages ) {
 	var that = this;
 	stages = stages || this.param('roleStages') || $.roles.stages;
 	
+	
 	$.each(stages, function(i, stage) {
-/*DEBUG*roleSetup*
-		console.log('stage', stage);
-*DEBUG*roleSetup*/
-		that.trigger('role-'+stage);
+		$().triggerHandler('role-'+stage, [that]);
 	});
 	
 	return this;
@@ -83,14 +81,17 @@ roleSetup: function( stages ) {
 
 // Register a setup stage for the role
 roleStage: function( stage, fn ) {
-	return this.live('role-'+stage, function(event) {
-		if ( this === event.target ) {
-/*DEBUG*roleStage*
-			console.log($.roles.get(this), stage, this);
-*DEBUG*roleStage*/
-			return fn.apply(this, arguments);
-		}
+	var selector = this.selector;
+	$().bind('role-'+stage, function(event, elems) {
+		elems.filter(selector).each(function() {
+/*DEBUG*
+			console.log(stage, this);
+*DEBUG*/
+			fn.call(this, event);
+		});
 	});
+	
+	return this;
 },
 
 // Register a role action
