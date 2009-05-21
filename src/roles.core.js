@@ -16,18 +16,12 @@
  */
 (jQuery.roles || (function($) {
 
-var idPrefix = 'id' + (+new Date()) + '-', id = 0;
-
 $.roles = {
 	version: '@VERSION',
 
 	// Get the roles of an element
 	get: function( elem ) {
 		return elem.getAttribute('role');
-	},
-
-	uniqueId: function() {
-		return idPrefix + (++id);
 	},
 
 	activeElement: function() {

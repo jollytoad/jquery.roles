@@ -13,6 +13,7 @@
  *   roles.core.js
  *   datatypes.core.js
  *   datatypes.utils.js
+ *   datatypes.idrefs.js
  *   mutations.core.js
  *   mutations.attr.js
  */
@@ -37,7 +38,7 @@ $.extend($.roles, {
 
 	// Bind to 'click' or 'focus' of an owned item, pass the parent 'role' as data
 	setActivedescendant: function(event) {
-		$(this).owner(event.data).attr('aria-activedescendant', this.id);
+		$(this).owner(event.data).attr('aria-activedescendant', $.id(this));
 	},
 
 	// Create an 'activate' function that activates the activedescendant,
@@ -64,17 +65,17 @@ $.extend($.roles, {
 
 	// Find the elements labelledby the given element
 	labelledby: function( elem ) {
-		return $("[aria-labelledby~='"+elem.id+"']");
+		return $("[aria-labelledby~='"+$.id(elem)+"']");
 	},
 
 	// Find elements controlled or labelled by the given element
 	slaves: function( elem ) {
-		return $.dt.attr(elem, 'aria-controls', 'idrefs').add("[aria-labelledby~='"+elem.id+"']");
+		return $.dt.attr(elem, 'aria-controls', 'idrefs').add("[aria-labelledby~='"+$.id(elem)+"']");
 	},
 
 	// Opposite of slaves
 	masters: function( elem ) {
-		return $.dt.attr(elem, 'aria-labelledby', 'idrefs').add("[aria-controls+='"+elem.id+"']");
+		return $.dt.attr(elem, 'aria-labelledby', 'idrefs').add("[aria-controls~='"+$.id(elem)+"']");
 	}
 
 });

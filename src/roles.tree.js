@@ -175,11 +175,6 @@ $(':role(treeitem)')
 
 	.roleStage('states', function() {
 		$(this)
-			// Add an id if not already present
-			.not('[id]')
-				.attr('id', $.roles.uniqueId)
-			.end()
-
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', -1)
 
