@@ -9,12 +9,10 @@
  *
  * Depends:
  *   roles.core.js
- *   roles.aria.js
  *   mutations.core.js
  *   mutations.attr.js
  *   datatypes.core.js
  *   jquery.param.js
- *   
  */
 (function($) {
 
@@ -24,26 +22,15 @@
 
 $(':role(dialog)')
 
-	.roleStage('states', function() {
+	.roleStage('bind', function() {
 		$(this)
 			.bind('attr.@aria-hidden.role-dialog', function(event) {
-				if ( !$.dt.bool(event.newValue) ) {
-					// Open dialog
-					$(event.target)
-						.draggable()
-						.resizable();
-				} else {
-					// Close dialog
-					$(event.target)
-						.resizable('destroy')
-						.draggable('destroy');
-				}
-			});
-	})
-	
-	.roleStage('style', function() {
-		$(this)
-			.addClass('ui-widget ui-widget-content ui-corner-all');
+				$(this).trigger($.dt.bool(event.newValue) ? 'action-closed' : 'action-opened');
+			})
+			
+			.param('role', 'dialog')
+			.roleKey('esc', 'action-cancel')
+			.end();
 	});
 
 })(jQuery);
