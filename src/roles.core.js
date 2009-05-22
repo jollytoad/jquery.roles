@@ -101,7 +101,7 @@ roleKey: function( combo, action, keyEvent ) {
 $.extend($.expr[':'], {
 	role: function( elem, i, match ) {
 		var roles = $.roles.get(elem);
-		return roles && (!match[3] || ((' '+roles+' ').indexOf(' '+match[3]+' ') >= 0));
+		return roles && (!match[3] || new RegExp("\\b" + match[3] + "\\b").test(roles));
 	}
 });
 
