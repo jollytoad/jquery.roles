@@ -38,22 +38,22 @@ $(':role(tablist)')
 
 			// Focus previous tab
 			.roleAction('action-prev', function(event) {
-				$(event.target).prev(':role(tab)').focus();
+				$(event.target).prev(':role(tab)').roleFocus();
 				return false;
 			})
 			// Focus next tab
 			.roleAction('action-next', function(event) {
-				$(event.target).next(':role(tab)').focus();
+				$(event.target).next(':role(tab)').roleFocus();
 				return false;
 			})
 			// Focus first tab
 			.roleAction('action-first', function(event) {
-				$(event.target).siblings(':role(tab):first').focus();
+				$(event.target).siblings(':role(tab):first').roleFocus();
 				return false;
 			})
 			// Focus last tab
 			.roleAction('action-last', function(event) {
-				$(event.target).siblings(':role(tab):last').focus();
+				$(event.target).siblings(':role(tab):last').roleFocus();
 				return false;
 			})
 
@@ -61,7 +61,7 @@ $(':role(tablist)')
 			
 			.bind('mousedown.role-tablist', function(event) {
 				// Ensure that the tab is focused
-				$(event.target).closest(':role(tab)').focus();
+				$(event.target).closest(':role(tab)').roleFocus();
 			})
 			
 			// ---- Keyboard ----
@@ -138,17 +138,17 @@ $(':role(tabpanel)')
 			
 			// Focus the tab after our tab (ie. the tab for this tabpanel)
 			.roleAction('action-next-tab', function() {
-				tab(this).next(':role(tab)').focus();
+				tab(this).next(':role(tab)').roleFocus();
 				return false;
 			})
 			// Focus the tab preceding our tab
 			.roleAction('action-prev-tab', function() {
-				tab(this).prev(':role(tab)').focus();
+				tab(this).prev(':role(tab)').roleFocus();
 				return false;
 			})
 			// Focus our tab
 			.roleAction('action-focus-tab', function() {
-				tab(this).focus();
+				tab(this).roleFocus();
 				return false;
 			})
 			

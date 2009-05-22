@@ -82,13 +82,13 @@ $(':role(tree)')
 
 			// Focus next treeitem
 			.roleAction('action-next', function(event) {
-				$(neighbours(event.target).next).focus();
+				$(neighbours(event.target).next).roleFocus();
 				return false;
 			})
 
 			// Focus previous treeitem
 			.roleAction('action-prev', function(event) {
-				$(neighbours(event.target).prev).focus();
+				$(neighbours(event.target).prev).roleFocus();
 				return false;
 			})
 
@@ -100,7 +100,7 @@ $(':role(tree)')
 					$.attr(event.target, 'aria-expanded', false);
 				} else {
 					// Move to parent item
-					parent(event.target).focus();
+					parent(event.target).roleFocus();
 				}
 				return false;
 			})
@@ -113,7 +113,7 @@ $(':role(tree)')
 					$.attr(event.target, 'aria-expanded', true);
 				} else {
 					// Move to first child item
-					group(event.target).find(':role(treeitem):first').focus();
+					group(event.target).find(':role(treeitem):first').roleFocus();
 				}
 				return false;
 			})
@@ -126,13 +126,13 @@ $(':role(tree)')
 
 			// Focus the first node in the tree
 			.roleAction('action-first', function() {
-				$(this).find(':role(treeitem):first').focus();
+				$(this).find(':role(treeitem):first').roleFocus();
 				return false;
 			})
 
 			// Focus the last visible node in the tree
 			.roleAction('action-last', function() {
-				$(this).find(':role(treeitem):visible:last').focus();
+				$(this).find(':role(treeitem):visible:last').roleFocus();
 				return false;
 			})
 			

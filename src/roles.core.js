@@ -92,6 +92,14 @@ roleKey: function( combo, action, keyEvent ) {
 	}
 
 	return this.bind(type+'.role-'+role+'.key:'+combo, handler);
+},
+
+// Focus a role
+roleFocus: function() {
+	if ( this.length ) {
+		this[0].focus();
+	}
+	return this;
 }
 
 }); // $.fn.extend
