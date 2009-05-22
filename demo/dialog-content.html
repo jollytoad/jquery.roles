@@ -1,17 +1,20 @@
-<ul role="tablist heading">
-	<li role="tab" id="editor-tab" aria-controls="editor-panel">Editor</li>
-	<li role="tab" id="options-tab" aria-controls="options-panel">Options</li>
-</ul>
-<div role="tabpanel" id="editor-panel">
-	<p>Editor</p>
-	<textarea>Blah</textarea>
-</div>
-<div role="tabpanel" id="options-panel">
-	<p>Options</p>
-</div>
-<div class="ui-helper-clearfix">
-	<a role="button" href="#" data-trigger="action-apply">Apply</a>
-	<a role="button" href="#" data-trigger="action-ok">Ok</a>
-	<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
+<div role="presentation" class="ui-layout">
+	<ul role="tablist heading" class="ui-layout-north">
+		<li role="tab" id="editor-tab" aria-controls="editor-panel">Editor</li>
+		<li role="tab" id="options-tab" aria-controls="options-panel">Options</li>
+	</ul>
+	<div role="tabpanel" id="editor-panel" class="ui-layout-center ui-layout-editor">
+		<textarea>Blah</textarea>
+	</div>
+	<div role="tabpanel" id="options-panel" class="ui-layout-center">
+		<p>Options</p>
+	</div>
+	<div class="ui-layout-south ui-helper-clearfix">
+		<div role="presentation" class="buttons">
+			<a role="button" href="#" data-trigger="action-apply">Apply</a>
+			<a role="button" href="#" data-trigger="action-ok">Ok</a>
+			<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
+		</div>
+	</div>
 </div>
 
