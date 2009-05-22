@@ -31,24 +31,29 @@
 <body>
 
 	<h1>jQuery Roles Demo</h1>
-	
+		
 	<div class="ui-widget">
 		<ul role="tablist" title="Blah blah" -aria-activedescendant="tab3">
 			<li role="tab" id="tab1">Tab 1</li>
 			<li role="tab" id="tab2" aria-controls="tabpanel2">Tree 1</li>
 			<li role="tab" id="tab3">Tree 2</li>
+			<li role="tab" id="tab4">Menubar</li>
 		</ul>
 	
 		<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
 			<p>Tabpanel 1</p>
 		
-			<button role="button" id="open-dialog" aria-controls="editor-dialog">Open Editor</button>
+			<a role="button" href="#" aria-controls="editor-dialog"
+				data-attr="aria-hidden" data-val="false">Open Editor</a>
 		</div>
 	
 		<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
 		</div>
 	
 		<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
+		</div>
+		
+		<div role="tabpanel" aria-labelledby="tab4" data-load="menu.html">
 		</div>
 	</div>
 	

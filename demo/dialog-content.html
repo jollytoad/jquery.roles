@@ -1,15 +1,17 @@
-<ul role="tablist">
+<ul role="tablist heading">
 	<li role="tab" id="editor-tab" aria-controls="editor-panel">Editor</li>
 	<li role="tab" id="options-tab" aria-controls="options-panel">Options</li>
 </ul>
 <div role="tabpanel" id="editor-panel">
 	<p>Editor</p>
+	<textarea>Blah</textarea>
 </div>
 <div role="tabpanel" id="options-panel">
 	<p>Options</p>
 </div>
 <div class="ui-helper-clearfix">
-	<button type="button" class="ui-state-default ui-corner-all">Ok</button>
-	<button type="button" class="ui-state-default ui-corner-all">Cancel</button>
+	<a role="button" href="#" data-trigger="action-apply">Apply</a>
+	<a role="button" href="#" data-trigger="action-ok">Ok</a>
+	<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
 </div>
 
