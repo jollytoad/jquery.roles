@@ -77,6 +77,11 @@ $.extend($.roles, {
 	// Opposite of slaves
 	masters: function( elem ) {
 		return $.dt.attr(elem, 'aria-labelledby', 'idrefs').add("[aria-controls~='"+$.id(elem)+"']");
+	},
+	
+	// Check whether the element is disabled
+	disabled: function( elem ) {
+		return elem.disabled || $.dt.bool( $.attr(elem, 'aria-disabled') );
 	}
 
 });
