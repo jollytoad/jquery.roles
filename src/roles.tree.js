@@ -188,7 +188,7 @@ $(':role(treeitem)')
 	.roleStage('interaction', function() {
 		$(this)
 			// Set this item as the activedescendant of the tree
-			.bind('focus.role-treeitem', 'tree', $.roles.setActivedescendant);
+			.bind('focus.role-treeitem', ':role(tree)', $.roles.setActivedescendant);
 	})
 
 	.roleStage('init', function() {

@@ -36,9 +36,9 @@ $.extend($.roles, {
 			.attr('tabindex', 0);
 	},
 
-	// Bind to 'click' or 'focus' of an owned item, pass the parent 'role' as data
+	// Bind to 'click' or 'focus' of an owned item, pass the parent selector as data
 	setActivedescendant: function(event) {
-		$(this).owner(event.data).attr('aria-activedescendant', $.id(this));
+		$(this).closest(event.data).attr('aria-activedescendant', $.id(this));
 		event.stopPropagation();
 	},
 

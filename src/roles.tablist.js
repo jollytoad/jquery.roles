@@ -94,7 +94,7 @@ $(':role(tab)')
 			.attr('tabindex', '-1')
 
 			// Set this tab as the activedescendant of the tablist
-			.bind('focus.role-tab', 'tablist', $.roles.setActivedescendant)
+			.bind('focus.role-tab', ':role(tablist)', $.roles.setActivedescendant)
 
 			// Expand the associated 'tabpanel' when its tab is selected
 			.bind('attr.@aria-selected.role-tab', function(event) {
