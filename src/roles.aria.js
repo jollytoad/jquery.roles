@@ -39,6 +39,7 @@ $.extend($.roles, {
 	// Bind to 'click' or 'focus' of an owned item, pass the parent 'role' as data
 	setActivedescendant: function(event) {
 		$(this).owner(event.data).attr('aria-activedescendant', $.id(this));
+		event.stopPropagation();
 	},
 
 	// Create an 'activate' function that activates the activedescendant,
@@ -80,35 +81,6 @@ $.extend($.roles, {
 
 });
 
-
-// jQuery plugins
-
-$.fn.extend({
-
-// Like .find() but also includes the aria-owns attribute
-owns: function( selector ) {
-	var include = $(this).filter('[aria-owns]').map(function() {
-		return this.getAttribute('aria-owns').replace(/([^\s]+)/g, '#$1').replace(/\s+/g,',');
-	});
-
-	if ( include.length ) {
-		var owned = $(Array.prototype.join.call(include,','));
-		this.pushStack(this);
-		return $($(this).find(selector).get().concat($(owned).filter(selector).get()).concat($(owned).find(selector).get())).filter(selector);
-	}
-
-	return this.find(selector);
-},
-
-// Find the owner of the element, check .parents, and then aria-owns attributes
-owner: function( role ) {
-	var owner = $(this).parents(':role('+role+'):first');
-	this.pushStack(this);
-	if ( owner.length ) { return owner; }
-	return $(":role("+role+")[aria-owns~='"+this.attr('id')+"']");
-}
-
-}); // $.fn.extend
 
 })(jQuery)
 );
