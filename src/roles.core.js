@@ -29,13 +29,13 @@ $.roles = {
 	},
 
 	stages: [
-		'states',		// Setup bindings for states changes
-		'actions',		// Register widget actions
-		'interaction',	// Bind user interaction events (mouse, keyboard, focus, etc.)
-		'style',		// Setup presentation/styling and bindings for changing style
-		'init',			// Trigger state initialisations
-		'custom',		// Main point for additional
-		'activate'		// Activate initial selections etc.
+		'dom',		// Any necessary DOM modifications prior to binding
+		'bind',		// Setup bindings for states changes, actions,
+					// and user interaction events (mouse, keys, focus, etc)
+		'style',	// Setup styling and bindings for changing style
+		'init',		// Trigger state initialisations
+//		'custom',	// Main point for additional
+		'activate'	// Activate initial selections etc.
 	]
 };
 

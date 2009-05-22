@@ -69,16 +69,16 @@ function parent( treeitem ) {
 $(':role(tree)')
 
 	// Bind state (attribute) changes
-	.roleStage('states', function() {
-		$(this)
-			// Respond to the active item being changed
-			.bind('attr.@aria-activedescendant.role-tree', $.roles.selectActivedescendant);
-	})
-
-	// Bind actions
-	.roleStage('actions', function() {
+	.roleStage('bind', function() {
 		$(this)
 			.param('role', 'tree')
+			
+			// ---- ARIA States ----
+			
+			// Respond to the active item being changed
+			.bind('attr.@aria-activedescendant.role-tree', $.roles.selectActivedescendant)
+			
+			// ---- Actions ----
 
 			// Focus next treeitem
 			.roleAction('action-next', function(event) {
@@ -135,19 +135,16 @@ $(':role(tree)')
 				$(this).find(':role(treeitem):visible:last').focus();
 				return false;
 			})
-			.end();
-	})
-
-	// Bind mouse/keyboard interactions
-	.roleStage('interaction', function() {
-		$(this)
-			.param('role', 'tree')
+			
+			// ---- Mouse ----
 
 			// Expand/collapse on a double click
 			.bind('dblclick.role-tree', function(event) {
 				$(event.target).closest(':role(treeitem)').trigger('action-toggle');
 				return false;
 			})
+			
+			// ---- Keyboard ----
 
 			.roleKey('down', 'action-next')
 			.roleKey('up', 'action-prev')
@@ -156,6 +153,7 @@ $(':role(tree)')
 			.roleKey('enter', 'action-toggle')
 			.roleKey('home', 'action-first')
 			.roleKey('end', 'action-last')
+
 			.end();
 
 		// TODO: If a character key is pressed look for the next item
@@ -173,20 +171,21 @@ $(':role(tree)')
 
 $(':role(treeitem)')
 
-	.roleStage('states', function() {
+	.roleStage('bind', function() {
 		$(this)
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', -1)
+			
+			// ---- ARIA States ----
 
 			// Show/hide the related group if expanded state has changed
 			.bind('attr.@aria-expanded.role-treeitem', function(event) {
 				// Find the group belonging to this treeitem and show/hide it
 				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
-			});
-	})
+			})
 
-	.roleStage('interaction', function() {
-		$(this)
+			// ---- Focus ----
+
 			// Set this item as the activedescendant of the tree
 			.bind('focus.role-treeitem', ':role(tree)', $.roles.setActivedescendant);
 	})

@@ -25,15 +25,17 @@
 
 $(':role(tablist)')
 
-	.roleStage('states', function() {
-		$(this)
-			// Respond to the active tab being changed
-			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant);
-	})
-
-	.roleStage('actions', function() {
+	.roleStage('bind', function() {
 		$(this)
 			.param('role', 'tablist')
+			
+			// ---- ARIA States ----
+			
+			// Respond to the active tab being changed
+			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant)
+
+			// ---- Actions ----
+
 			// Focus previous tab
 			.roleAction('action-prev', function(event) {
 				$(event.target).prev(':role(tab)').focus();
@@ -54,17 +56,15 @@ $(':role(tablist)')
 				$(event.target).siblings(':role(tab):last').focus();
 				return false;
 			})
-			.end();
-	})
 
-	.roleStage('interaction', function() {
-		$(this)
-			.param('role', 'tablist')
+			// ---- Mouse ----
 			
 			.bind('mousedown.role-tablist', function(event) {
 				// Ensure that the tab is focused
 				$(event.target).closest(':role(tab)').focus();
 			})
+			
+			// ---- Keyboard ----
 			
 			.roleKey('left', 'action-prev')
 			.roleKey('right', 'action-next')
@@ -72,6 +72,7 @@ $(':role(tablist)')
 			.roleKey('down', 'action-next')
 			.roleKey('home', 'action-first')
 			.roleKey('end', 'action-last')
+			
 			.end();
 	})
 
@@ -84,7 +85,7 @@ $(':role(tablist)')
 
 $(':role(tab)')
 
-	.roleStage('states', function() {
+	.roleStage('bind', function() {
 		function tabpanel( tab ) {
 			return $.roles.slaves(tab).filter(':role(tabpanel)');
 		}
@@ -92,14 +93,18 @@ $(':role(tab)')
 		$(this)
 			// Add a tabindex=-1 to allow click focus
 			.attr('tabindex', '-1')
-
-			// Set this tab as the activedescendant of the tablist
-			.bind('focus.role-tab', ':role(tablist)', $.roles.setActivedescendant)
+			
+			// ---- ARIA States ----
 
 			// Expand the associated 'tabpanel' when its tab is selected
 			.bind('attr.@aria-selected.role-tab', function(event) {
 				tabpanel(event.target).attr('aria-expanded', $.dt.bool(event.newValue));
-			});
+			})
+			
+			// ---- Focus ----
+			
+			// Set this tab as the activedescendant of the tablist
+			.bind('focus.role-tab', ':role(tablist)', $.roles.setActivedescendant);
 	})
 
 	.roleStage('init', function() {
@@ -114,22 +119,23 @@ $(':role(tab)')
 
 $(':role(tabpanel)')
 
-	.roleStage('states', function() {
-		$(this)
-			// Show or hide the tabpanel if the expanded state is changed
-			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
-				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
-			});
-	})
-
-	.roleStage('actions', function() {
+	.roleStage('bind', function() {
 		function tab( tabpanel ) {
 			return $.roles.masters(tabpanel).filter(':role(tab)');
 		}
-
+		
 		$(this)
 			.param('role', 'tabpanel')
-
+			
+			// ---- ARIA States ----
+		
+			// Show or hide the tabpanel if the expanded state is changed
+			.bind('attr.@aria-expanded.role-tabpanel', function(event) {
+				$.attr(this, 'aria-hidden', !$.dt.bool(event.newValue));
+			})
+			
+			// ---- Actions ----
+			
 			// Focus the tab after our tab (ie. the tab for this tabpanel)
 			.roleAction('action-next-tab', function() {
 				tab(this).next(':role(tab)').focus();
@@ -145,15 +151,13 @@ $(':role(tabpanel)')
 				tab(this).focus();
 				return false;
 			})
-			.end();
-	})
-
-	.roleStage('interaction', function() {
-		$(this)
-			.param('role', 'tabpanel')
+			
+			// ---- Keyboard ----
+			
 			.roleKey('ctrl-pageup', 'action-prev-tab')
 			.roleKey('ctrl-pagedown', 'action-next-tab')
 			.roleKey('ctrl-up', 'action-focus-tab')
+			
 			.end();
 	});
 
