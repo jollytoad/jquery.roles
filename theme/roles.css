@@ -12,26 +12,24 @@
 
 [role~=button] {
 	text-decoration: none;
+	margin: 0;
+	padding: 0.2ex 1ex;
 }
 
 /* ---- tablist, tab, tabpanel ---- */
 
 [role~=tablist] {
-	padding: 0;
+	padding: 0 1px;
 	margin: 0;
 	list-style-type: none;
 }
 
 [role~=tab] {
 	float: left;
-	margin: 1px;
-	margin-bottom: 0;
-	padding: 0.8ex 1.2ex;
+	margin: 1px 1px 0px 1px;
+	padding: 0.2ex 1ex;
+	border-bottom: none;
 	cursor: pointer;
-}
-
-[role~=tab]:focus {
-	outline: 1px dotted black;
 }
 
 [role~=tabpanel] {
