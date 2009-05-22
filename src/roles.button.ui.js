@@ -20,6 +20,14 @@ $(':role(button)')
 				$(this).toggleClass('ui-state-disabled', $.roles.disabled(this));
 			})
 			
+			.bind('focus.role-button', function() {
+				$(this).addClass('ui-state-focus');
+			})
+			
+			.bind('blur.role-button', function() {
+				$(this).removeClass('ui-state-focus');
+			})
+			
 			.bind('mouseenter.role-button', function() {
 				if ( $.roles.disabled(this) ) { return; }
 				$(this).addClass('ui-state-hover');

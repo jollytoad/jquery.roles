@@ -32,6 +32,10 @@ $(':role(button)')
 	
 	.roleStage('bind', function() {
 		$(this)
+			.attr('tabindex', 0)
+			
+			// ---- Mouse ----
+			
 			.filter('[data-attr]:not([aria-pressed])')
 				.bind('click.role-button', function(event) {
 					if ( $.roles.disabled(this) ) { return false; }
@@ -47,6 +51,7 @@ $(':role(button)')
 					event.preventDefault();
 				})
 			.end()
+			
 			.filter('[data-trigger]')
 				.bind('click.role-button', function(event) {
 					if ( $.roles.disabled(this) ) { return false; }
