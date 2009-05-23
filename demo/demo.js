@@ -30,7 +30,7 @@ $('#editor-dialog')
 			
 			.roleAction('action-apply', function(event) {
 				if ( $.dt.attr(this, 'data-modified', 'bool') ) {
-					console.log('apply');
+//					console.log('apply');
 				
 					// ... save changes here ...
 				
@@ -40,7 +40,7 @@ $('#editor-dialog')
 			})
 			
 			.roleAction('action-ok', function(event) {
-				console.log('ok');
+//				console.log('ok');
 				$(this)
 					.trigger('action-apply')
 					.attr('aria-hidden', true);
@@ -48,7 +48,7 @@ $('#editor-dialog')
 			})
 			
 			.roleAction('action-cancel', function(event) {
-				console.log('cancel');
+//				console.log('cancel');
 				
 				// ... revert changes ...
 				
@@ -70,7 +70,6 @@ $(':role(dialog) :role(button)[data-trigger=action-apply]')
 		var button = this;
 		$(button).parents(':role(dialog)')
 			.bind('attr.@data-modified', function(event) {
-				console.log('modified', event.newValue);
 				$.attr(button, 'aria-disabled', !$.dt.bool(event.newValue));
 			});
 	})

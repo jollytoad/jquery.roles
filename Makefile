@@ -4,6 +4,7 @@ MODULES = \
 	jquery.param.js \
 	roles.core.js \
 	roles.aria.js \
+	roles.aria.ui.js \
 	roles.button-toggle.js \
 	roles.button.js \
 	roles.button.ui.js \
