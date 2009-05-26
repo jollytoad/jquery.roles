@@ -95,10 +95,7 @@ roleKey: function( combo, action, keyEvent ) {
 
 // Focus a role
 roleFocus: function() {
-	if ( this.length ) {
-		this[0].focus();
-	}
-	return this;
+	return this.focus();
 }
 
 }); // $.fn.extend

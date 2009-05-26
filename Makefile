@@ -1,6 +1,7 @@
 PACKAGE = jquery-roles
 
 MODULES = \
+	jquery.fixfocus.js \
 	jquery.param.js \
 	roles.core.js \
 	roles.aria.js \
