@@ -34,8 +34,7 @@ $.roles = {
 					// and user interaction events (mouse, keys, focus, etc)
 		'style',	// Setup styling and bindings for changing style
 		'init',		// Trigger state initialisations
-//		'custom',	// Main point for additional
-		'activate'	// Activate initial selections etc.
+		'activate'	// Activate selections, timers, animations etc.
 	]
 };
 
