@@ -144,6 +144,8 @@ $(':role(tree)')
 				return false;
 			})
 			
+			.bind('mouseup.role-tree', ':role(treeitem)', $.roles.focusDescendant)
+			
 			// ---- Keyboard ----
 
 			.roleKey('down', 'action-next')

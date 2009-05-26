@@ -59,15 +59,7 @@ $(':role(tablist)')
 
 			// ---- Mouse ----
 			
-			.bind('mouseup.role-tablist', function(event) {
-				// Ensure that the tab is focused
-				var tab = $(event.target).closest(':role(tab)').roleFocus();
-				
-				// Focus the active tab if not on a tab
-				if ( !tab.length) {
-					$.dt.attr(this, 'aria-activedescendant', 'idrefs').roleFocus();
-				}
-			})
+			.bind('mouseup.role-tablist', ':role(tab)', $.roles.focusDescendant)
 			
 			// ---- Keyboard ----
 			

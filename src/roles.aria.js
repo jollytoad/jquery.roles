@@ -58,6 +58,19 @@ $.extend($.roles, {
 				.initMutation('attr', 'aria-activedescendant');
 		};
 	},
+	
+	// Handler to ensures descendant items are focused correctly on a mouse click.
+	// Bind to 'mouseup' event and pass the item selector as data.
+	// eg: $(...).bind('mouseup', ':role(treeitem)', $.roles.focusDescendant);
+	focusDescendant: function( event ) {
+		// Ensure that the item is focused
+		var item = $(event.target).closest(event.data || ':role').roleFocus();
+		
+		// Focus the active item if clicked in a blank space
+		if ( !item.length ) {
+			$.dt.attr(this, 'aria-activedescendant', 'idrefs').roleFocus();
+		}
+	},
 
 	// Find the elements controlled by the given element
 	controls: function( elem ) {
@@ -85,7 +98,6 @@ $.extend($.roles, {
 	}
 
 });
-
 
 })(jQuery)
 );
