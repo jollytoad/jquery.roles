@@ -40,7 +40,7 @@ $(':role(tablist)')
 $(':role(tab)')
 	.roleStage('dom', function() {
 		// Ensure that tab content is wrapped in an <a>
-		$(this).filter('li:not(:has(a))').wrapInner('<a href="#"></a>');
+		$(this).filter('li:not(:has(a))').wrapInner('<a href="#" disabled="disabled"></a>');
 	})
 	
 	.roleStage('style', function() {
