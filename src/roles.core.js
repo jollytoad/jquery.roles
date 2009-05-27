@@ -94,9 +94,7 @@ roleKey: function( combo, action, keyEvent ) {
 },
 
 // Focus a role
-roleFocus: function() {
-	return this.focus();
-}
+roleFocus: $.fn.focus
 
 }); // $.fn.extend
 

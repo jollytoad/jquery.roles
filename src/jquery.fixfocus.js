@@ -17,7 +17,7 @@
 
 $.support.activeElement = ( 'activeElement' in document );
 
-var focus = $.fn.focus,
+var origfocus = $.fn.focus,
 	realfocus;
 
 // TODO:
@@ -26,7 +26,7 @@ var focus = $.fn.focus,
 
 $.fn.focus = function() {
 	if ( arguments.length ) {
-		return _focus.apply(this, arguments);
+		return origfocus.apply(this, arguments);
 	}
 	if ( this[0] ) {
 		realfocus(this[0]);
@@ -80,9 +80,9 @@ if ( !$.support.activeElement ) {
 		});
 } else {
 	realfocus = function( elem ) {
-		if ( $.isFunction(elem.focus) ) {
+		window.setTimeout(function() {
 			elem.focus();
-		}
+		}, 0);
 	};
 }
 
