@@ -43,7 +43,7 @@ function horiz( context ) {
 }
 
 // Layout for faulty browsers (IE6)
-function resize() {
+function fixLayout() {
 	var context = this;
 	// Use a setTimeout to ensure the display has been refreshed
 	window.setTimeout(function() {
@@ -57,15 +57,24 @@ function resize() {
 	}, 0);
 }
 
+function fixEditor() {
+	var context = this;
+	// Use a setTimeout to ensure the display has been refreshed
+	window.setTimeout(function() {
+		var editor = $(opts.editor, context);
+		$('textarea', editor).height(editor.height());
+	}, 0);
+}
+
 var resizeBound = false;
 
 // Fix faulty browsers (IE6)
-function fix( context ) {
-	resize.apply(context);
+function fix( fixFn, context ) {
+	fixFn.apply(context);
 	
 	if ( !resizeBound && opts.resizeEvent ) {
 		$(document).bind(opts.resizeEvent, function(event) {
-			$(event.target).find(opts.container).andSelf().filter(opts.container).each(resize);
+			$(event.target).find(opts.container).andSelf().filter(opts.container).each(fixFn);
 		});
 		resizeBound = true;
 	}
@@ -75,16 +84,26 @@ function check( context ) {
 	window.setTimeout(function() {
 		// Test if layout has worked
 		var h = $(context).outerHeight();
+		
 		vert(context)
 			.filter(':visible')
 			.each(function() {
 				h -= $(this).outerHeight();
 			});
+		
 		if ( h !== 0 ) {
 /*DEBUG*layout*
-			alert('fix layout: '+h);
+			alert('fix layout');
 *DEBUG*layout*/
-			fix(context);
+			fix(fixLayout, context);
+		} else {
+			var t = $(opts.editor+' textarea', context);
+			if ( t.length && t.outerHeight() !== $(opts.editor, context).outerHeight() ) {
+/*DEBUG*layout*
+				alert('fix editor');
+*DEBUG*layout*/
+				fix(fixEditor, context);
+			}
 		}
 	}, 0);
 }
