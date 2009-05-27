@@ -14,7 +14,7 @@ $(':role(button)')
 	
 	.roleStage('style', function() {
 		$(this)
-			.addClass('ui-widget ui-widget-content ui-state-default ui-corner-all')
+			.addClass('ui-button ui-widget ui-state-default ui-corner-all')
 			
 			.bind('attr.@disabled.@aria-disabled', function(event) {
 				$(this).toggleClass('ui-state-disabled', $.roles.disabled(this));

@@ -30,9 +30,11 @@ $(':role(dialog)')
 				$(event.target)
 					.draggable({
 						handle: ':role(heading)',
-						distance: 10
+						distance: 10,
+						stack: { group: 'role-dialog' }
 					})
-					.resizable();
+					.resizable()
+					.css('position', 'absolute');
 			})
 			
 			.roleAction('action-closed', function(event) {

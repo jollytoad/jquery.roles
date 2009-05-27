@@ -1,12 +1,17 @@
+@import url(../external/ui/themes/base/ui.all.css);
+@import url(../dist/theme/ui.tree.css);
+@import url(../dist/theme/ui.button.css);
+@import url(../dist/theme/ui.layout.css);
+
 body {
 	font-size: 9pt;
 }
 
 #editor-dialog {
-	width: 200px;
+	width: 300px;
 	height: 200px;
-	min-width: 100px;
-	min-height: 100px;
+	min-width: 180px;
+	min-height: 150px;
 	top: 50px;
 	left: 100px;
 }

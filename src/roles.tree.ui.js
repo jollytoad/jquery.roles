@@ -20,7 +20,7 @@ var icons = [ 'ui-tree-toggle-none', 'ui-icon-triangle-1-e', 'ui-icon-triangle-1
 $(':role(tree)')
 	.roleStage('style', function() {
 		$(this)
-			.addClass('ui-tree')
+			.addClass('ui-tree ui-widget ui-helper-reset')
 			
 			.bind('attr.@aria-activedescendant.role-tree', function(event) {
 				$.dt.idrefs(event.prevValue).removeClass('ui-state-highlight');
@@ -59,7 +59,8 @@ $(':role(treeitem)')
 			
 			.each(function() {
 				// Find the group belonging to this item
-				$(':role(group), + :role(group)', this).eq(0).addClass('ui-tree-group');
+				$(':role(group), + :role(group)', this).eq(0)
+					.addClass('ui-tree-group ui-helper-reset');
 			});
 	});
 
