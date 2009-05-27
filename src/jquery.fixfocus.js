@@ -20,10 +20,6 @@ $.support.activeElement = ( 'activeElement' in document );
 var origfocus = $.fn.focus,
 	realfocus;
 
-// TODO:
-// $.fn.next( selector/fn ) - get next matching element in document
-// $.fn.prev( selector/fn ) - get prev matching element in document
-
 $.fn.focus = function() {
 	if ( arguments.length ) {
 		return origfocus.apply(this, arguments);
@@ -38,6 +34,14 @@ $.fn.focus = function() {
 if ( !$.support.activeElement ) {
 	document.activeElement = document.body;
 	
+	if ( document.addEventListener ) {
+		document.addEventListener('focus', function(event) {
+			if ( event && event.target ) {
+				document.activeElement = event.target;
+			}
+		}, true);
+	}
+
 	realfocus = function( elem ) {
 		if ( elem !== document.activeElement ) {
 			$(document.activeElement).blur();
