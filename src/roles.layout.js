@@ -12,58 +12,95 @@
  */
 (function($) {
 
+// TODO: Allow options to be configured
+var opts = {
+	container: '.ui-layout',
+	center: '.ui-layout-center',
+	north: '.ui-layout-north',
+	east: '.ui-layout-east',
+	south: '.ui-layout-south',
+	west: '.ui-layout-west',
+	editor: '.ui-layout-editor',
+	resizeEvent: 'resize.ui-layout'
+};
+
 // Get dimensions of surounding panels for a layout
 function dims( context ) {
 	return {
-		top: $('.ui-layout-north', context).outerHeight(true) || 0,
-		bottom: $('.ui-layout-south', context).outerHeight(true) || 0,
-		right: $('.ui-layout-east', context).outerWidth(true) || 0,
-		left: $('.ui-layout-west', context).outerWidth(true) || 0
+		top: $(opts.north, context).outerHeight(true) || 0,
+		right: $(opts.east, context).outerWidth(true) || 0,
+		bottom: $(opts.south, context).outerHeight(true) || 0,
+		left: $(opts.west, context).outerWidth(true) || 0
 	};
 }
 
-var layout, resize;
+function vert( context ) {
+	return $([opts.north, opts.center, opts.south].join(','), context);
+}
 
-// Adjust the dimensions of layout panels
-if ( $.browser.msie ) {
-	layout = function() {
-		var self = this;
+function horiz( context ) {
+	return $([opts.west, opts.center, opts.east].join(','), context);
+}
 
-		// Use a setTimeout to ensure the display has been refreshed
-		window.setTimeout(function() {
-			var d = dims(self),
-				layout = $(self),
-				h = layout.height() - d.top - d.bottom;
+// Layout for faulty browsers (IE6)
+function resize() {
+	var context = this;
+	// Use a setTimeout to ensure the display has been refreshed
+	window.setTimeout(function() {
+		var d = dims(context),
+			h = $(context).height() - d.top - d.bottom,
+			w = $(context).width() - d.left - d.right;
 
-			$('.ui-layout-center,.ui-layout-east,.ui-layout-west', self)
-				.css('top', d.top)
-				.height(h);
-			
-			$('.ui-layout-center,.ui-layout-north,.ui-layout-south', self)
-				.css('left', d.left)
-				.width(layout.width() - d.left - d.right);
-		
-			$('.ui-layout-editor textarea', self).height(h-2);
-		}, 0);
-	};
+		horiz(context).css('top', d.top).height(h);
+		vert(context).css('left', d.left).width(w);
+		$(opts.editor+' textarea', context).height(h-2);
+	}, 0);
+}
+
+var resizeBound = false;
+
+// Fix faulty browsers (IE6)
+function fix( context ) {
+	resize.apply(context);
 	
-	$(document).bind('resize.ui-layout', function(event) {
-		$(event.target).find('.ui-layout').andSelf().filter('.ui-layout').each(layout);
-	});
-} else {
-	layout = function() {
-		var self = this;
-		window.setTimeout(function() {
-			var d = dims(self);
-			$('.ui-layout-center', self).css(d);
-			$('.ui-layout-east,.ui-layout-west', self).css({top: d.top, bottom: d.bottom});
-		}, 0);
-	};
+	if ( !resizeBound && opts.resizeEvent ) {
+		$(document).bind(opts.resizeEvent, function(event) {
+			$(event.target).find(opts.container).andSelf().filter(opts.container).each(resize);
+		});
+		resizeBound = true;
+	}
+}
+
+function check( context ) {
+	window.setTimeout(function() {
+		// Test if layout has worked
+		var h = $(context).outerHeight();
+		vert(context)
+			.filter(':visible')
+			.each(function() {
+				h -= $(this).outerHeight();
+			});
+		if ( h !== 0 ) {
+/*DEBUG*layout*
+			alert('fix layout: '+h);
+*DEBUG*layout*/
+			fix(context);
+		}
+	}, 0);
+}
+
+function layout( context ) {
+	window.setTimeout(function() {
+		var d = dims(context);
+		$(opts.center, context).css(d);
+		$([opts.west, opts.east].join(','), context).css({top: d.top, bottom: d.bottom});
+		check(context);
+	}, 0);
 }
 
 $(':role.ui-layout')
 	.roleStage('activate', function() {
-		layout.apply(this);
+		layout(this);
 	});
 
 })(jQuery);
