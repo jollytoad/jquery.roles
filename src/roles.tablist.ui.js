@@ -40,7 +40,11 @@ $(':role(tablist)')
 $(':role(tab)')
 	.roleStage('dom', function() {
 		// Ensure that tab content is wrapped in an <a>
-		$(this).filter('li:not(:has(a))').wrapInner('<a href="#" disabled="disabled"></a>');
+		$(this)
+			.filter('li:not(:has(a))')
+			.wrapInner('<a href="#" tabindex="-1"></a>')
+			.find('a')
+			.bind('click.role-tab', function(event) { event.preventDefault(); });
 	})
 	
 	.roleStage('style', function() {
