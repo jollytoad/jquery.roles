@@ -7,8 +7,6 @@
  */
 /* Depends:
  *   roles.core.js
- *   mutations.core.js
- *   mutations.attr.js
  */
 (function($) {
 
@@ -42,10 +40,9 @@ function horiz( context ) {
 	return $([opts.west, opts.center, opts.east].join(','), context);
 }
 
-// Layout for faulty browsers (IE6)
+// Fix layout for faulty browsers (IE6)
 function fixLayout() {
 	var context = this;
-	// Use a setTimeout to ensure the display has been refreshed
 	window.setTimeout(function() {
 		var d = dims(context),
 			h = $(context).height() - d.top - d.bottom,
@@ -57,9 +54,9 @@ function fixLayout() {
 	}, 0);
 }
 
+// Fix editor for faulty browsers (IE7)
 function fixEditor() {
 	var context = this;
-	// Use a setTimeout to ensure the display has been refreshed
 	window.setTimeout(function() {
 		var editor = $(opts.editor, context);
 		$('textarea', editor).height(editor.height());
@@ -80,16 +77,14 @@ function fix( fixFn, context ) {
 	}
 }
 
+// Check that the layout has worked, and apply fixes if not
 function check( context ) {
 	window.setTimeout(function() {
-		// Test if layout has worked
 		var h = $(context).outerHeight();
 		
-		vert(context)
-			.filter(':visible')
-			.each(function() {
-				h -= $(this).outerHeight();
-			});
+		vert(context).filter(':visible').each(function() {
+			h -= $(this).outerHeight();
+		});
 		
 		if ( h !== 0 ) {
 /*DEBUG*layout*
@@ -108,6 +103,7 @@ function check( context ) {
 	}, 0);
 }
 
+// Layout the panels
 function layout( context ) {
 	window.setTimeout(function() {
 		var d = dims(context);
@@ -117,7 +113,8 @@ function layout( context ) {
 	}, 0);
 }
 
-$(':role.ui-layout')
+// Automatically apply the layout
+$(':role'+opts.container)
 	.roleStage('activate', function() {
 		layout(this);
 	});
