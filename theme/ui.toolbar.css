@@ -1,0 +1,20 @@
+.ui-toolbar {
+	padding: 4px;
+}
+.ui-toolbar .ui-button,
+.ui-toolbar .ui-button:hover {
+	border-style: none !important;
+}
+.ui-toolbar-horizontal li {
+    float: left;
+    margin: 1px;
+}
+.ui-toolbar-horizontal .ui-toolbar-divider {
+    width: 0;
+    height: 11px;
+    padding: 0;
+    margin: 2px;
+    margin-top: 5px;
+    border: 1px inset;
+}
+

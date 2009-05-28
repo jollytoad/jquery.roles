@@ -1,6 +1,7 @@
 PACKAGE = jquery-roles
 
 MODULES = \
+	jquery.within.js \
 	jquery.fixfocus.js \
 	jquery.param.js \
 	roles.core.js \
@@ -9,6 +10,7 @@ MODULES = \
 	roles.button-toggle.js \
 	roles.button.js \
 	roles.button.ui.js \
+	roles.toolbar.js \
 	roles.tablist.js \
 	roles.tablist.ui.js \
 	roles.tree.js \

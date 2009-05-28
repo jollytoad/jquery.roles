@@ -65,10 +65,15 @@ $.extend($.roles, {
 	focusDescendant: function( event ) {
 		// Ensure that the item is focused
 		var item = $(event.target).closest(event.data || ':role').roleFocus();
-		
+				
 		// Focus the active item if clicked in a blank space
 		if ( !item.length ) {
-			$.dt.attr(this, 'aria-activedescendant', 'idrefs').roleFocus();
+			item = $.dt.attr(this, 'aria-activedescendant', 'idrefs').roleFocus();
+			
+			// Look for item with tabindex=0 if no activedescendant is set
+			if ( !item.length ) {
+				item = $(event.data || ':role', this).filter('[tabindex=0]').roleFocus();
+			}
 		}
 	},
 

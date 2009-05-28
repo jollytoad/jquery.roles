@@ -1,6 +1,7 @@
 @import url(../external/ui/themes/base/ui.all.css);
 @import url(../dist/theme/ui.tree.css);
 @import url(../dist/theme/ui.button.css);
+@import url(../dist/theme/ui.toolbar.css);
 @import url(../dist/theme/ui.layout.css);
 
 body {
@@ -27,5 +28,9 @@ body {
 	margin: 0 16px 0 4px;
 	padding: 8px 0;
 	font-size: 8pt;
+}
+
+.ui-toolbar {
+	margin-bottom: 1em;
 }
 
