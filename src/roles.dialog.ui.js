@@ -16,11 +16,31 @@
  */
 (function($) {
 
+function position( elem ) {
+	var that = $(elem),
+		elemH = that.outerHeight(true),
+		elemW = that.outerWidth(true),
+		winH = $(window).height(),
+		winW = $(window).width(),
+		top = $(document).scrollTop();
+	
+	if ( elemW > winW ) { elemW = that.width(winW - 20).outerWidth(true); }
+	if ( elemH > winH ) { elemH = that.height(winH - 20).outerHeight(true); }
+	
+	that.css({
+		'left': (winW - elemW)/2 + $(document).scrollLeft(),
+		'top': Math.max(top, (winH - elemH)/2 + top)
+	});
+}
+
 // role: dialog -> window
 // attrs:
 //  aria-hidden
 
 $(':role(dialog)')
+
+	.roleStage('dom', function() {
+	})
 
 	.roleStage('bind', function() {
 		$(this)
@@ -28,6 +48,7 @@ $(':role(dialog)')
 			
 			.roleAction('action-opened', function(event) {
 				$(event.target)
+					.prepend('<div class="ui-widget-shadow ui-widget-overlay ui-corner-all"></div>')
 					.draggable({
 						handle: ':role(heading)',
 						distance: 10,
@@ -35,18 +56,21 @@ $(':role(dialog)')
 					})
 					.resizable()
 					.css('position', 'absolute');
+				
+				position(event.target);
 			})
 			
 			.roleAction('action-closed', function(event) {
 				$(event.target)
 					.resizable('destroy')
-					.draggable('destroy');
+					.draggable('destroy')
+					.find('.ui-widget-shadow:first').remove();
 			});
 	})
 	
 	.roleStage('style', function() {
 		$(this)
-			.addClass('ui-widget ui-widget-content ui-corner-all');
+			.addClass('ui-widget-content ui-corner-all');
 	});
 
 })(jQuery);
