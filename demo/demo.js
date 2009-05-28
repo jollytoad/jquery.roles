@@ -66,16 +66,30 @@ $('#editor-dialog')
 
 // Disable the APPLY button until something is changed
 $(':role(dialog) :role(button)[data-trigger=action-apply]')
-	.roleStage('bind', function(event) {
+	.roleStage('bind', function() {
 		var button = this;
 		$(button).parents(':role(dialog)')
 			.bind('attr.@data-modified', function(event) {
 				$.attr(button, 'aria-disabled', !$.dt.bool(event.newValue));
 			});
 	})
-	.roleStage('init', function(event) {
+	.roleStage('init', function() {
 		$(this).parents(':role(dialog)')
 			.initMutation('attr', 'data-modified', false);
+	});
+
+$('#main')
+	.roleStage('bind', function() {
+		$(this)
+			.roleAction('action-new', function() {
+				alert('New');
+			})
+			.roleAction('action-load', function() {
+				alert('Load');
+			})
+			.roleAction('action-save', function() {
+				alert('Save');
+			});
 	});
 
 })(jQuery);

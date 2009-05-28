@@ -49,7 +49,7 @@ $(':role(tab)')
 	
 	.roleStage('style', function() {
 		$(this)
-			.addClass('ui-state-default ui-corner-top')
+			.addClass('ui-widget ui-state-default ui-corner-top')
 
 			.bind('focus.role-tab', function() {
 				$(this).closest(':role(tablist)').andSelf().addClass('ui-state-focus');

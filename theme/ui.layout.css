@@ -5,11 +5,11 @@
 	width: 100%;
 	height: 100%;
 }
-.ui-layout .ui-layout-center { position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: auto; }
-.ui-layout .ui-layout-north { position: absolute; top: 0; left: 0; right: 0; }
-.ui-layout .ui-layout-east { position: absolute; top: 0; right: 0; bottom: 0; }
-.ui-layout .ui-layout-south { position: absolute; bottom: 0; left: 0; right: 0; }
-.ui-layout .ui-layout-west { position: absolute; top: 0; left: 0; bottom: 0; }
+.ui-layout .ui-layout-center { position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: auto; border: none; }
+.ui-layout .ui-layout-north { position: absolute; top: 0; left: 0; right: 0; border-left: none; border-top: none; border-right: none; }
+.ui-layout .ui-layout-east { position: absolute; top: 0; right: 0; bottom: 0; border-left: none; border-top: none; border-bottom: none; }
+.ui-layout .ui-layout-south { position: absolute; bottom: 0; left: 0; right: 0; border-left: none; border-bottom: none; border-right: none; }
+.ui-layout .ui-layout-west { position: absolute; top: 0; left: 0; bottom: 0; border-top: none; border-right: none; border-bottom: none; }
 
 .ui-layout .ui-layout-editor {
 	overflow: hidden;
