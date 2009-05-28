@@ -24,11 +24,11 @@ $(':role(toolbar)')
 		$(this)
 			.param('role', 'toolbar')
 			
-			.find(':role')
+			.find(':role(button)')
 				.attr('tabindex', -1)
 			.end()
 			
-			.find(':role:first')
+			.find(':role(button):first')
 				.attr('tabindex', 0)
 			.end()
 			
