@@ -9,7 +9,6 @@
  *
  * Depends:
  *   roles.core.js
- *   roles.aria.js
  *   roles.composite.js
  *   mutations.core.js
  *   mutations.attr.js
