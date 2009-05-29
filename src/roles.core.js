@@ -153,7 +153,7 @@ function rolesMatch( roleExpr, roles ) {
 		})($.roles.hierarchy);
 	}
 	
-	while ( (m = rolesRE.exec(roleExpr)) ) {
+	while ( (m = rolesRE.exec(roleExpr)) && m[1] ) {
 		expr += '|' + $.roles.hierarchy[m[1]].join('|');
 	}
 	
