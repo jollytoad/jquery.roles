@@ -7,6 +7,7 @@ MODULES = \
 	roles.core.js \
 	roles.aria.js \
 	roles.aria.ui.js \
+	roles.composite.js \
 	roles.button-toggle.js \
 	roles.button.js \
 	roles.button.ui.js \

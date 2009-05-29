@@ -16,6 +16,8 @@
  */
 (jQuery.roles || (function($) {
 
+var rolesRE = null;
+
 $.roles = {
 	version: '@VERSION',
 
@@ -35,9 +37,24 @@ $.roles = {
 		'style',	// Setup styling and bindings for changing style
 		'init',		// Trigger state initialisations
 		'activate'	// Activate selections, timers, animations etc.
-	]
+	],
+		
+	// Mapping of role -> array of descendant roles
+	hierarchy: {},
+		
+	add: function( role, inherits ) {
+		var i = inherits.length, h = $.roles.hierarchy, r;
+		while ( i-- ) {
+			r = inherits[i];
+			if ( !h[r] ) {
+				h[r] = [];
+				rolesRE = null;
+			}
+			h[r].push(role);
+		}
+		return this;
+	}
 };
-
 
 $.fn.extend({
 
@@ -66,7 +83,6 @@ roleStage: function( stage, fn ) {
 			fn.call(this, event);
 		});
 	});
-
 	return this;
 },
 
@@ -93,17 +109,42 @@ roleKey: function( combo, action, keyEvent ) {
 	return this.bind(type+'.role-'+role+'.key:'+combo, handler);
 },
 
-// Focus a role
-roleFocus: $.fn.focus
+roleBind: function( type, triggerEvent ) {
+	var role = this.param('role') || 'unknown';
+
+	function handler(event) {
+		$(event.target).trigger(triggerEvent);
+	}
+
+	return this.bind(type+'.role-'+role, handler);
+}
 
 }); // $.fn.extend
 
+
+function rolesMatch( roleExpr, roles ) {
+	var expr = roleExpr, m;
+	
+	if ( !rolesRE ) {
+		rolesRE = (function(h) {
+			var a = [];
+			$.each(h, function(r) { a.push(r); });
+			return new RegExp("\\b(" + a.join('|') + ")\\b", 'g');
+		})($.roles.hierarchy);
+	}
+	
+	while ( (m = rolesRE.exec(roleExpr)) ) {
+		expr += '|' + $.roles.hierarchy[m[1]].join('|');
+	}
+	
+	return new RegExp("\\b(" + expr + ")\\b").test(roles);
+}
 
 // :role() selector
 $.extend($.expr[':'], {
 	role: function( elem, i, match ) {
 		var roles = $.roles.get(elem);
-		return roles && (!match[3] || new RegExp("\\b" + match[3] + "\\b").test(roles));
+		return roles && ( !match[3] || rolesMatch(match[3], roles) );
 	}
 });
 

@@ -15,6 +15,8 @@
  */
 (function($) {
 
+$.roles.add('button', ['input','widget']);
+
 function controls( button ) {
 	var idrefs = $.attr(button, 'aria-controls');
 	return idrefs ? $.dt.idrefs(idrefs) : $(button);

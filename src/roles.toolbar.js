@@ -16,6 +16,12 @@
  */
 (function($) {
 
+// NOTE: This is not technically a 'composite' widget according to the spec,
+// but it operates very much like one so we inherit it here.
+
+$.roles.add('toolbar', ['composite']);
+
+
 // role: toolbar -> group -> section -> structure
 
 $(':role(toolbar)')
@@ -24,50 +30,17 @@ $(':role(toolbar)')
 		$(this)
 			.param('role', 'toolbar')
 			
-			.find(':role(button)')
+			.find(':role(widget)')
 				.attr('tabindex', -1)
 			.end()
 			
-			.find(':role(button):first')
+			.find(':role(widget):first')
 				.attr('tabindex', 0)
 			.end()
-			
-			// ---- Actions ----
-
-			// Focus previous item
-			.roleAction('action-prev', function(event) {
-				var prev = $(event.target).prevInDoc(':role(button)').within(this);
-				if ( prev.length ) {
-					$.attr(event.target, 'tabindex', -1);
-					prev.attr('tabindex', 0).focus();
-				}
-				return false;
-			})
-			// Focus next item
-			.roleAction('action-next', function(event) {
-				var next = $(event.target).nextInDoc(':role(button)').within(this);
-				if ( next.length ) {
-					$.attr(event.target, 'tabindex', -1);
-					next.attr('tabindex', 0).focus();
-				}
-				return false;
-			})
-			// Focus first item
-			.roleAction('action-first', function(event) {
-				$.attr(event.target, 'tabindex', -1);
-				$(':role(button):first', this).attr('tabindex', 0).focus();
-				return false;
-			})
-			// Focus last item
-			.roleAction('action-last', function(event) {
-				$.attr(event.target, 'tabindex', -1);
-				$(':role(button):last', this).attr('tabindex', 0).focus();
-				return false;
-			})
 
 			// ---- Mouse ----
 			
-			.bind('mouseup.role-toolbar', ':role(button)', $.roles.focusDescendant)
+			.roleBind('mouseup', 'action-focus')
 			
 			// ---- Keyboard ----
 			

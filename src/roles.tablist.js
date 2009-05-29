@@ -10,6 +10,7 @@
  * Depends:
  *   roles.core.js
  *   roles.aria.js
+ *   roles.composite.js
  *   mutations.core.js
  *   mutations.attr.js
  *   datatypes.core.js
@@ -18,49 +19,24 @@
  */
 (function($) {
 
+$.roles
+	.add('tablist', ['composite','widget'])
+	.add('tab', ['widget']);
+
 // role: tablist +-> composite -> widget
 //                \-> directory -> list -> region -> section -> structure
-// attrs:
-//  activedescendant (composite) - will select a tab
-//	expanded (structure) - not yet supported
 
 $(':role(tablist)')
 
 	.roleStage('bind', function() {
 		$(this)
+			.data('role-composite-descendants', ':role(tab)')
+			
 			.param('role', 'tablist')
-			
-			// ---- ARIA States ----
-			
-			// Respond to the active tab being changed
-			.bind('attr.@aria-activedescendant.role-tablist', $.roles.selectActivedescendant)
-
-			// ---- Actions ----
-
-			// Focus previous tab
-			.roleAction('action-prev', function(event) {
-				$(event.target).prevInDoc(':role(tab):visible').within(this).roleFocus();
-				return false;
-			})
-			// Focus next tab
-			.roleAction('action-next', function(event) {
-				$(event.target).nextInDoc(':role(tab):visible').within(this).roleFocus();
-				return false;
-			})
-			// Focus first tab
-			.roleAction('action-first', function(event) {
-				$(this).find(':role(tab):visible:first').roleFocus();
-				return false;
-			})
-			// Focus last tab
-			.roleAction('action-last', function(event) {
-				$(this).find(':role(tab):visible:last').roleFocus();
-				return false;
-			})
 
 			// ---- Mouse ----
 			
-			.bind('mouseup.role-tablist', ':role(tab)', $.roles.focusDescendant)
+			.roleBind('mouseup', 'action-focus')
 			
 			// ---- Keyboard ----
 			
@@ -72,14 +48,12 @@ $(':role(tablist)')
 			.roleKey('end', 'action-last')
 			
 			.end();
-	})
-
-	.roleStage('activate', $.roles.activateActivedescendant(':role(tab):first'));
+	});
 
 
 // role: tab +-> sectionhead -> structure
 //            \-> widget
-// attrs: selected
+// attrs: aria-selected
 
 $(':role(tab)')
 
@@ -102,7 +76,7 @@ $(':role(tab)')
 			// ---- Focus ----
 			
 			// Set this tab as the activedescendant of the tablist
-			.bind('focus.role-tab', ':role(tablist)', $.roles.setActivedescendant);
+			.roleBind('focus', 'set-activedescendant');
 	})
 
 	.roleStage('init', function() {
@@ -113,7 +87,7 @@ $(':role(tab)')
 
 
 // role: tabpanel -> region -> section -> structure
-// attrs: expanded
+// attrs: aria-expanded
 
 $(':role(tabpanel)')
 
@@ -136,17 +110,17 @@ $(':role(tabpanel)')
 			
 			// Focus the tab after our tab (ie. the tab for this tabpanel)
 			.roleAction('action-next-tab', function() {
-				tab(this).next(':role(tab)').roleFocus();
+				tab(this).next(':role(tab)').focus();
 				return false;
 			})
 			// Focus the tab preceding our tab
 			.roleAction('action-prev-tab', function() {
-				tab(this).prev(':role(tab)').roleFocus();
+				tab(this).prev(':role(tab)').focus();
 				return false;
 			})
 			// Focus our tab
 			.roleAction('action-focus-tab', function() {
-				tab(this).roleFocus();
+				tab(this).focus();
 				return false;
 			})
 			
