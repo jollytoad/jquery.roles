@@ -38,7 +38,12 @@ $.roles = {
 		'init',		// Trigger state initialisations
 		'activate'	// Activate selections, timers, animations etc.
 	],
-		
+	
+	// Stages to be ran in a window.setTimeout
+	timeout: {
+		'activate': 0
+	},
+	
 	// Mapping of role -> array of descendant roles
 	hierarchy: {},
 		
@@ -72,9 +77,12 @@ roleSetup: function( stages ) {
 
 // Register a setup stage for the role
 roleStage: function( stage, fn ) {
-	var selector = this.selector;
-	$().bind('role-'+stage, function(event, elems) {
-		elems.filter(selector).each(function() {
+	var selector = this.selector,
+		timeout = $.roles.timeout[stage],
+		handler;
+	
+	function runStage(event, elems) {
+		elems.filter(selector).each(function(i,elem) {
 
 /*DEBUG*roleStage*
 			console.log(stage, this);
@@ -82,7 +90,19 @@ roleStage: function( stage, fn ) {
 
 			fn.call(this, event);
 		});
-	});
+	}
+	
+	if ( typeof timeout === 'number' ) {
+		handler = function(event, elems) {
+			window.setTimeout(function() {
+				runStage(event, elems);
+			}, timeout);
+		};
+	} else {
+		handler = runStage;
+	}
+	
+	$().bind('role-'+stage, handler);
 	return this;
 },
 

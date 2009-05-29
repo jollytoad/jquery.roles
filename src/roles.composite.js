@@ -101,25 +101,14 @@ $(':role(composite)')
 	})
 
 	.roleStage('activate', function() {
-		var self = $(this);
-		window.setTimeout(function() {
-//			$(this)
-			self
-				// Activate the activedescendant
-				.initMutation('attr', 'aria-activedescendant')
-			
-				// Select the first item if aria-activedescendant is not set
-				.filter(':not([aria-activedescendant])')
-					.each(function() { console.log('HERE1', this, selector(this)); })
-					.find(selector(this)+':first')
-						.each(function() { console.log('HERE2', this); })
-						.trigger('set-activedescendant')
-	//				.each(function() {
-	//					$.attr(this, 'aria-activedescendant', $(selector(this)+':first', this).attr('id'));
-	//				})
-				.end();
-		}, 0);
-
+		$(this)
+			// Activate the activedescendant
+			.initMutation('attr', 'aria-activedescendant')
+		
+			// Select the first item if aria-activedescendant is not set
+			.filter(':not([aria-activedescendant])')
+				.find(selector(this)+':first')
+					.trigger('set-activedescendant');
 	});
 
 })(jQuery);
