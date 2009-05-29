@@ -15,35 +15,9 @@
  *   datatypes.core.js
  *   datatypes.attr.js
  *   jquery.param.js
+ *   jquery.within.js
  */
 (function($) {
-
-function neighbours( treeitem ) {
-	var prev, curr, next;
-
-	// All the visible tree items
-	$(treeitem)
-		.closest(':role(tree)')
-		.find(':role(treeitem):visible')
-		.each(function() {
-
-			if ( curr ) {				// Already found current item
-				next = this;
-				return false;			// exit loop
-			}
-
-			if ( this === treeitem ) {	// Is this what we're looking for?
-				curr = this;
-			} else {
-				prev = this;
-			}
-		});
-
-	// clear the previous item if the current item was never found
-	if ( !curr ) { prev = undefined; }
-
-	return {prev: prev, next: next};
-}
 
 // find the sub-group belonging to a treeitem
 function group( treeitem ) {
@@ -82,13 +56,13 @@ $(':role(tree)')
 
 			// Focus next treeitem
 			.roleAction('action-next', function(event) {
-				$(neighbours(event.target).next).roleFocus();
+				$(event.target).nextInDoc(':role(treeitem):visible').within(this).focus();
 				return false;
 			})
 
 			// Focus previous treeitem
 			.roleAction('action-prev', function(event) {
-				$(neighbours(event.target).prev).roleFocus();
+				$(event.target).prevInDoc(':role(treeitem):visible').within(this).focus();
 				return false;
 			})
 
@@ -126,7 +100,7 @@ $(':role(tree)')
 
 			// Focus the first node in the tree
 			.roleAction('action-first', function() {
-				$(this).find(':role(treeitem):first').roleFocus();
+				$(this).find(':role(treeitem):visible:first').roleFocus();
 				return false;
 			})
 

@@ -14,6 +14,7 @@
  *   mutations.attr.js
  *   datatypes.core.js
  *   jquery.param.js
+ *   jquery.within.js
  */
 (function($) {
 
@@ -38,22 +39,22 @@ $(':role(tablist)')
 
 			// Focus previous tab
 			.roleAction('action-prev', function(event) {
-				$(event.target).prev(':role(tab)').roleFocus();
+				$(event.target).prevInDoc(':role(tab):visible').within(this).roleFocus();
 				return false;
 			})
 			// Focus next tab
 			.roleAction('action-next', function(event) {
-				$(event.target).next(':role(tab)').roleFocus();
+				$(event.target).nextInDoc(':role(tab):visible').within(this).roleFocus();
 				return false;
 			})
 			// Focus first tab
 			.roleAction('action-first', function(event) {
-				$(event.target).siblings(':role(tab):first').roleFocus();
+				$(this).find(':role(tab):visible:first').roleFocus();
 				return false;
 			})
 			// Focus last tab
 			.roleAction('action-last', function(event) {
-				$(event.target).siblings(':role(tab):last').roleFocus();
+				$(this).find(':role(tab):visible:last').roleFocus();
 				return false;
 			})
 
