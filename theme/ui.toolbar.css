@@ -1,9 +1,12 @@
 .ui-toolbar {
-	padding: 4px;
+	padding: 1px;
+	margin: 0;
+	list-style: none;
 }
-.ui-toolbar .ui-button,
-.ui-toolbar .ui-button:hover {
+.ui-toolbar .ui-button {
 	border-style: none !important;
+	display: inline-block;
+	padding: 2px;
 }
 .ui-toolbar-horizontal li {
     float: left;
