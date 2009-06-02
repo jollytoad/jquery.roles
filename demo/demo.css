@@ -3,7 +3,6 @@
 @import url(../dist/theme/ui.button.css);
 @import url(../dist/theme/ui.toolbar.css);
 @import url(../dist/theme/ui.layout.css);
-@import url(../dist/theme/ui.scrollable.css);
 
 body {
 	font-size: 9pt;

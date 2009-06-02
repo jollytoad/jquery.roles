@@ -14,8 +14,8 @@
 (function($) {
 
 function scroll( delta ) {
-	var plane = $('.ui-scroll-horizontal:first', this),
-		inner = $('.ui-scroll-inner:first', this).css('display', 'inline-block'),
+	var plane = $('> div:first', this),
+		inner = $('> div:first', plane).css('display', 'inline-block'),
 		max = $(this).innerWidth() - inner.outerWidth(true),
 		left = plane.position().left;
 	
@@ -23,9 +23,23 @@ function scroll( delta ) {
 }
 
 // TODO: Fade in scroll buttons when the mouse lingers around the far edges of the viewport
-// TODO: Add the necessary wrapper elements if not already present
 
 $(':role.ui-scrollable')
+
+	.roleStage('dom', function() {
+		// Wrap the content with two div's, the first is the large virtual plane
+		// that will be moved around, the second is use to measure the actual
+		// size of the content to prevent scrolling too far.
+		$(this)
+			.css('overflow', 'hidden')
+			.wrapInner('<div><div></div></div>')
+			.find('> div:first')
+				.css({
+					'position': 'relative',
+					'left': 0,
+					'width': '999999px'
+				});
+	})
 
 	.roleStage('bind', function() {
 		$(this)
