@@ -76,7 +76,8 @@ $(':role(tab)')
 			// ---- Focus ----
 			
 			// Set this tab as the activedescendant of the tablist
-			.roleBind('focus', 'set-activedescendant');
+			.roleBind('focus', 'set-activedescendant')
+			.roleBind('focus', 'scroll-to');
 	})
 
 	.roleStage('init', function() {

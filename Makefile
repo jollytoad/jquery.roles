@@ -18,7 +18,8 @@ MODULES = \
 	roles.tree.ui.js \
 	roles.dialog.js \
 	roles.dialog.ui.js \
-	roles.layout.js
+	roles.layout.js \
+	roles.scrollable.js
 
 OPTIONAL_MODULES = \
 	roles.live.js \
