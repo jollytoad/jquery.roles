@@ -10,21 +10,45 @@
  *
  * Depends:
  *   roles.core.js
+ *   jquery.defer.js - optional, but recommended
  */
 (function($) {
+
+// TODO: Allow options to be configured
+var opts = {
+	namespace: 'ui-scrollable',
+	container: '.ui-scrollable',
+	scrollEvent: 'scroll-to',
+	resizeEvent: 'resize',
+	resizeDefer: 500
+};
 
 function scroll( delta ) {
 	var plane = $('> div:first', this),
 		inner = $('> div:first', plane).css('display', 'inline-block'),
-		max = $(this).innerWidth() - inner.outerWidth(true),
-		left = plane.position().left;
+		overflow = $(this).innerWidth() - inner.outerWidth(true);
 	
-	plane.css('left', Math.round(Math.max(max, Math.min(0, left + delta))));
+	plane.css('left', overflow < 0 ? Math.round(Math.max(overflow, Math.min(0, plane.position().left + (delta || 0)))) : 0);
+}
+
+var resizeBound = false;
+function resizeSetup() {
+	if ( !resizeBound && opts.resizeEvent ) {
+		var handler = function(event) {
+			$(event.target).find(opts.container).andSelf().filter(opts.container).each(scroll);
+		};
+		if ( $.defer ) {
+			handler = $.defer(opts.resizeDefer, handler);
+		}
+		$(document).bind(opts.resizeEvent+'.'+opts.namespace, handler);
+		resizeBound = true;
+	}
 }
 
 // TODO: Fade in scroll buttons when the mouse lingers around the far edges of the viewport
+// - this should probably be implemented in a separate module.
 
-$(':role.ui-scrollable')
+$(':role'+opts.container)
 
 	.roleStage('dom', function() {
 		// Wrap the content with two div's, the first is the large virtual plane
@@ -45,7 +69,7 @@ $(':role.ui-scrollable')
 		$(this)
 			
 			// Scroll the target element into view
-			.bind('scroll-to.ui-scrollable', function(event) {
+			.bind(opts.scrollEvent+'.'+opts.namespace, function(event) {
 				var outer = $(this),
 					target = $(event.target),
 					outerOffset = outer.offset(),
@@ -68,10 +92,12 @@ $(':role.ui-scrollable')
 			
 			// ---- Mouse ----
 
-			.bind('DOMMouseScroll.ui-scrollable mousewheel.ui-scrollable', function(event) {
+			.bind('DOMMouseScroll.'+opts.namespace+' mousewheel.'+opts.namespace, function(event) {
 				scroll.call(this, event.wheelDelta ? event.wheelDelta/10 : event.detail * -4);
 				return false;
 			});
+		
+		resizeSetup();
 	});
 
 })(jQuery);
