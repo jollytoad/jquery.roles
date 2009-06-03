@@ -14,6 +14,7 @@
 	
 	<script type="text/javascript" src="../external/mutations/jquery-mutations.js"></script>
 	<script type="text/javascript" src="../external/datatypes/jquery-datatypes.js"></script>
+	<script type="text/javascript" src="../external/plugins/jquery.defer.js"></script>
 	<script type="text/javascript" src="../external/keys/jquery-keys.js"></script>
 
 	<script type="text/javascript" src="../dist/jquery-roles.js"></script>
@@ -26,11 +27,15 @@
 
 	<script type="text/javascript" src="demo.js"></script>
 	<script type="text/javascript" src="../dist/roles.live.js"></script>
+	
 </head>
 <body>
 
 	<h1>jQuery Roles Demo</h1>
-		
+	
+	<!--script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script-->
+	<div id="switcher"></div>
+
 	<div role="region" id="main" class="ui-tabs">
 		<ul role="tablist" title="Blah blah" aria-activedescendant="tab1">
 			<li role="tab" id="tab1">Tab 1</li>
@@ -51,6 +56,9 @@
 			
 			<a role="button" href="#" aria-controls="editor-dialog"
 				data-attr="aria-hidden" data-val="false">Open Editor</a>
+			
+			<a role="button" href="#" aria-controls="colorpicker"
+				data-attr="aria-hidden" data-val="false">Open Colour Picker</a>
 		</div>
 	
 		<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
@@ -63,7 +71,10 @@
 		</div>
 	</div>
 	
-	<div role="dialog" id="editor-dialog" data-load="dialog-content.html" aria-hidden="true">
+	<div role="dialog" id="editor-dialog" data-load="dialog-content.html" aria-hidden="true" class="role-dialog">
+	</div>
+	
+	<div role="dialog" id="colorpicker" data-load="colorpicker.html" aria-hidden="true" class="role-dialog">
 	</div>
 </body>
 </html>

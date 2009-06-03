@@ -92,5 +92,9 @@ $('#main')
 			});
 	});
 
+$(document).ready(function(){
+//	$('#switcher').themeswitcher();
+});
+
 })(jQuery);
 

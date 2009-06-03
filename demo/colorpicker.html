@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="../external/colorpicker/theme/colorpicker.css" type="text/css" />
+<script type="text/javascript" src="../external/color/jquery-color.js"></script>
+<script type="text/javascript" src="../external/surface/ui-surface.js"></script>
+<script type="text/javascript" src="../external/colorpicker/jquery-roles-colorpicker.js"></script>
+
+<div role="presentation" class="colorpicker ui-tabs ui-layout">
+	<div role="heading" class="ui-layout-north ui-widget-header ui-corner-top ui-scrollable">
+		<ul role="tablist" title="Colour selection methods">
+			<li role="tab" id="colorpicker-hsv-tab">HSV</li>
+			<li role="tab" id="colorpicker-builder-tab">Builder</li>
+			<li role="tab" id="colorpicker-confluence-tab">Confluence</li>
+			<li role="tab" id="colorpicker-related-tab">Related</li>
+			<li role="tab" id="colorpicker-history-tab">History</li>
+		</ul>
+	</div>
+	<div role="tabpanel" aria-labelledby="colorpicker-hsv-tab" class="ui-layout-center ui-widget-content">
+		<div role="slider" class="satval-area fixpng">
+			<div class="ui-reticle fixpng"></div>
+		</div>
+		<div role="slider" class="hue-slider">
+			<div class="ui-reticle fixpng"></div>
+		</div>
+	</div>
+	<div role="tabpanel" aria-labelledby="colorpicker-builder-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="builder"></div>
+	</div>
+	<div role="tabpanel" aria-labelledby="colorpicker-confluence-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="confluence"></div>
+	</div>
+	<div role="tabpanel" aria-labelledby="colorpicker-related-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="related"></div>
+	</div>
+	<div role="tabpanel" aria-labelledby="colorpicker-history-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="history"></div>
+	</div>
+	<div role="region" class="info-sidebar ui-layout-east ui-widget ui-widget-content" title="Currently selected colour">
+		<div role="region" class="color-sample" aria-label="Colour sample">
+			<input type="text" class="color-string" title="Colour value" />
+		</div>
+		<div role="region" class="channel-inputs" data-color-space="RGB" title="RGB values">
+			<label>
+				<span>R:</span>
+				<input type="text" size="3" class="channel" title="Red" data-channel-index="0"/>
+			</label>
+			<label>
+				<span>G:</span>
+				<input type="text" size="3" class="channel" title="Green" data-channel-index="1"/>
+			</label>
+			<label>
+				<span>B:</span>
+				<input type="text" size="3" class="channel" title="Blue" data-channel-index="2"/>
+			</label>
+		</div>
+		<div role="region" class="channel-inputs" data-color-space="HSV" title="HSV values">
+			<label>
+				<span>H:</span>
+				<input type="text" size="3" class="channel" title="Hue"
+					data-channel-index="0" data-channel-factor="360"/>
+			</label>
+			<label>
+				<span>S:</span>
+				<input type="text" size="3" class="channel" title="Saturation"
+					data-channel-index="1" data-channel-factor="100"/>
+			</label>
+			<label>
+				<span>V:</span>
+				<input type="text" size="3" class="channel" title="Value"
+					data-channel-index="2" data-channel-factor="100"/>
+			</label>
+		</div>
+	</div>
+	<div role="presentation" id="colorpicker-buttons" class="ui-layout-south ui-widget-content ui-corner-bottom ui-helper-clearfix">
+		<div role="listbox" data-palette="recent" title="Recently selected colours"></div>
+		<div role="toolbar" class="buttons">
+			<a role="button" href="#" data-trigger="action-ok">Ok</a>
+			<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
+		</div>
+	</div>
+</div>
