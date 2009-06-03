@@ -81,8 +81,8 @@ roleStage: function( stage, fn ) {
 		timeout = $.roles.timeout[stage],
 		handler;
 	
-	function runStage(event, elems) {
-		elems.filter(selector).each(function(i,elem) {
+	function runStage(event, context) {
+		$(selector, context).each(function(i, elem) {
 
 /*DEBUG*roleStage*
 			console.log(stage, this);

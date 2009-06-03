@@ -24,7 +24,7 @@ $(document)
 *PROFILE*roleSetup*/
 
 		// Find and setup all role elements
-		$(':role', event.target).roleSetup();
+		$(event.target).roleSetup();
 
 /*PROFILE*roleSetup*
 		console.profileEnd();
