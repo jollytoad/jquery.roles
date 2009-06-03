@@ -126,7 +126,7 @@ roleKey: function( combo, action, keyEvent ) {
 		event.preventDefault();
 	}
 
-	return this.bind(type+'.role-'+role+'.key:'+combo, handler);
+	return this.unbind(type+'.key:'+combo).bind(type+'.role-'+role+'.key:'+combo, handler);
 },
 
 roleBind: function( type, triggerEvent ) {
