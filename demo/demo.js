@@ -7,7 +7,11 @@ $(':role[data-load]')
 			.bind('pre-attr.@aria-hidden', function(event) {
 				if ( !$.dt.bool(event.newValue) ) {
 					var fn = arguments.callee,
-						target = $(event.target);
+						target = $(event.target),
+						busy = $.roles.masters(event.target).add(event.target);
+					
+					// Busy any related elements
+					busy.addClass('busy');
 
 					// Prevent the element from becoming visible until loaded
 					event.preventDefault();
@@ -17,6 +21,11 @@ $(':role[data-load]')
 							.unbind('pre-attr', fn)
 							.removeAttr('data-load')
 							.removeAttr('aria-hidden');
+						
+						// Ensure a refresh before unbusying
+						window.setTimeout(function() {
+							busy.removeClass('busy');
+						}, 250);
 					});
 				}
 			});
