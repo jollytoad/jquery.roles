@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="../external/colorpicker/theme/colorpicker.css" type="text/css" />
 <script type="text/javascript" src="../external/color/jquery-color.js"></script>
+<script type="text/javascript" src="../external/color/color.palette.websafe.js"></script>
 <script type="text/javascript" src="../external/surface/ui-surface.js"></script>
 <script type="text/javascript" src="../external/colorpicker/jquery-roles-colorpicker.js"></script>
 
@@ -7,8 +8,8 @@
 	<div role="heading" class="ui-layout-north ui-widget-header ui-corner-top ui-scrollable">
 		<ul role="tablist" title="Colour selection methods">
 			<li role="tab" id="colorpicker-hsv-tab">HSV</li>
-			<li role="tab" id="colorpicker-builder-tab">Builder</li>
-			<li role="tab" id="colorpicker-confluence-tab">Confluence</li>
+			<li role="tab" id="colorpicker-palette1-tab">Named</li>
+			<li role="tab" id="colorpicker-palette2-tab">WebSafe</li>
 			<li role="tab" id="colorpicker-related-tab">Related</li>
 			<li role="tab" id="colorpicker-history-tab">History</li>
 		</ul>
@@ -21,17 +22,17 @@
 			<div class="ui-reticle fixpng"></div>
 		</div>
 	</div>
-	<div role="tabpanel" aria-labelledby="colorpicker-builder-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="builder"></div>
+	<div role="tabpanel" aria-labelledby="colorpicker-palette1-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="css3" class="palette"></div>
 	</div>
-	<div role="tabpanel" aria-labelledby="colorpicker-confluence-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="confluence"></div>
+	<div role="tabpanel" aria-labelledby="colorpicker-palette2-tab" class="ui-layout-center ui-widget-content">
+		<div role="listbox" data-palette="websafe" class="palette"></div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-related-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="related"></div>
+		<div role="listbox" data-palette="related" class="palette"></div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-history-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="history"></div>
+		<div role="listbox" data-palette="history" class="palette"></div>
 	</div>
 	<div role="region" class="info-sidebar ui-layout-east ui-widget ui-widget-content" title="Currently selected colour">
 		<div role="region" class="color-sample" aria-label="Colour sample">
@@ -72,6 +73,7 @@
 	<div role="presentation" id="colorpicker-buttons" class="ui-layout-south ui-widget-content ui-corner-bottom ui-helper-clearfix">
 		<div role="listbox" data-palette="recent" title="Recently selected colours"></div>
 		<div role="toolbar" class="buttons">
+			<a role="button" href="#" data-trigger="action-apply">Apply</a>
 			<a role="button" href="#" data-trigger="action-ok">Ok</a>
 			<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
 		</div>

@@ -103,6 +103,13 @@ $('#main')
 
 $(document).ready(function(){
 //	$('#switcher').themeswitcher();
+
+	$('#colorpicker')
+		.attr('data-color', $('body').css('background-color'))
+		.bind('attr.@data-color', function(event) {
+			$('body').css('background-color', event.newValue);
+		});
+	
 });
 
 })(jQuery);
