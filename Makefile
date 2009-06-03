@@ -8,6 +8,7 @@ MODULES = \
 	roles.aria.js \
 	roles.aria.ui.js \
 	roles.composite.js \
+	roles.option.js \
 	roles.button-toggle.js \
 	roles.button.js \
 	roles.button.ui.js \
@@ -16,6 +17,7 @@ MODULES = \
 	roles.tablist.ui.js \
 	roles.tree.js \
 	roles.tree.ui.js \
+	roles.listbox.js \
 	roles.dialog.js \
 	roles.dialog.ui.js \
 	roles.layout.js \

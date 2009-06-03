@@ -10,6 +10,7 @@
  * Depends:
  *   roles.core.js
  *   roles.composite.js
+ *   roles.option.js
  *   mutations.core.js
  *   mutations.attr.js
  *   datatypes.core.js
@@ -20,7 +21,7 @@
 (function($) {
 
 $.roles
-	.add('tree', ['composite','widget'])
+	.add('tree', ['select','input','composite','widget'])
 	.add('treeitem', ['option','input','widget']);
 
 
@@ -120,22 +121,14 @@ $(':role(tree)')
 $(':role(treeitem)')
 
 	.roleStage('bind', function() {
-		$(this)
-			// Add a tabindex=-1 to allow click focus
-			.attr('tabindex', -1)
-			
+		$(this)			
 			// ---- ARIA States ----
 
 			// Show/hide the related group if expanded state has changed
 			.bind('attr.@aria-expanded.role-treeitem', function(event) {
 				// Find the group belonging to this treeitem and show/hide it
 				group(event.target).attr('aria-hidden', !$.dt.bool(event.newValue));
-			})
-
-			// ---- Focus ----
-
-			// Set this item as the activedescendant of the tree
-			.roleBind('focus', 'set-activedescendant');
+			});
 	})
 
 	.roleStage('init', function() {
