@@ -42,6 +42,30 @@ $.extend($.roles, {
 	// Check whether the element is disabled
 	disabled: function( elem ) {
 		return elem.disabled || $.dt.bool( $.attr(elem, 'aria-disabled') );
+	},
+	
+	// Call a function only when the given element becomes visible
+	whenVisible: function( elem, fn ) {
+		if ( $(elem).is(':visible') ) {
+			// Element is visible so call the function now
+			fn.apply(elem);
+		} else {
+			// Wait until the closest hidden ancestor becomes unhidden
+			$(elem)
+				.closest('[aria-hidden=true]')
+				.bind('attr.@aria-hidden.colorpicker', function(event) {
+					var handler = arguments.callee;
+					if ( $.dt.bool(event.newValue) === false ) {
+						// Unbind this handler
+						$(this).unbind('attr', handler);
+					
+						// Try a whenVisible again
+						window.setTimeout(function() {
+							$.roles.whenVisible( elem, fn );
+						}, 0);
+					}
+				});
+		}
 	}
 
 });
