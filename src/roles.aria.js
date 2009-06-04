@@ -45,23 +45,31 @@ $.extend($.roles, {
 	},
 	
 	// Call a function only when the given element becomes visible
-	whenVisible: function( elem, fn ) {
-		if ( $(elem).is(':visible') ) {
+	whenVisible: function( elem, namespace, fn ) {
+		if ( !fn ) {
+			// Remove any waiting function
+			$(elem)
+				.closest('[aria-hidden=true]')
+				.unbind('attr.@aria-hidden.'+namespace);
+				
+		} else if ( $(elem).is(':visible') ) {
 			// Element is visible so call the function now
 			fn.apply(elem);
+			return true;
+			
 		} else {
 			// Wait until the closest hidden ancestor becomes unhidden
 			$(elem)
 				.closest('[aria-hidden=true]')
-				.bind('attr.@aria-hidden.colorpicker', function(event) {
-					var handler = arguments.callee;
+				.unbind('attr.@aria-hidden.'+namespace)
+				.bind('attr.@aria-hidden.'+namespace, function(event) {
 					if ( $.dt.bool(event.newValue) === false ) {
 						// Unbind this handler
-						$(this).unbind('attr', handler);
+						$(this).unbind('attr.@aria-hidden.'+namespace);
 					
 						// Try a whenVisible again
 						window.setTimeout(function() {
-							$.roles.whenVisible( elem, fn );
+							$.roles.whenVisible( elem, namespace, fn );
 						}, 0);
 					}
 				});
