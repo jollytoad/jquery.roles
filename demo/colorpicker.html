@@ -15,24 +15,27 @@
 		</ul>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-hsv-tab" class="ui-layout-center ui-widget-content">
-		<div role="slider" class="satval-area fixpng">
-			<div class="ui-reticle fixpng"></div>
-		</div>
-		<div role="slider" class="hue-slider">
-			<div class="ui-reticle fixpng"></div>
+		<div role="presentation" class="hsv-container">
+			<div role="slider" class="satval-area fixpng">
+				<div class="ui-reticle fixpng"></div>
+			</div>
+			<div role="slider" class="hue-slider">
+				<div class="ui-reticle fixpng"></div>
+			</div>
 		</div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-palette1-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="css3" class="palette"></div>
+		<div role="listbox" data-palette="css3" class="palette ui-helper-clearfix"></div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-palette2-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="websafe" class="palette"></div>
+		<div role="listbox" data-palette="websafe" class="palette ui-helper-clearfix"></div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-related-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="related" class="palette"></div>
+		<div role="listbox" data-palette="related" class="palette ui-helper-clearfix"></div>
 	</div>
 	<div role="tabpanel" aria-labelledby="colorpicker-history-tab" class="ui-layout-center ui-widget-content">
-		<div role="listbox" data-palette="history" class="palette"></div>
+		<div role="listbox" data-palette="history" class="palette ui-helper-clearfix"></div>
+		<a role="button" href="#" data-trigger="action-history-clear">Clear History</a>
 	</div>
 	<div role="region" class="info-sidebar ui-layout-east ui-widget ui-widget-content" title="Currently selected colour">
 		<div role="region" class="color-sample" aria-label="Colour sample">
