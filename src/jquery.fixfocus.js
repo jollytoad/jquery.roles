@@ -85,7 +85,9 @@ if ( !$.support.activeElement ) {
 } else {
 	realfocus = function( elem ) {
 		window.setTimeout(function() {
-			elem.focus();
+			try {
+				elem.focus();
+			} catch (e) {}
 		}, 0);
 	};
 }
