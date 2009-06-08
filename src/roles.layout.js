@@ -32,24 +32,24 @@ function dims( context ) {
 	};
 }
 
-function vert( context ) {
-	return $([opts.north, opts.center, opts.south].join(','), context);
-}
-
-function horiz( context ) {
-	return $([opts.west, opts.center, opts.east].join(','), context);
-}
-
 // Fix layout for faulty browsers (IE6)
 function fixLayout() {
 	var context = this;
 	window.setTimeout(function() {
 		var d = dims(context),
 			h = $(context).height() - d.top - d.bottom,
-			w = $(context).width() - d.left - d.right;
+			w = $(context).width();
 
-		horiz(context).css('top', d.top).height(h);
-		vert(context).css('left', d.left).width(w);
+		// Vertical position/size of middle row of panels
+		$(opts.west+','+opts.center+','+opts.east, context).css('top', d.top).height(h);
+
+		// Set the width of the top/bottom panels
+		$(opts.north+','+opts.south, context).width(w);
+
+		// Horizontal position/size of center panel
+		$(opts.center, context).css('left', d.left).width(w - d.left - d.right);
+
+		// Set height of a fitted textarea
 		$(opts.editor+' textarea', context).height(h-2);
 	}, 0);
 }
@@ -82,9 +82,11 @@ function check( context ) {
 	window.setTimeout(function() {
 		var h = $(context).outerHeight();
 		
-		vert(context).filter(':visible').each(function() {
-			h -= $(this).outerHeight();
-		});
+		$(opts.north+','+opts.center+','+opts.south, context)
+			.filter(':visible')
+			.each(function() {
+				h -= $(this).outerHeight();
+			});
 		
 		if ( h !== 0 ) {
 /*DEBUG*layout*
@@ -108,13 +110,13 @@ function layout( context ) {
 	window.setTimeout(function() {
 		var d = dims(context);
 		$(opts.center, context).css(d);
-		$([opts.west, opts.east].join(','), context).css({top: d.top, bottom: d.bottom});
+		$(opts.west+','+opts.east, context).css({top: d.top, bottom: d.bottom});
 		check(context);
 	}, 0);
 }
 
 // Automatically apply the layout
-$(':role'+opts.container)
+$(opts.container)
 	.roleStage('activate', function() {
 		layout(this);
 	});
