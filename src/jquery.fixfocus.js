@@ -12,10 +12,11 @@
  *
  * Depends:
  *   keys.core.js
+ *   ui.core.js - for :tabbable/:focusable selectors
  */
 (function($) {
 
-$.support.activeElement = ( 'activeElement' in document );
+$.support.noActiveElement = !( 'activeElement' in document );
 
 var origfocus = $.fn.focus,
 	realfocus;
@@ -31,13 +32,19 @@ $.fn.focus = function() {
 };
 
 
-if ( !$.support.activeElement ) {
-	document.activeElement = document.body;
+if ( $.support.noActiveElement ) {
+	var active = function( elem ) {
+		$(document.activeElement).removeClass('focus');
+		document.activeElement = elem;
+		$(document.activeElement).addClass('focus');
+	};
+	
+	active(document.body);
 	
 	if ( document.addEventListener ) {
 		document.addEventListener('focus', function(event) {
 			if ( event && event.target ) {
-				document.activeElement = event.target;
+				active(event.target);
 			}
 		}, true);
 	}
@@ -45,35 +52,23 @@ if ( !$.support.activeElement ) {
 	realfocus = function( elem ) {
 		if ( elem !== document.activeElement ) {
 			$(document.activeElement).blur();
-			document.activeElement = elem;
+			active(elem);
 			$(elem).trigger('focus');
 		}
 	};
 	
 	$(document)
 		.bind('keydown.key:tab', function(event) {
-			// Find the next tabindex
-			// TODO
-			
-			// Prevent the default tab action
-			return false;
+			// Focus the next tabbable element
+			return !$(document.activeElement).nextInDoc(':tabbable').focus().size();
 		})
 		.bind('keydown.key:shift-tab', function(event) {
-			if ( document.activeElement === document.body ) {
-				// Perform default tab action
-				return;
-			}
-			
-			// Find the previous tab element
-			// TODO
-			
-			// Prevent default tab action
-			return false;
+			// Focus the previous tabbable element
+			return !$(document.activeElement).prevInDoc(':tabbable').focus().size();
 		})
 		.bind('mousedown', function(event) {
 			if ( !event.isDefaultPrevented() ) {
-				// TODO: extend this selector to include other tabbable elements
-				$(event.target).closest('[tabindex],body').focus();
+				$(event.target).closest(':focusable').focus();
 			}
 		})
 		.bind('keydown keyup keypress', function(event) {
