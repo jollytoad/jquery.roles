@@ -28,6 +28,7 @@ function scroll( delta ) {
 		inner = $('> div:first', plane).css('display', 'inline-block'),
 		overflow = $(this).innerWidth() - inner.outerWidth(true);
 	
+	this.scrollLeft = 0;
 	inner.css('display', 'block');
 	plane.css('left', overflow < 0 ? Math.round(Math.max(overflow, Math.min(0, plane.position().left + (delta || 0)))) : 0);
 }
@@ -49,7 +50,7 @@ function resizeSetup() {
 // TODO: Fade in scroll buttons when the mouse lingers around the far edges of the viewport
 // - this should probably be implemented in a separate module.
 
-$(':role'+opts.container)
+$(opts.container)
 
 	.roleStage('dom', function() {
 		// Wrap the content with two div's, the first is the large virtual plane
