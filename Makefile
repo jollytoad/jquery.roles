@@ -25,7 +25,8 @@ MODULES = \
 
 OPTIONAL_MODULES = \
 	roles.live.js \
-	roles.ie6css.js
+	roles.ie6css.js \
+	roles.ie6fixpng.js
 
 EXTRAS = \
 	theme
