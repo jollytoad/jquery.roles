@@ -28,6 +28,7 @@ function scroll( delta ) {
 		inner = $('> div:first', plane).css('display', 'inline-block'),
 		overflow = $(this).innerWidth() - inner.outerWidth(true);
 	
+	inner.css('display', 'block');
 	plane.css('left', overflow < 0 ? Math.round(Math.max(overflow, Math.min(0, plane.position().left + (delta || 0)))) : 0);
 }
 
