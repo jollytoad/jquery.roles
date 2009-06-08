@@ -18,6 +18,9 @@
 
 $(document)
 	.bind('html', function( event ) {
+	
+		// Move head only elements into head, otherwise Safari ignores them
+		$('link,meta,style', event.target).appendTo('head');
 
 /*PROFILE*roleSetup*
 		console.profile('roleSetup');
@@ -32,7 +35,7 @@ $(document)
 
 	})
 	.ready(function() {
-		$(document).initMutation('html');
+		$(document.body).initMutation('html');
 	});
 
 })(jQuery);
