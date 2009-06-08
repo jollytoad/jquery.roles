@@ -1,0 +1,99 @@
+/* ---- Menu Basics ---- */
+
+[role~=menubar], [role~=menu], [role~=menuitem] {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	line-height: 1;
+}
+[role~=menu] {
+	position: absolute;
+	left: -999em;
+	text-align: left;
+}
+[role~=menubar] [role~=menuitem] {
+	float: left;
+}
+[role~=menu] [role~=menuitem] {
+	float: none !important;
+}
+
+/* ---- Popup on hover ---- */
+
+[role~=menuitem]:hover > [role~=menu] {
+	left: auto;
+}
+
+/* ---- Sizes/Padding/Positioning ---- */
+
+[role~=menubar] [role~=menuitem] {
+	padding: 0.5em 1em; /* A */
+}
+[role~=menu] {
+	margin-left: -1em; /* should be = -A (padding-left) */
+	margin-top: 0.5em; /* should be <= A (padding-bottom) */
+	min-width: 12em; /* B */
+}
+[role~=menu] [role~=menu] {
+	margin-top: -2em;
+	margin-left: 10em; /* should be < B (min-width) */
+}
+
+/* ---- Separators ---- */
+
+[role~=menubar] [role~=separator] {
+	border-left: 1px solid;
+	padding: 0;
+	margin: 4px 2px 0 2px;
+	width: 0;
+	height: 18px;
+	font-size: 0;
+}
+[role~=menu] [role~=separator] {
+	border-left: none;
+	border-top: 1px solid;
+	height: 0;
+	width: 100%;
+	margin: 2px 0;
+}
+
+/* ---- Menuitem icons ---- */
+
+[role~=menu] [role~=menuitem] > * {
+	display: block;
+	padding: 2px 10px 2px 24px;
+}
+[role~=menuitem] img {
+	float: left;
+	margin: 4px 0 0 4px;
+}
+
+/* ---- Custom styling ---- */
+
+[role~=menuitem] a {
+	text-decoration: none;
+}
+[role~=menu] {
+	background: #332244;
+	border: 1px solid #554466;
+}
+[role~=menu] *, [role~=menu] a:hover {
+	color: #C8C5DD !important;
+	font-weight: normal !important;
+}
+[role~=menuitem]:hover {
+	background-color: #776688;
+}
+[role~=separator] {
+	border-color: #776688;
+}
+
+/* IE */
+
+/*.menulist ul, .menulist ul li, .menulist ul a, .menulist ul div {*/
+/*	width: 15em;*/
+/*}*/
+/*.menulist ul img {*/
+/*	position: absolute;*/
+/*}*/
+
