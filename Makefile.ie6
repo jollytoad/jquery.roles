@@ -1,0 +1,8 @@
+PACKAGE = jquery-roles-ie6
+
+MODULES = \
+	roles.ie6css.js \
+	roles.ie6fixpng.js
+
+include build/rules.mk
+

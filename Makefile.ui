@@ -1,0 +1,11 @@
+PACKAGE = jquery-roles-ui
+
+MODULES = \
+	roles.aria.ui.js \
+	roles.button.ui.js \
+	roles.tablist.ui.js \
+	roles.tree.ui.js \
+	roles.dialog.ui.js
+
+include build/rules.mk
+
