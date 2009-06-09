@@ -47,11 +47,5 @@ $(':role(tab)')
 			});
 	});
 
-$(':role(tabpanel')
-	.roleStage('style', function() {
-		$(this)
-			.addClass('ui-tabs-panel ui-widget-content ui-corner-bottom');
-	});
-
 })(jQuery);
 
