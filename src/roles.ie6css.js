@@ -10,7 +10,7 @@
  * I'd recommend including this, and the supporting CSS file in a conditional comment:
  *
  * <!--[if lt IE 6]>
- * <link rel="stylesheet" href="theme/roles.ie6.css"/>
+ * <link rel="stylesheet" href="theme/jquery-roles.ie6.css"/>
  * <script type="text/javascript" src="mutations.ie6css.js"/>
  * <script type="text/javascript" src="roles.ie6css.js"/>
  * <![endif]-->
@@ -21,14 +21,38 @@
  */
 (jQuery.ie6css && (function($) {
 
-$.ie6css.filterElem = ':role';
+/*
+var ae = document.activeElement;
 
-$.ie6css.filterAttr = function( attr ) {
-	return $.roles.get(this) && /^(aria-.+|role|tabindex)$/i.test(attr);
-};
+$(document)
+	.bind('propertychange.ie6css', function(event) {
+		if ( event.originalEvent.propertyName === 'activeElement' ) {
+			if ( ae ) {
+				// Remove focus class names
+				//ae.className = ae.className.replace(/(\S+-)?focus(?=\s|$)/g, '');
+				$(ae).removeClass('focus');
+			}
+			ae = document.activeElement;
+			if ( ae ) {
+				// Add focus class names
+				//ae.className = ae.className.replace(/(\S+)(\s|$)/g, '$1-focus ') + 'focus';
+				$(ae).addClass('focus');
+			}
+		}
+	})
+	.bind('mouseenter.ie6css', function(event) {
+		$(event.target).addClass('hover');
+	})
+	.bind('mouseleave.ie6css', function(event) {
+		$(event.target).removeClass('hover');
+	});
+*/
 
-$(document).ready(function() {
-	$.ie6css.setup();
+$.ie6css.setup({
+	selector: ':role',
+	filterAttr: function( attrName ) {
+		return (/^(aria-.+|role|tabindex)$/i).test(attrName);
+	}
 });
 
 })(jQuery)
