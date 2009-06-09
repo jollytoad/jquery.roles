@@ -19,7 +19,7 @@ function descendants( jq, expr, prev ) {
 	return found[prev ? found.length-1 : 0];
 }
 
-// Search siblings
+// Search following siblings
 function siblings( jq, expr, prev ) {
 	var found;
 	
@@ -37,6 +37,35 @@ function siblings( jq, expr, prev ) {
 	return found;
 }
 
+// Search preceding siblings
+function prevSiblings( jq, expr ) {
+	var found;
+	
+	$(jq).prevAll().each(function() {
+		found = descendants(this, expr, true) || $(this).filter(expr || '*')[0];
+		return !found;
+	});
+	
+	return found;
+}
+
+// Search parents and preceding elements
+function preceding( jq, expr ) {
+	var found;
+	
+	$(jq).parents().each(function() {
+		if ( $(this).is(expr || '*') ) {
+			found = this;
+			return false;
+		}
+		
+		found = prevSiblings(this, expr);
+		return !found;
+	});
+	
+	return found;
+}
+
 // Find the next matching element within the document
 $.fn.nextInDoc = function( expr ) {
 	return this.pushStack(descendants(this, expr) || siblings(this, expr) || siblings($(this).parents(), expr),
@@ -45,7 +74,7 @@ $.fn.nextInDoc = function( expr ) {
 
 // Find the previous matching element within the document
 $.fn.prevInDoc = function( expr ) {
-	return this.pushStack(siblings(this, expr, true) || siblings($(this).parents(), expr, true),
+	return this.pushStack(prevSiblings(this, expr) || preceding(this, expr),
 			'prevInDoc', expr);
 };
 
