@@ -13,6 +13,11 @@
  */
 (function($) {
 
+// Check given element for match, returns element or undefined
+function self( jq, expr ) {
+	return $(jq).filter(expr || '*')[0];
+}
+
 // Search descendants
 function descendants( jq, expr, prev ) {
 	var found = $(jq).find(expr || '*');
@@ -20,55 +25,41 @@ function descendants( jq, expr, prev ) {
 }
 
 // Search following siblings
-function siblings( jq, expr, prev ) {
+function nextSiblings( jq, expr ) {
 	var found;
-	
-	// Search siblings and their descendants
-	$(jq)[prev ? 'prevAll' : 'nextAll']().each(function() {
-		if ( $(this).is(expr || '*') ) {
-			found = this;
-			return false;
-		}
-		
-		found = descendants(this, expr, prev);
+	$(jq).nextAll().each(function() {
+		// Check the sibling and then it's descendants
+		found = self(this, expr) || descendants(this, expr);
 		return !found;
 	});
-	
 	return found;
 }
 
 // Search preceding siblings
 function prevSiblings( jq, expr ) {
 	var found;
-	
 	$(jq).prevAll().each(function() {
-		found = descendants(this, expr, true) || $(this).filter(expr || '*')[0];
+		// Check the siblings descendants, then the sibling itself
+		found = descendants(this, expr, true) || self(this, expr);
 		return !found;
-	});
-	
+	});	
 	return found;
 }
 
 // Search parents and preceding elements
 function preceding( jq, expr ) {
 	var found;
-	
 	$(jq).parents().each(function() {
-		if ( $(this).is(expr || '*') ) {
-			found = this;
-			return false;
-		}
-		
-		found = prevSiblings(this, expr);
+		// Check the parent and then it's preceding siblings
+		found = self(this, expr) || prevSiblings(this, expr);
 		return !found;
 	});
-	
 	return found;
 }
 
 // Find the next matching element within the document
 $.fn.nextInDoc = function( expr ) {
-	return this.pushStack(descendants(this, expr) || siblings(this, expr) || siblings($(this).parents(), expr),
+	return this.pushStack(descendants(this, expr) || nextSiblings(this, expr) || nextSiblings($(this).parents(), expr),
 			'nextInDoc', expr);
 };
 
