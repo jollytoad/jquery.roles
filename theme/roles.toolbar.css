@@ -1,0 +1,30 @@
+/* ---- toolbar ---- */
+
+[role~=toolbar] {
+	padding: 1px;
+	margin: 0;
+	list-style-type: none;
+/*IE6*
+	display: inline-block;
+*IE6*/
+}
+[role~=toolbar] [role~=button] {
+	border-style: none !important;
+	display: inline-block;
+	padding: 2px;
+}
+[role~=toolbar] li {
+    float: left;
+    margin: 1px;
+}
+[role~=toolbar] [role~=separator] {
+    width: 0;
+    height: 11px;
+    padding: 0;
+    margin: 2px;
+    margin-top: 5px;
+    border: 1px inset;
+}
+
+[role~=toolbar]:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+

@@ -1,0 +1,83 @@
+@import url(../dist2/theme/jquery-roles.css);
+
+body {
+	font-size: 10pt;
+/*IE6*
+	behavior: url("csshover3.htc");
+*IE6*/
+}
+
+/* ---- tabs ---- */
+
+[role~=tab] {
+	background-color: #e8cfa7;
+	padding: 1ex 2ex;
+}
+[role~=tab]:hover {
+	opacity: 0.6;
+/*IE6*
+	filter: alpha(opacity = 60);
+	zoom: 1;
+*IE6*/
+}
+[role~=tablist] [aria-selected=true] {
+	background-color: #f26c3d;
+}
+
+/* ---- buttons ---- */
+
+[role~=button] {
+	padding: 1ex 2ex;
+	border: 1px outset;
+}
+
+/* ---- toolbar ---- */
+
+[role~=toolbar] {
+	background-color: #c0d0a0;
+	margin-bottom: 1ex;
+}
+[role~=toolbar] [role~=button] {
+	background-color: #78be5c;
+	padding: 0.5ex 1ex;
+	border: none;
+}
+[role~=button]:hover {
+	opacity: 0.6;
+/*IE6*
+	filter: alpha(opacity = 60);
+	zoom: 1;
+*IE6*/
+}
+
+/* ---- dialogs ---- */
+
+[role~=dialog] {
+	width: 300px;
+	height: 200px;
+	min-width: 180px;
+	min-height: 150px;
+	top: 50px;
+	left: 100px;
+	border: 1px solid black;
+}
+
+[role~=dialog] .ui-layout-south .buttons {
+	float: right;
+	margin: 0 16px 0 4px;
+	padding: 8px 0;
+	font-size: 8pt;
+}
+
+[role~=dialog] [role~=tab] a {
+	padding: 0.2ex 1ex;
+}
+
+.busy, .busy * {
+    cursor: progress !important;
+}
+
+*:focus, *.focus {
+	outline: 1px dotted green !important;
+}
+

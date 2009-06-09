@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>jQuery Roles Demo</title>
+
+	<link rel="stylesheet" href="demo2.css" type="text/css" />
+	
+	<script type="text/javascript" src="../external/jquery/jquery.js"></script>
+	
+	<script type="text/javascript" src="../external/ui/ui/ui.core.js"></script>
+	<script type="text/javascript" src="../external/ui/ui/ui.draggable.js"></script>
+	<script type="text/javascript" src="../external/ui/ui/ui.resizable.js"></script>
+	
+	<script type="text/javascript" src="../external/mutations/jquery-mutations.js"></script>
+	<script type="text/javascript" src="../external/datatypes/jquery-datatypes.js"></script>
+	<script type="text/javascript" src="../external/plugins/jquery.defer.js"></script>
+	<script type="text/javascript" src="../external/keys/jquery-keys.js"></script>
+
+	<script type="text/javascript" src="../dist2/jquery-roles.js"></script>
+
+<!--[if lt IE 7]>
+	<link rel="stylesheet" href="demo2.ie6.css" type="text/css" />
+	<script type="text/javascript" src="../external/mutations/mutations.ie6css.js"></script>
+	<script type="text/javascript" src="../dist2/roles.ie6css.js"></script>
+	<script type="text/javascript" src="../dist2/roles.ie6fixpng.js"></script>
+<![endif]-->
+
+	<script type="text/javascript" src="demo.js"></script>
+	<script type="text/javascript" src="../dist2/roles.live.js"></script>
+	
+</head>
+<body>
+
+	<h1>jQuery Roles Demo</h1>
+
+	<div role="region" id="main">
+		<ul role="tablist" title="Blah blah" aria-activedescendant="tab1">
+			<li role="tab" id="tab1">Tab 1</li>
+			<li role="tab" id="tab2" aria-controls="tabpanel2">Tree 1</li>
+			<li role="tab" id="tab3">Tree 2</li>
+			<li role="tab" id="tab4">Menubar</li>
+		</ul>
+	
+		<div role="tabpanel" id="tabpanel1" aria-labelledby="tab1">
+
+			<ul role="toolbar">
+				<li><a role="button" data-trigger="action-new" href="#">New</a></li>
+				<li><a role="button" data-trigger="action-load" href="#">Load</a></li>
+				<li><a role="button" data-trigger="action-save" href="#">Save</a></li>
+			</ul>
+			
+			<p>Tabpanel 1</p>
+			
+			<a role="button" href="#" aria-controls="editor-dialog"
+				data-attr="aria-hidden" data-val="false">Open Editor</a>
+			
+			<a role="button" href="#" aria-controls="colorpicker"
+				data-attr="aria-hidden" data-val="false">Open Colour Picker</a>
+		</div>
+	
+		<div role="tabpanel" id="tabpanel2" data-load="demo-tree1.html">
+		</div>
+	
+		<div role="tabpanel" id="tabpanel3" aria-labelledby="tab3" data-load="demo-tree2.html">
+		</div>
+		
+		<div role="tabpanel" aria-labelledby="tab4" data-load="menu.html">
+		</div>
+	</div>
+	
+	<div role="dialog" id="editor-dialog" data-load="dialog-content.html" aria-hidden="true">
+	</div>
+	
+	<div role="dialog" id="colorpicker" data-load="colorpicker.html" aria-hidden="true">
+	</div>
+</body>
+</html>
+

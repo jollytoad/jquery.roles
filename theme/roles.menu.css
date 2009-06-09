@@ -88,12 +88,12 @@
 	border-color: #776688;
 }
 
-/* IE */
-
-/*.menulist ul, .menulist ul li, .menulist ul a, .menulist ul div {*/
-/*	width: 15em;*/
-/*}*/
-/*.menulist ul img {*/
-/*	position: absolute;*/
-/*}*/
+/*IE6*
+[role~=menu] {
+	width: 15em;
+}
+[role~=menu] img {
+	position: absolute;
+}
+*IE6*/
 

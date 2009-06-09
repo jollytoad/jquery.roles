@@ -1,0 +1,17 @@
+/* ---- tree, treeitem, group ---- */
+
+[role~=tree], [role~=tree] [role~=group] {
+	margin: 0;
+	padding:0;
+	list-style-type: none;
+}
+
+[role~=treeitem] {
+	cursor: pointer;
+	padding: 0 1ex 0 3px;
+}
+
+[role~=tree] [role~=group] {
+	padding-left: 1em;
+}
+

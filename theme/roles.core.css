@@ -1,0 +1,10 @@
+/* ---- Generic ---- */
+
+[aria-hidden=true] {
+	display: none !important;
+}
+
+[aria-busy=true] {
+	cursor: wait;
+}
+

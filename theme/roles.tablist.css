@@ -1,0 +1,22 @@
+/* ---- tablist, tab, tabpanel ---- */
+
+[role~=tablist] {
+	padding: 0 1px;
+	margin: 0;
+	list-style-type: none;
+}
+
+[role~=tab] {
+	float: left;
+	margin: 1px 1px 0px 1px;
+	padding: 0.2ex 1ex;
+	border-bottom: none;
+	cursor: pointer;
+}
+
+[role~=tabpanel] {
+	clear: both;
+}
+
+[role~=tablist]:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
