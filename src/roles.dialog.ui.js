@@ -39,9 +39,6 @@ function position( elem ) {
 
 $(':role(dialog)')
 
-	.roleStage('dom', function() {
-	})
-
 	.roleStage('bind', function() {
 		$(this)
 			.param('role', 'dialog')
@@ -54,7 +51,9 @@ $(':role(dialog)')
 						distance: 10,
 						stack: { group: 'role-dialog' }
 					})
-					.resizable()
+					.resizable({
+						handles: 'all'
+					})
 					.css('position', 'absolute')
 					.trigger('layout');
 				
