@@ -49,7 +49,7 @@ $(':role(tree)')
 	// Bind state (attribute) changes
 	.roleStage('bind', function() {
 		$(this)
-			.data('role-composite-descendants', ':role(treeitem)')
+			.data('role-composite-descendants', ':role(treeitem):visible')
 			
 			.param('role', 'tree')
 						

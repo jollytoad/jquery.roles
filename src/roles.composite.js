@@ -19,7 +19,7 @@
 (function($) {
 
 function selector( elem ) {
-	return ($.data(elem, 'role-composite-descendants') || ':role(widget)') + ':visible';
+	return ($.data(elem, 'role-composite-descendants') || ':role(widget)');
 }
 
 // role: composite -> widget
