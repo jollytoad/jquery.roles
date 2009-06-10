@@ -7,11 +7,13 @@
  */
 /* Depends:
  *   roles.core.js
+ *   jquery.defer.js - optional
  */
 (function($) {
 
 // TODO: Allow options to be configured
 var opts = {
+	namespace: 'ui-layout',
 	container: '.ui-layout',
 	center: '.ui-layout-center',
 	north: '.ui-layout-north',
@@ -19,8 +21,11 @@ var opts = {
 	south: '.ui-layout-south',
 	west: '.ui-layout-west',
 	editor: '.ui-layout-editor',
-	resizeEvent: 'resize.ui-layout'
+	resizeEvent: 'resize',
+	resizeDefer: 200
 };
+
+var layoutBound = false, resizeBound = false;
 
 // Get dimensions of surounding panels for a layout
 function dims( context ) {
@@ -63,16 +68,18 @@ function fixEditor() {
 	}, 0);
 }
 
-var resizeBound = false;
-
 // Fix faulty browsers (IE6)
 function fix( fixFn, context ) {
 	fixFn.apply(context);
 	
 	if ( !resizeBound && opts.resizeEvent ) {
-		$(document).bind(opts.resizeEvent, function(event) {
+		var handler = function(event) {
 			$(event.target).find(opts.container).andSelf().filter(opts.container).each(fixFn);
-		});
+		};
+		if ( $.defer ) {
+			handler = $.defer(opts.resizeDefer, handler);
+		}
+		$(document).bind(opts.resizeEvent+'.'+opts.namespace, handler);
 		resizeBound = true;
 	}
 }
@@ -106,19 +113,32 @@ function check( context ) {
 }
 
 // Layout the panels
-function layout( context ) {
+function layout() {
+	var context = this;
 	window.setTimeout(function() {
-		var d = dims(context);
-		$(opts.center, context).css(d);
-		$(opts.west+','+opts.east, context).css({top: d.top, bottom: d.bottom});
-		check(context);
+		if ( $(context).is(':visible') ) {
+			var d = dims(context);
+			$(opts.center, context).css(d);
+			$(opts.west+','+opts.east, context).css({top: d.top, bottom: d.bottom});
+			check(context);
+		}
 	}, 0);
 }
 
 // Automatically apply the layout
 $(opts.container)
+	.roleStage('bind', function() {
+		if ( !layoutBound ) {
+			$(document).bind('layout.'+opts.namespace, function(event) {
+				$(event.target)
+					.find(opts.container)
+					.each(layout);
+			});
+			layoutBound = true;
+		}
+	})
 	.roleStage('activate', function() {
-		layout(this);
+		layout.apply(this);
 	});
 
 })(jQuery);

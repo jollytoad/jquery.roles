@@ -55,7 +55,8 @@ $(':role(dialog)')
 						stack: { group: 'role-dialog' }
 					})
 					.resizable()
-					.css('position', 'absolute');
+					.css('position', 'absolute')
+					.trigger('layout');
 				
 				position(event.target);
 			})
