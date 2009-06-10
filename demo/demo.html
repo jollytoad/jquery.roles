@@ -77,7 +77,28 @@
 		</div>
 	</div>
 	
-	<div role="dialog" id="editor-dialog" data-load="dialog-content.html" aria-hidden="true" class="role-dialog">
+	<div role="dialog" id="editor-dialog" aria-hidden="true" class="role-dialog">
+		<div role="presentation" class="ui-tabs ui-layout">
+			<div role="heading" class="ui-layout-north ui-widget-header ui-corner-top ui-scrollable">
+				<ul role="tablist">
+					<li role="tab" id="editor-tab" aria-controls="editor-panel">Editor</li>
+					<li role="tab" id="options-tab" aria-controls="options-panel">Options</li>
+				</ul>
+			</div>
+			<div role="tabpanel" id="editor-panel" class="ui-layout-center ui-layout-editor">
+				<textarea>Blah</textarea>
+			</div>
+			<div role="tabpanel" id="options-panel" class="ui-layout-center ui-widget-content">
+				<p>Options</p>
+			</div>
+			<div role="toolbar" class="ui-layout-south ui-widget-content ui-corner-bottom ui-helper-clearfix">
+				<div role="presentation" class="buttons">
+					<a role="button" href="#" data-trigger="action-apply">Apply</a>
+					<a role="button" href="#" data-trigger="action-ok">Ok</a>
+					<a role="button" href="#" data-trigger="action-cancel">Cancel</a>
+				</div>
+			</div>
+		</div>	
 	</div>
 	
 	<div role="dialog" id="colorpicker" data-load="colorpicker.html" aria-hidden="true" class="role-dialog"
