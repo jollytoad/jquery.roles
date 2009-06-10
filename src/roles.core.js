@@ -82,7 +82,7 @@ roleStage: function( stage, fn ) {
 		handler;
 	
 	function runStage(event, context) {
-		$(selector, context).each(function(i, elem) {
+		$(selector, context).each(function() {
 
 /*DEBUG*roleStage*
 			console.log(stage, this);
