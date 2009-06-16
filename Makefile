@@ -26,5 +26,9 @@ OPTIONAL_MODULES = \
 EXTRAS = \
 	theme
 
+CSS_DIR = theme
+CSS = \
+	ui.layout.css
+
 include build/rules.mk
 

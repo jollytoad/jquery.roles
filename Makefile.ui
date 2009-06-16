@@ -7,5 +7,11 @@ MODULES = \
 	roles.tree.ui.js \
 	roles.dialog.ui.js
 
+CSS_DIR = theme
+CSS = \
+	ui.button.css \
+	ui.toolbar.css \
+	ui.tree.css
+
 include build/rules.mk
 
