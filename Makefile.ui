@@ -1,4 +1,4 @@
-PACKAGE = jquery-roles-ui
+PACKAGE = jquery.roles-ui
 
 MODULES = \
 	roles.aria.ui.js \

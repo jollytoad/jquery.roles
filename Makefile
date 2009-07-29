@@ -1,4 +1,4 @@
-PACKAGE = jquery-roles
+PACKAGE = jquery.roles
 
 MODULES = \
 	jquery.within.js \
