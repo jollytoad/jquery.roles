@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - aria-owns support functions @VERSION (@DATE)
+ * jQuery Roles - aria-owns support functions @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

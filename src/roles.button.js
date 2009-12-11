@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - ARIA Button Widget @VERSION (@DATE)
+ * jQuery Roles - ARIA Button Widget @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

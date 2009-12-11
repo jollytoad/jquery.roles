@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Live Setup @VERSION (@DATE)
+ * jQuery Roles - Live Setup @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

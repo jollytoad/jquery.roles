@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - ARIA Tablist Widget @VERSION (@DATE)
+ * jQuery Roles - ARIA Tablist Widget @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

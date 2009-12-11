@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Tree Styling @VERSION (@DATE)
+ * jQuery Roles - Tree Styling @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

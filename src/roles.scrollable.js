@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Scrollable Area @VERSION (@DATE)
+ * jQuery Roles - Scrollable Area @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

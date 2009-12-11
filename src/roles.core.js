@@ -1,5 +1,5 @@
 /*!
- * jQuery Roles Framework @VERSION (@DATE)
+ * jQuery Roles Framework @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

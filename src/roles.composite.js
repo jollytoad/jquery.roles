@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Common functionality for ARIA Composite Widgets @VERSION (@DATE)
+ * jQuery Roles - Common functionality for ARIA Composite Widgets @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

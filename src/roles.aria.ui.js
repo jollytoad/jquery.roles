@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - ARIA to jQuery UI styling @VERSION (@DATE)
+ * jQuery Roles - ARIA to jQuery UI styling @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

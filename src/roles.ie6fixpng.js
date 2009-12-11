@@ -1,5 +1,5 @@
 /*
- * jQuery Roles IE6 PNG Alpha Transparency fix @VERSION (@DATE)
+ * jQuery Roles IE6 PNG Alpha Transparency fix @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

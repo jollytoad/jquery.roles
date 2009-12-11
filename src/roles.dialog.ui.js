@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Dialog implemented with jQuery UI @VERSION (@DATE)
+ * jQuery Roles - Dialog implemented with jQuery UI @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

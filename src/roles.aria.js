@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - ARIA Utilities @VERSION (@DATE)
+ * jQuery Roles - ARIA Utilities @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

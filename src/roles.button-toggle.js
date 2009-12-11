@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - Toggle Button @VERSION (@DATE)
+ * jQuery Roles - Toggle Button @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)

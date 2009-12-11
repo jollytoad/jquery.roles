@@ -1,5 +1,5 @@
 /*
- * jQuery Roles - ARIA Toolbar Widget @VERSION (@DATE)
+ * jQuery Roles - ARIA Toolbar Widget @VERSION
  *
  * Copyright (c) 2009 Adaptavist.com
  * Dual licensed under the MIT (MIT-LICENSE.txt)
