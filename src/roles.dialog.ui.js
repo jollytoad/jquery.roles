@@ -48,8 +48,7 @@ $(':role(dialog)')
 					.prepend('<div class="ui-widget-shadow ui-widget-overlay ui-corner-all"></div>')
 					.draggable({
 						handle: ':role(heading)',
-						distance: 10,
-						stack: { group: 'role-dialog' }
+						distance: 10
 					})
 					.resizable({
 						handles: 'all'
