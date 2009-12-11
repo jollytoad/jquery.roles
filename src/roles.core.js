@@ -69,7 +69,7 @@ roleSetup: function( stages ) {
 	stages = stages || this.param('roleStages') || $.roles.stages;
 
 	$.each(stages, function(i, stage) {
-		$().triggerHandler('role-'+stage, [that]);
+		$(document).triggerHandler('role-'+stage, [that]);
 	});
 
 	return this;
@@ -102,7 +102,7 @@ roleStage: function( stage, fn ) {
 		handler = runStage;
 	}
 	
-	$().bind('role-'+stage, handler);
+	$(document).bind('role-'+stage, handler);
 	return this;
 },
 
