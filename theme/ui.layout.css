@@ -20,7 +20,7 @@
 	width: 100%;
 	height: 100%;
 	border: none !important;
-	overflow: scroll;
+	overflow: auto;
 	padding: 0;
 	margin: 0;
 	resize: none;

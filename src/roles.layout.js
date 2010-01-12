@@ -20,12 +20,12 @@ var opts = {
 	east: '.ui-layout-east',
 	south: '.ui-layout-south',
 	west: '.ui-layout-west',
-	editor: '.ui-layout-editor',
+	inner: '.ui-layout-inner',
 	resizeEvent: 'resize',
 	resizeDefer: 200
 };
 
-var layoutBound = false, resizeBound = false;
+var layoutBound = false;
 
 // Get dimensions of surounding panels for a layout
 function dims( context ) {
@@ -54,33 +54,23 @@ function fixLayout() {
 		// Horizontal position/size of center panel
 		$(opts.center, context).css('left', d.left).width(w - d.left - d.right);
 
-		// Set height of a fitted textarea
-		$(opts.editor+' textarea', context).height(h-2);
+		// Set height of a fitted inner element
+		$(opts.center+' '+opts.inner, context).height(h-2);
 	}, 0);
 }
 
-// Fix editor for faulty browsers (IE7)
-function fixEditor() {
-	var context = this;
-	window.setTimeout(function() {
-		var editor = $(opts.editor, context);
-		$('textarea', editor).height(editor.height());
-	}, 0);
+function onResize(handler) {
+	$(document).bind(opts.resizeEvent+'.'+opts.namespace, $.defer ? $.defer(opts.resizeDefer, handler) : handler);
 }
 
 // Fix faulty browsers (IE6)
 function fix( fixFn, context ) {
 	fixFn.apply(context);
 	
-	if ( !resizeBound && opts.resizeEvent ) {
-		var handler = function(event) {
+	if ( opts.resizeEvent ) {
+		onResize(function(event) {
 			$(event.target).find(opts.container).andSelf().filter(opts.container).each(fixFn);
-		};
-		if ( $.defer ) {
-			handler = $.defer(opts.resizeDefer, handler);
-		}
-		$(document).bind(opts.resizeEvent+'.'+opts.namespace, handler);
-		resizeBound = true;
+		});
 	}
 }
 
@@ -101,13 +91,25 @@ function check( context ) {
 *DEBUG*layout*/
 			fix(fixLayout, context);
 		} else {
-			var t = $(opts.editor+' textarea', context);
-			if ( t.length && t.outerHeight() !== $(opts.editor, context).outerHeight() ) {
+			// Check whether fitted inner elements fit as expected
+			$(opts.inner, context).each(function() {
+				var self = $(this),
+					parent = $(this).parent();
+				
+				function fixHeight() {
+					window.setTimeout(function() {
+						self.height(parent.height());
+					}, 0);
+				}
+				
+				if ( self.height() !== parent.height() ) {
 /*DEBUG*layout*
-				alert('fix editor');
+					alert('fix inner');
 *DEBUG*layout*/
-				fix(fixEditor, context);
-			}
+					fixHeight();
+					onResize(fixHeight);
+				}
+			});
 		}
 	}, 0);
 }
@@ -120,7 +122,11 @@ function layout() {
 			var d = dims(context);
 			$(opts.center, context).css(d);
 			$(opts.west+','+opts.east, context).css({top: d.top, bottom: d.bottom});
-			check(context);
+			
+			if ( !$(context).data('ui-layout-fixed') ) {
+				check(context);
+				$(context).data('ui-layout-fixed', true);
+			}
 		}
 	}, 0);
 }
